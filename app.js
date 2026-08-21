@@ -130,24 +130,35 @@ if (quoteForm) {
   });
 }
 
-// ── Stitch-Style Reactive Glow Dot Matrix
+// ── Stitch-Style Interactive Dot Grid (Full Visibility + Motion-Only Glow)
 const canvas = document.getElementById('dotCanvas');
 if (canvas) {
   const ctx = canvas.getContext('2d');
   let width, height;
   let dots = [];
-  const spacing = 22; // Micro-spacing for sleek dense Google/Stitch grid
-  const mouse = { x: -1000, y: -1000, radius: 100 };
+  const spacing = 20; // Crisp micro grid spacing
 
-  const BASE_SIZE = 0.9;   // Tiny, subtle dot size
-  const BASE_ALPHA = 0.12; // Sleek resting opacity
-  const MAX_SIZE = 2.4;    // Slightly larger when mouse moves over
-  const MAX_ALPHA = 0.95;  // Bright glow on cursor hover
-  const RECOVERY_SPEED = 0.14; // Fast fluid motion back to normal
+  const mouse = {
+    x: -1000,
+    y: -1000,
+    radius: 120,
+    isMoving: false,
+    speed: 0,
+    lastX: 0,
+    lastY: 0,
+    idleTimer: null
+  };
+
+  const BASE_SIZE = 1.1;    // Visible across entire canvas
+  const BASE_ALPHA = 0.28;  // Clean baseline visibility on dark background
+  const MAX_SIZE = 2.8;     // Grows slightly on active cursor movement
+  const MAX_ALPHA = 0.95;   // Bright glowing dot under motion
+  const SPEED_DECAY = 0.16; // Fast fluid return to normal
 
   function initDots() {
-    width = canvas.width = canvas.parentElement.offsetWidth;
-    height = canvas.height = canvas.parentElement.offsetHeight;
+    const parent = canvas.parentElement;
+    width = canvas.width = parent.offsetWidth;
+    height = canvas.height = parent.offsetHeight;
     dots = [];
 
     const cols = Math.floor(width / spacing);
@@ -160,10 +171,8 @@ if (canvas) {
         dots.push({
           x: offsetX + i * spacing,
           y: offsetY + j * spacing,
-          targetSize: BASE_SIZE,
           currentSize: BASE_SIZE,
-          targetAlpha: BASE_ALPHA,
-          currentAlpha: BASE_ALPHA,
+          currentAlpha: BASE_ALPHA
         });
       }
     }
@@ -178,22 +187,22 @@ if (canvas) {
       const dy = mouse.y - dot.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
 
-      if (dist < mouse.radius) {
-        // Quick reaction to mouse
-        const factor = Math.pow(1 - dist / mouse.radius, 2);
-        dot.targetSize = BASE_SIZE + (MAX_SIZE - BASE_SIZE) * factor;
-        dot.targetAlpha = BASE_ALPHA + (MAX_ALPHA - BASE_ALPHA) * factor;
-      } else {
-        // Return quickly to normal tiny resting state
-        dot.targetSize = BASE_SIZE;
-        dot.targetAlpha = BASE_ALPHA;
+      let targetSize = BASE_SIZE;
+      let targetAlpha = BASE_ALPHA;
+
+      // React only when mouse is actively moving near the dot
+      if (mouse.isMoving && dist < mouse.radius) {
+        const proximity = Math.pow(1 - dist / mouse.radius, 1.8);
+        const motionFactor = Math.min(mouse.speed / 10, 1); // scale with movement speed
+        
+        targetSize = BASE_SIZE + (MAX_SIZE - BASE_SIZE) * proximity * (0.5 + 0.5 * motionFactor);
+        targetAlpha = BASE_ALPHA + (MAX_ALPHA - BASE_ALPHA) * proximity;
       }
 
-      // Fast, snappy lerp transition
-      dot.currentSize += (dot.targetSize - dot.currentSize) * RECOVERY_SPEED;
-      dot.currentAlpha += (dot.targetAlpha - dot.currentAlpha) * RECOVERY_SPEED;
+      // Fast transition back to normal
+      dot.currentSize += (targetSize - dot.currentSize) * SPEED_DECAY;
+      dot.currentAlpha += (targetAlpha - dot.currentAlpha) * SPEED_DECAY;
 
-      // Draw subtle glowing dot
       ctx.fillStyle = `rgba(255, 255, 255, ${dot.currentAlpha.toFixed(3)})`;
       ctx.beginPath();
       ctx.arc(dot.x, dot.y, dot.currentSize, 0, Math.PI * 2);
@@ -204,13 +213,31 @@ if (canvas) {
   }
 
   const heroSection = document.getElementById('home') || canvas.parentElement;
+
   heroSection.addEventListener('mousemove', (e) => {
     const rect = canvas.getBoundingClientRect();
-    mouse.x = e.clientX - rect.left;
-    mouse.y = e.clientY - rect.top;
+    const currentX = e.clientX - rect.left;
+    const currentY = e.clientY - rect.top;
+
+    const moveDist = Math.hypot(currentX - mouse.lastX, currentY - mouse.lastY);
+    mouse.speed = moveDist;
+    mouse.x = currentX;
+    mouse.y = currentY;
+    mouse.lastX = currentX;
+    mouse.lastY = currentY;
+    mouse.isMoving = true;
+
+    // Reset idle timer: if mouse stops moving, return to normal state
+    clearTimeout(mouse.idleTimer);
+    mouse.idleTimer = setTimeout(() => {
+      mouse.isMoving = false;
+      mouse.speed = 0;
+    }, 120); // within 120ms of stopping, return to normal
   });
 
   heroSection.addEventListener('mouseleave', () => {
+    mouse.isMoving = false;
+    mouse.speed = 0;
     mouse.x = -1000;
     mouse.y = -1000;
   });
