@@ -129,3 +129,95 @@ if (quoteForm) {
     }
   });
 }
+
+// ── Interactive Stitch-style Dot Grid Canvas
+const canvas = document.getElementById('dotCanvas');
+if (canvas) {
+  const ctx = canvas.getContext('2d');
+  let width, height;
+  let dots = [];
+  const spacing = 28; // Distance between dots
+  const mouse = { x: -1000, y: -1000, radius: 140 };
+
+  function initDots() {
+    width = canvas.width = canvas.parentElement.offsetWidth;
+    height = canvas.height = canvas.parentElement.offsetHeight;
+    dots = [];
+
+    const cols = Math.floor(width / spacing);
+    const rows = Math.floor(height / spacing);
+    const offsetX = (width - (cols * spacing)) / 2;
+    const offsetY = (height - (rows * spacing)) / 2;
+
+    for (let i = 0; i <= cols; i++) {
+      for (let j = 0; j <= rows; j++) {
+        dots.push({
+          baseX: offsetX + i * spacing,
+          baseY: offsetY + j * spacing,
+          x: offsetX + i * spacing,
+          y: offsetY + j * spacing,
+          vx: 0,
+          vy: 0,
+          size: 1.5,
+          alpha: 0.18
+        });
+      }
+    }
+  }
+
+  function drawDots() {
+    ctx.clearRect(0, 0, width, height);
+
+    for (let i = 0; i < dots.length; i++) {
+      const dot = dots[i];
+      const dx = mouse.x - dot.x;
+      const dy = mouse.y - dot.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      // Mouse interaction effect
+      if (dist < mouse.radius) {
+        const force = (1 - dist / mouse.radius);
+        const angle = Math.atan2(dy, dx);
+        
+        // Push dots slightly away from mouse
+        const moveX = Math.cos(angle) * force * 14;
+        const moveY = Math.sin(angle) * force * 14;
+        
+        dot.x = dot.baseX - moveX;
+        dot.y = dot.baseY - moveY;
+
+        // Glow up near cursor
+        dot.size = 1.5 + force * 2.2;
+        dot.alpha = 0.2 + force * 0.75;
+      } else {
+        // Return smoothly to original position
+        dot.x += (dot.baseX - dot.x) * 0.1;
+        dot.y += (dot.baseY - dot.y) * 0.1;
+        dot.size += (1.5 - dot.size) * 0.1;
+        dot.alpha += (0.18 - dot.alpha) * 0.1;
+      }
+
+      ctx.fillStyle = `rgba(255, 255, 255, ${dot.alpha})`;
+      ctx.beginPath();
+      ctx.arc(dot.x, dot.y, dot.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    requestAnimationFrame(drawDots);
+  }
+
+  window.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+  });
+
+  window.addEventListener('mouseleave', () => {
+    mouse.x = -1000;
+    mouse.y = -1000;
+  });
+
+  window.addEventListener('resize', initDots);
+  initDots();
+  drawDots();
+}
