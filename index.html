@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Infinity Tech | Creative Digital Services</title>
   <link rel="stylesheet" href="style.css" />
+  <!-- Supabase JS Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -19,12 +21,12 @@
         <li><a href="#services">Services</a></li>
         <li><a href="#work">Our Work</a></li>
         <li><a href="#testimonials">Clients</a></li>
+        <li><a href="#quote-section">Request Quote</a></li>
         <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
       </ul>
       <div class="nav-actions">
-        <a href="#contact" class="btn-ghost">Get in Touch</a>
-        <a href="#quote" class="btn-fill">Request a Quote</a>
+        <a href="#quote-section" class="btn-ghost">Get in Touch</a>
+        <a href="#quote-section" class="btn-fill">Request a Quote</a>
       </div>
       <button class="hamburger" id="hamburger" aria-label="Menu">
         <span></span><span></span><span></span>
@@ -34,9 +36,9 @@
       <a href="#services">Services</a>
       <a href="#work">Our Work</a>
       <a href="#testimonials">Clients</a>
+      <a href="#quote-section">Request Quote</a>
       <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-      <a href="#quote" class="btn-fill" style="text-align:center;margin-top:8px;display:block">Request a Quote</a>
+      <a href="#quote-section" class="btn-fill" style="text-align:center;margin-top:8px;display:block">Request a Quote</a>
     </div>
   </nav>
 
@@ -62,7 +64,7 @@
           the digital world — turning ideas into impactful, measurable results.
         </p>
         <div class="hero-ctas">
-          <a href="#quote" class="btn-hero-fill" id="quote">Request a Quote</a>
+          <a href="#quote-section" class="btn-hero-fill">Request a Quote</a>
           <a href="#work" class="btn-hero-outline">See Our Work</a>
         </div>
         <div class="hero-mini-cards">
@@ -234,13 +236,64 @@
     </div>
   </section>
 
+  <!-- REQUEST A QUOTE / SUPABASE FORM -->
+  <section class="quote-section" id="quote-section">
+    <div class="section-inner">
+      <div class="quote-container">
+        <div class="quote-header">
+          <span class="quote-badge">✦ Let's Build Together</span>
+          <h2 class="section-title">Request a Consultation</h2>
+          <p class="section-sub">Get in touch with our team for tailored strategies and solutions that drive measurable growth.</p>
+        </div>
+        <form class="quote-form" id="quoteForm">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="name">Full Name *</label>
+              <input type="text" id="name" name="name" required placeholder="John Doe" />
+            </div>
+            <div class="form-group">
+              <label for="email">Work Email *</label>
+              <input type="email" id="email" name="email" required placeholder="john@company.com" />
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210" />
+            </div>
+            <div class="form-group">
+              <label for="service">Service Interested In</label>
+              <select id="service" name="service">
+                <option value="Branding & Design">Brand Strategy & Creative Design</option>
+                <option value="Website Development">Website Design & Development</option>
+                <option value="SEO Optimization">Search Engine Optimization (SEO)</option>
+                <option value="Social Media Marketing">Social Media Marketing</option>
+                <option value="Content Marketing">Content Creation & Marketing</option>
+                <option value="PPC Advertising">Pay-Per-Click (PPC) Advertising</option>
+                <option value="Full Digital Package">Full Digital Growth Package</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: 16px;">
+            <label for="message">Project Details / Requirements *</label>
+            <textarea id="message" name="message" rows="4" required placeholder="Tell us about your brand, goals, and timeline..."></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn-submit" id="submitBtn">
+              <span>Send Request</span>
+            </button>
+          </div>
+          <div class="form-status" id="formStatus"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
   <!-- FOOTER -->
   <footer class="footer" id="about">
     <div class="footer-top">
       <div class="footer-col">
         <h4>Information</h4>
         <ul>
-          <li><a href="#contact" id="contact">Contact Us</a></li>
+          <li><a href="#quote-section" id="contact">Contact Us</a></li>
           <li><a href="#">Privacy Policy</a></li>
           <li><a href="#">Terms and Conditions</a></li>
           <li><a href="#">Refund Policy</a></li>
@@ -318,7 +371,7 @@
           <strong>CONTACT NUMBER:– +91 98765 43210</strong>
           <span>contact@infinitytech.in</span>
           <span>© Infinity Tech — All rights reserved</span>
-          <span>This page is owned and managed by <strong>INFINITY TECH</strong></span>
+          <span>This page is owned and managed by <strong>SANIA KHATUN</strong></span>
         </div>
       </div>
     </div>
