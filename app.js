@@ -12,29 +12,29 @@ window.addEventListener('scroll', () => {
 // ── Mobile hamburger menu
 const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');
-hamburger.addEventListener('click', () => {
-  const open = mobileMenu.classList.toggle('open');
-  hamburger.setAttribute('aria-expanded', String(open));
-  // Animate hamburger → X
-  const spans = hamburger.querySelectorAll('span');
-  if (open) {
-    spans[0].style.transform = 'translateY(7px) rotate(45deg)';
-    spans[1].style.opacity = '0';
-    spans[2].style.transform = 'translateY(-7px) rotate(-45deg)';
-  } else {
-    spans[0].style.transform = '';
-    spans[1].style.opacity = '';
-    spans[2].style.transform = '';
-  }
-});
-
-// Close mobile menu on link click
-mobileMenu.querySelectorAll('a').forEach(a => {
-  a.addEventListener('click', () => {
-    mobileMenu.classList.remove('open');
-    hamburger.querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+if (hamburger && mobileMenu) {
+  hamburger.addEventListener('click', () => {
+    const open = mobileMenu.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded', String(open));
+    const spans = hamburger.querySelectorAll('span');
+    if (open) {
+      spans[0].style.transform = 'translateY(7px) rotate(45deg)';
+      spans[1].style.opacity = '0';
+      spans[2].style.transform = 'translateY(-7px) rotate(-45deg)';
+    } else {
+      spans[0].style.transform = '';
+      spans[1].style.opacity = '';
+      spans[2].style.transform = '';
+    }
   });
-});
+
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      hamburger.querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+    });
+  });
+}
 
 // ── Scroll-reveal animation
 const revealEls = document.querySelectorAll(
@@ -130,14 +130,20 @@ if (quoteForm) {
   });
 }
 
-// ── Interactive Stitch-style Dot Grid Canvas
+// ── Stitch-Style Reactive Glow Dot Matrix
 const canvas = document.getElementById('dotCanvas');
 if (canvas) {
   const ctx = canvas.getContext('2d');
   let width, height;
   let dots = [];
-  const spacing = 28; // Distance between dots
-  const mouse = { x: -1000, y: -1000, radius: 140 };
+  const spacing = 22; // Micro-spacing for sleek dense Google/Stitch grid
+  const mouse = { x: -1000, y: -1000, radius: 100 };
+
+  const BASE_SIZE = 0.9;   // Tiny, subtle dot size
+  const BASE_ALPHA = 0.12; // Sleek resting opacity
+  const MAX_SIZE = 2.4;    // Slightly larger when mouse moves over
+  const MAX_ALPHA = 0.95;  // Bright glow on cursor hover
+  const RECOVERY_SPEED = 0.14; // Fast fluid motion back to normal
 
   function initDots() {
     width = canvas.width = canvas.parentElement.offsetWidth;
@@ -152,14 +158,12 @@ if (canvas) {
     for (let i = 0; i <= cols; i++) {
       for (let j = 0; j <= rows; j++) {
         dots.push({
-          baseX: offsetX + i * spacing,
-          baseY: offsetY + j * spacing,
           x: offsetX + i * spacing,
           y: offsetY + j * spacing,
-          vx: 0,
-          vy: 0,
-          size: 1.5,
-          alpha: 0.18
+          targetSize: BASE_SIZE,
+          currentSize: BASE_SIZE,
+          targetAlpha: BASE_ALPHA,
+          currentAlpha: BASE_ALPHA,
         });
       }
     }
@@ -174,45 +178,39 @@ if (canvas) {
       const dy = mouse.y - dot.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
 
-      // Mouse interaction effect
       if (dist < mouse.radius) {
-        const force = (1 - dist / mouse.radius);
-        const angle = Math.atan2(dy, dx);
-        
-        // Push dots slightly away from mouse
-        const moveX = Math.cos(angle) * force * 14;
-        const moveY = Math.sin(angle) * force * 14;
-        
-        dot.x = dot.baseX - moveX;
-        dot.y = dot.baseY - moveY;
-
-        // Glow up near cursor
-        dot.size = 1.5 + force * 2.2;
-        dot.alpha = 0.2 + force * 0.75;
+        // Quick reaction to mouse
+        const factor = Math.pow(1 - dist / mouse.radius, 2);
+        dot.targetSize = BASE_SIZE + (MAX_SIZE - BASE_SIZE) * factor;
+        dot.targetAlpha = BASE_ALPHA + (MAX_ALPHA - BASE_ALPHA) * factor;
       } else {
-        // Return smoothly to original position
-        dot.x += (dot.baseX - dot.x) * 0.1;
-        dot.y += (dot.baseY - dot.y) * 0.1;
-        dot.size += (1.5 - dot.size) * 0.1;
-        dot.alpha += (0.18 - dot.alpha) * 0.1;
+        // Return quickly to normal tiny resting state
+        dot.targetSize = BASE_SIZE;
+        dot.targetAlpha = BASE_ALPHA;
       }
 
-      ctx.fillStyle = `rgba(255, 255, 255, ${dot.alpha})`;
+      // Fast, snappy lerp transition
+      dot.currentSize += (dot.targetSize - dot.currentSize) * RECOVERY_SPEED;
+      dot.currentAlpha += (dot.targetAlpha - dot.currentAlpha) * RECOVERY_SPEED;
+
+      // Draw subtle glowing dot
+      ctx.fillStyle = `rgba(255, 255, 255, ${dot.currentAlpha.toFixed(3)})`;
       ctx.beginPath();
-      ctx.arc(dot.x, dot.y, dot.size, 0, Math.PI * 2);
+      ctx.arc(dot.x, dot.y, dot.currentSize, 0, Math.PI * 2);
       ctx.fill();
     }
 
     requestAnimationFrame(drawDots);
   }
 
-  window.addEventListener('mousemove', (e) => {
+  const heroSection = document.getElementById('home') || canvas.parentElement;
+  heroSection.addEventListener('mousemove', (e) => {
     const rect = canvas.getBoundingClientRect();
     mouse.x = e.clientX - rect.left;
     mouse.y = e.clientY - rect.top;
   });
 
-  window.addEventListener('mouseleave', () => {
+  heroSection.addEventListener('mouseleave', () => {
     mouse.x = -1000;
     mouse.y = -1000;
   });
