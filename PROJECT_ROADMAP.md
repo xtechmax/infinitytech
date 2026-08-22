@@ -52,3 +52,15 @@ infinitytech/
 - **Minimalist luxury:** High contrast, subtle glassmorphism (`backdrop-filter: blur(20px)`), generous whitespace.
 - **Micro-interactions:** Smooth scroll reveals, responsive hover states, clean card lifts.
 - **Consistent branding:** `∞ Infinity Tech` mark, SF Pro / Inter typography, and clear ownership attribution to **Sania Khatun**.
+
+### Vastu Product Integration
+- **Route:** `/vastu` -> `vastu/index.html`
+- **Product:** The Complete 4-in-1 Vastu Shastra Mastery System
+- **Books Included:**
+  1. `Practical Vastu Shastra Guide`
+  2. `Simple Vastu Remedies`
+  3. `50 Quick Vastu Tips`
+  4. `The 30-Day Vastu Transformation Workbook`
+- **Pricing:** Digital @ ₹390 | Hard Copy Collector's Set @ ₹1,990
+- **Contact:** 8282910470 | support.infinitytech@gmail.com
+- **Owner:** Sania Khatun
