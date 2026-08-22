@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/vastu", "destination": "/vastu/index.html" },
+    { "source": "/vastu/assets/(.*)", "destination": "/vastu/assets/$1" }
+  ]
+}
