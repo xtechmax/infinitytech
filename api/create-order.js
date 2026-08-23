@@ -49,7 +49,7 @@ export default async function handler(req, res) {
                     customer_email: email
                 },
                 order_meta: {
-                    return_url: 'https://infinitytech-six.vercel.app/checkout/success?order_id={order_id}'
+                    return_url: 'https://infinitytech-six.vercel.app/vastucheckout/success?order_id={order_id}'
                 }
             })
         });
