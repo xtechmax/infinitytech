@@ -12,6 +12,24 @@
             background-color: #050505;
             color: #ffffff;
         }
+
+        @keyframes pulse-red {
+            0% { border-color: rgba(239, 68, 68, 0.5); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+            50% { border-color: rgba(239, 68, 68, 1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0.2); }
+            100% { border-color: rgb(39, 39, 42); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+        @keyframes pulse-green {
+            0% { border-color: rgba(16, 185, 129, 0.5); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+            50% { border-color: rgba(16, 185, 129, 1); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0.2); }
+            100% { border-color: rgba(245, 158, 11, 0.3); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        .animate-removed {
+            animation: pulse-red 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+        }
+        .animate-added {
+            animation: pulse-green 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+        }
     </style>
 </head>
 <body class="min-h-screen flex items-center justify-center py-10 px-4 bg-zinc-950">
@@ -73,7 +91,7 @@
                 </div>
 
                 <!-- One Time Addon Offer 1 (99) -->
-                <div class="border border-amber-500/30 rounded-2xl overflow-hidden bg-zinc-950/40">
+                <div id="addonCard1" class="border border-amber-500/30 rounded-2xl overflow-hidden bg-zinc-950/40">
                     <div class="flex items-center justify-between px-4 py-3 bg-amber-500/10 border-b border-amber-500/20 gap-2">
                         <span class="inline-flex items-center gap-2 text-amber-500 text-xs font-bold">
                             <span class="w-5 h-5 rounded-full bg-amber-500 text-zinc-950 grid place-items-center text-[10px]">2</span>
@@ -90,14 +108,14 @@
                             <span class="text-emerald-400 font-bold text-xs">90% OFF</span>
                         </div>
                         <label class="mt-4 flex items-center gap-3 cursor-pointer rounded-xl px-4 py-3 font-bold text-xs transition bg-amber-500/10 border border-amber-500/30 text-amber-400 select-none">
-                            <input type="checkbox" id="addon1" class="w-4 h-4 accent-amber-500 shrink-0">
+                            <input type="checkbox" id="addon1" checked class="w-4 h-4 accent-amber-500 shrink-0">
                             Tick the box — YES, I WANT THIS!
                         </label>
                     </div>
                 </div>
 
                 <!-- One Time Addon Offer 2 (49) -->
-                <div class="border border-amber-500/30 rounded-2xl overflow-hidden bg-zinc-950/40">
+                <div id="addonCard2" class="border border-amber-500/30 rounded-2xl overflow-hidden bg-zinc-950/40">
                     <div class="flex items-center justify-between px-4 py-3 bg-amber-500/10 border-b border-amber-500/20 gap-2">
                         <span class="inline-flex items-center gap-2 text-amber-500 text-xs font-bold">
                             <span class="w-5 h-5 rounded-full bg-amber-500 text-zinc-950 grid place-items-center text-[10px]">3</span>
@@ -114,7 +132,7 @@
                             <span class="text-emerald-400 font-bold text-xs">92% OFF</span>
                         </div>
                         <label class="mt-4 flex items-center gap-3 cursor-pointer rounded-xl px-4 py-3 font-bold text-xs transition bg-amber-500/10 border border-amber-500/30 text-amber-400 select-none">
-                            <input type="checkbox" id="addon2" class="w-4 h-4 accent-amber-500 shrink-0">
+                            <input type="checkbox" id="addon2" checked class="w-4 h-4 accent-amber-500 shrink-0">
                             Tick the box — YES, I WANT THIS!
                         </label>
                     </div>
@@ -131,11 +149,11 @@
                             <span class="text-zinc-400">Practical Vastu 4-in-1 Combo</span>
                             <span class="font-semibold text-zinc-200">₹199</span>
                         </div>
-                        <div id="addon1Row" class="flex justify-between hidden text-amber-500">
+                        <div id="addon1Row" class="flex justify-between text-amber-500">
                             <span>+ 50 Quick Vastu Tips</span>
                             <span class="font-semibold">₹99</span>
                         </div>
-                        <div id="addon2Row" class="flex justify-between hidden text-amber-500">
+                        <div id="addon2Row" class="flex justify-between text-amber-500">
                             <span>+ Zero-Demolition Element Cures Guide</span>
                             <span class="font-semibold">₹49</span>
                         </div>
@@ -143,7 +161,7 @@
                     <div class="border-t border-dashed border-zinc-800 my-3"></div>
                     <div class="flex justify-between items-center">
                         <span class="font-bold text-zinc-300 text-sm">Total Price</span>
-                        <span id="totalPrice" class="text-2xl font-black text-amber-500">₹199</span>
+                        <span id="totalPrice" class="text-2xl font-black text-amber-500">₹347</span>
                     </div>
 
                     <button type="submit" class="mt-4 w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 text-zinc-950 py-4 rounded-xl font-bold text-base shadow-lg shadow-amber-500/15 hover:opacity-90 transition">
@@ -160,13 +178,29 @@
     <script>
         const addon1 = document.getElementById('addon1');
         const addon2 = document.getElementById('addon2');
+        const addonCard1 = document.getElementById('addonCard1');
+        const addonCard2 = document.getElementById('addonCard2');
         const addon1Row = document.getElementById('addon1Row');
         const addon2Row = document.getElementById('addon2Row');
         const totalPrice = document.getElementById('totalPrice');
         const checkoutForm = document.getElementById('checkoutForm');
 
-        function updateSum() {
+        function triggerAnimation(card, isChecked) {
+            // Remove existing animation classes
+            card.classList.remove('animate-removed', 'animate-added');
+            // Trigger reflow to restart keyframe animation
+            void card.offsetWidth;
+            
+            if (isChecked) {
+                card.classList.add('animate-added');
+            } else {
+                card.classList.add('animate-removed');
+            }
+        }
+
+        function updateSum(e) {
             let sum = 199;
+            
             if (addon1.checked) {
                 addon1Row.classList.remove('hidden');
                 sum += 99;
@@ -182,6 +216,13 @@
             }
 
             totalPrice.textContent = '₹' + sum;
+
+            // Trigger animation if triggered by user click (event present)
+            if (e && e.currentTarget) {
+                const checkbox = e.currentTarget;
+                const card = checkbox.closest('[id^="addonCard"]');
+                triggerAnimation(card, checkbox.checked);
+            }
         }
 
         addon1.addEventListener('change', updateSum);
