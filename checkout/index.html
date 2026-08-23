@@ -6,6 +6,8 @@
     <title>Secure Checkout — Practical Vastu Shastra 4-in-1 Bundle</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Cashfree SDK -->
+    <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -164,11 +166,11 @@
                         <span id="totalPrice" class="text-2xl font-black text-amber-500">₹347</span>
                     </div>
 
-                    <button type="submit" class="mt-4 w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 text-zinc-950 py-4 rounded-xl font-bold text-base shadow-lg shadow-amber-500/15 hover:opacity-90 transition">
+                    <button type="submit" id="submitBtn" class="mt-4 w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 text-zinc-950 py-4 rounded-xl font-bold text-base shadow-lg shadow-amber-500/15 hover:opacity-90 transition">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>
                         </svg>
-                        Proceed to Payment
+                        <span id="btnText">Proceed to Payment</span>
                     </button>
                 </div>
             </form>
@@ -184,13 +186,17 @@
         const addon2Row = document.getElementById('addon2Row');
         const totalPrice = document.getElementById('totalPrice');
         const checkoutForm = document.getElementById('checkoutForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+
+        // Initialize Cashfree production mode SDK
+        const cashfree = Cashfree({
+            mode: "production"
+        });
 
         function triggerAnimation(card, isChecked) {
-            // Remove existing animation classes
             card.classList.remove('animate-removed', 'animate-added');
-            // Trigger reflow to restart keyframe animation
             void card.offsetWidth;
-            
             if (isChecked) {
                 card.classList.add('animate-added');
             } else {
@@ -217,7 +223,6 @@
 
             totalPrice.textContent = '₹' + sum;
 
-            // Trigger animation if triggered by user click (event present)
             if (e && e.currentTarget) {
                 const checkbox = e.currentTarget;
                 const card = checkbox.closest('[id^="addonCard"]');
@@ -228,7 +233,7 @@
         addon1.addEventListener('change', updateSum);
         addon2.addEventListener('change', updateSum);
 
-        checkoutForm.addEventListener('submit', (e) => {
+        checkoutForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const email = document.getElementById('email').value;
@@ -240,9 +245,40 @@
             localStorage.setItem('checkout_addon1', addon1.checked);
             localStorage.setItem('checkout_addon2', addon2.checked);
 
-            // Trigger payment redirect URL
-            const basePaymentUrl = 'https://superprofile.bio/vp/transform-your-home-into-a-space-of-peace--prosperity---positive-energy';
-            window.location.href = basePaymentUrl;
+            // Update UI state to loading
+            submitBtn.disabled = true;
+            btnText.textContent = 'Preparing Secure Payment...';
+
+            try {
+                const response = await fetch('/api/create-order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email,
+                        whatsapp,
+                        addon1: addon1.checked,
+                        addon2: addon2.checked
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to initialize checkout session');
+                }
+
+                // Launch Cashfree SDK Payment Gate
+                await cashfree.checkout({
+                    paymentSessionId: data.payment_session_id
+                });
+
+            } catch (err) {
+                alert('Checkout Error: ' + err.message);
+                submitBtn.disabled = false;
+                btnText.textContent = 'Proceed to Payment';
+            }
         });
     </script>
 </body>
