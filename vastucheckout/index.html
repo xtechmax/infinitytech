@@ -140,6 +140,17 @@
                     </div>
                 </div>
 
+                <!-- Coupon Code Section -->
+                <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-4 space-y-3">
+                    <label class="block text-xs font-semibold text-zinc-400 uppercase tracking-wider">Have a Coupon Code?</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="couponCode" placeholder="Enter code (e.g. admin1)" class="flex-1 rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-2.5 text-sm text-white outline-none focus:border-amber-500 transition">
+                        <button type="button" id="applyCouponBtn" class="bg-amber-500 hover:bg-amber-600 text-zinc-950 font-bold px-4 py-2.5 rounded-xl text-xs transition uppercase tracking-wider">Apply</button>
+                    </div>
+                    <p id="couponMessage" class="text-xs font-semibold hidden"></p>
+                </div>
+
+                
                 <!-- Order Summary -->
                 <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-4">
                     <div class="flex items-center gap-2 mb-3">
@@ -186,6 +197,10 @@
         const addon2Row = document.getElementById('addon2Row');
         const totalPrice = document.getElementById('totalPrice');
         const checkoutForm = document.getElementById('checkoutForm');
+        const couponCode = document.getElementById('couponCode');
+        const applyCouponBtn = document.getElementById('applyCouponBtn');
+        const couponMessage = document.getElementById('couponMessage');
+        let isCouponApplied = false;
         const submitBtn = document.getElementById('submitBtn');
         const btnText = document.getElementById('btnText');
 
@@ -205,7 +220,8 @@
         }
 
         function updateSum(e) {
-            let sum = 199;
+            let basePrice = isCouponApplied ? 1 : 199;
+            let sum = basePrice;
             
             if (addon1.checked) {
                 addon1Row.classList.remove('hidden');
@@ -229,6 +245,33 @@
                 triggerAnimation(card, checkbox.checked);
             }
         }
+
+        // Coupon code implementation
+        applyCouponBtn.addEventListener('click', () => {
+            const code = couponCode.value.trim().toLowerCase();
+            couponMessage.classList.remove('hidden', 'text-emerald-400', 'text-rose-400');
+            
+            if (code === 'admin1') {
+                isCouponApplied = true;
+                couponMessage.textContent = "Success: Coupon 'admin1' applied! Base price set to ₹1.";
+                couponMessage.classList.add('text-emerald-400');
+                // Change price display label in summary
+                document.querySelector('.bg-zinc-950.border.border-zinc-800.rounded-2xl.p-4 .space-y-2.text-xs div:first-child span:last-child').textContent = '₹1';
+                updateSum();
+            } else if (code === '') {
+                isCouponApplied = false;
+                couponMessage.textContent = "";
+                couponMessage.classList.add('hidden');
+                document.querySelector('.bg-zinc-950.border.border-zinc-800.rounded-2xl.p-4 .space-y-2.text-xs div:first-child span:last-child').textContent = '₹199';
+                updateSum();
+            } else {
+                isCouponApplied = false;
+                couponMessage.textContent = "Error: Invalid coupon code.";
+                couponMessage.classList.add('text-rose-400');
+                document.querySelector('.bg-zinc-950.border.border-zinc-800.rounded-2xl.p-4 .space-y-2.text-xs div:first-child span:last-child').textContent = '₹199';
+                updateSum();
+            }
+        });
 
         addon1.addEventListener('change', updateSum);
         addon2.addEventListener('change', updateSum);
@@ -259,7 +302,8 @@
                         email,
                         whatsapp,
                         addon1: addon1.checked,
-                        addon2: addon2.checked
+                        addon2: addon2.checked,
+                        coupon: isCouponApplied ? 'admin1' : ''
                     })
                 });
 

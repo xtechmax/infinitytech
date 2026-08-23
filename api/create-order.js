@@ -6,14 +6,17 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { email, whatsapp, addon1, addon2 } = req.body;
+        const { email, whatsapp, addon1, addon2, coupon } = req.body;
 
         if (!email || !whatsapp) {
             return res.status(400).json({ error: 'Email and WhatsApp number are required' });
         }
 
-        // Calculate amount
+        // Calculate amount (with admin1 test coupon support)
         let amount = 199;
+        if (coupon && coupon.toLowerCase().trim() === 'admin1') {
+            amount = 1;
+        }
         if (addon1) amount += 99;
         if (addon2) amount += 49;
 
