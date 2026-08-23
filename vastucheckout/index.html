@@ -11,19 +11,19 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #050505;
-            color: #ffffff;
+            background-color: #f3f4f6;
+            color: #1f2937;
         }
 
         @keyframes pulse-red {
-            0% { border-color: rgba(239, 68, 68, 0.5); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
-            50% { border-color: rgba(239, 68, 68, 1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0.2); }
-            100% { border-color: rgb(39, 39, 42); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+            0% { border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+            50% { border-color: rgba(239, 68, 68, 1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0.1); }
+            100% { border-color: rgba(229, 231, 235, 1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
         }
         @keyframes pulse-green {
-            0% { border-color: rgba(16, 185, 129, 0.5); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
-            50% { border-color: rgba(16, 185, 129, 1); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0.2); }
-            100% { border-color: rgba(245, 158, 11, 0.3); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+            0% { border-color: rgba(16, 185, 129, 0.4); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+            50% { border-color: rgba(16, 185, 129, 1); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0.1); }
+            100% { border-color: rgba(37, 99, 235, 0.3); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
         }
 
         .animate-removed {
@@ -34,159 +34,193 @@
         }
     </style>
 </head>
-<body class="bg-zinc-950">
+<body class="bg-gray-100">
     <div class="min-h-screen flex flex-col items-center justify-center py-10 px-4 space-y-6">
 
-    <div class="w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-3xl shadow-2xl overflow-hidden">
-        <!-- Header Banner -->
-        <div class="bg-gradient-to-br from-amber-500 to-amber-700 text-zinc-950 p-6 text-center">
-            <h1 class="text-2xl font-black uppercase tracking-tight">Get Instant Access — ₹199</h1>
-            <p class="text-xs font-semibold opacity-90 mt-1">Secure payment. Instant Delivery after checkout.</p>
-        </div>
-
-        <div class="p-6 space-y-6">
-            <!-- Delivery Info Box -->
-            <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-4">
-                <div class="flex items-start gap-3">
-                    <div class="w-10 h-10 rounded-full bg-amber-500/10 grid place-items-center shrink-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
-                        </svg>
-                    </div>
-                    <div class="min-w-0">
-                        <h2 class="font-bold text-amber-500 text-sm leading-snug">Delivered instantly on WhatsApp and Email.</h2>
-                        <p class="text-xs text-zinc-400 mt-1">Get 100% money back if you don't receive it instantly.</p>
-                        <div class="flex flex-wrap gap-2 mt-3">
-                            <span class="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1 rounded-full bg-emerald-950/40 text-emerald-400 border border-emerald-800/40">
-                                WhatsApp
-                            </span>
-                            <span class="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1 rounded-full bg-blue-950/40 text-blue-400 border border-blue-800/40">
-                                Email
-                            </span>
-                            <span class="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1 rounded-full bg-zinc-800 text-zinc-300">
-                                100% Refund
-                            </span>
-                        </div>
-                    </div>
+        <!-- Main Card -->
+        <div class="w-full max-w-md bg-white border border-gray-200 rounded-3xl shadow-xl overflow-hidden">
+            <!-- Header Banner: Trust Color (Blue/Indigo Gradient) -->
+            <div class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-6 text-center relative">
+                <!-- Urgency Badge -->
+                <div class="absolute top-3 right-3 bg-red-500 text-white text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full animate-pulse shadow-sm">
+                    Limited Offer
                 </div>
+                <h1 class="text-2xl font-black uppercase tracking-tight">Get Instant Access — ₹199</h1>
+                <p class="text-xs font-semibold opacity-90 mt-1">Secure payment. Instant Delivery after checkout.</p>
             </div>
 
-            <!-- Form Details -->
-            <form id="checkoutForm" class="space-y-4">
-                <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-4 space-y-4">
-                    <div class="flex items-center gap-2">
-                        <span class="w-6 h-6 rounded-full bg-amber-500 text-zinc-950 grid place-items-center text-xs font-bold shrink-0">1</span>
-                        <h3 class="font-bold text-zinc-100 text-sm">Your delivery details</h3>
-                    </div>
-                    
-                    <div>
-                        <label class="block text-xs font-semibold text-zinc-400 mb-2 uppercase tracking-wider">Email Address</label>
-                        <input type="email" id="email" required placeholder="you@example.com" class="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-base text-white outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-zinc-400 mb-2 uppercase tracking-wider">WhatsApp Number</label>
-                        <div class="flex rounded-xl border border-zinc-800 bg-zinc-900 focus-within:border-amber-500 focus-within:ring-2 focus-within:ring-amber-500/20 overflow-hidden">
-                            <span class="px-4 py-3 text-base font-semibold border-r border-zinc-800 bg-zinc-950 text-zinc-400">+91</span>
-                            <input type="tel" id="whatsapp" required pattern="[0-9]{10}" placeholder="10-digit number" class="flex-1 min-w-0 px-4 py-3 text-base text-white outline-none bg-transparent">
+            <div class="p-6 space-y-6">
+                <!-- Delivery Info Box: Trust Color (Emerald Green Theme) -->
+                <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-4">
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-full bg-emerald-100 grid place-items-center shrink-0">
+                            <!-- Shield Icon: Trust -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+                            </svg>
+                        </div>
+                        <div class="min-w-0">
+                            <h2 class="font-bold text-emerald-800 text-sm leading-snug">Delivered instantly on WhatsApp and Email.</h2>
+                            <p class="text-xs text-emerald-700 mt-1">Get 100% money back if you don't receive it instantly.</p>
+                            <div class="flex flex-wrap gap-2 mt-3">
+                                <span class="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300/40">
+                                    WhatsApp
+                                </span>
+                                <span class="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1 rounded-full bg-blue-100 text-blue-800 border border-blue-300/40">
+                                    Email
+                                </span>
+                                <span class="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1 rounded-full bg-gray-100 text-gray-700">
+                                    100% Refund
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- One Time Addon Offer 1 (99) -->
-                <div id="addonCard1" class="border border-amber-500/30 rounded-2xl overflow-hidden bg-zinc-950/40">
-                    <div class="flex items-center justify-between px-4 py-3 bg-amber-500/10 border-b border-amber-500/20 gap-2">
-                        <span class="inline-flex items-center gap-2 text-amber-500 text-xs font-bold">
-                            <span class="w-5 h-5 rounded-full bg-amber-500 text-zinc-950 grid place-items-center text-[10px]">2</span>
-                            One-time offer #1
-                        </span>
-                        <span class="text-[10px] font-bold bg-amber-500 text-zinc-950 px-2 py-0.5 rounded-md">SAVE 90%</span>
-                    </div>
-                    <div class="p-4 space-y-3">
-                        <h3 class="font-bold text-zinc-100 text-sm leading-snug">📌 Add 50 Quick Vastu Tips Checklist</h3>
-                        <p class="text-xs text-zinc-400">Get our pocket cheat sheet checklist for rented homes, offices, and quick room layout fixes.</p>
-                        <div class="flex items-center gap-2 text-sm">
-                            <span class="text-xl font-bold text-amber-500">₹99</span>
-                            <span class="line-through text-zinc-500 text-xs">₹999</span>
-                            <span class="text-emerald-400 font-bold text-xs">90% OFF</span>
-                        </div>
-                        <label class="mt-4 flex items-center gap-3 cursor-pointer rounded-xl px-4 py-3 font-bold text-xs transition bg-amber-500/10 border border-amber-500/30 text-amber-400 select-none">
-                            <input type="checkbox" id="addon1" checked class="w-4 h-4 accent-amber-500 shrink-0">
-                            Tick the box — YES, I WANT THIS!
-                        </label>
-                    </div>
+                <!-- Urgency Text Alert -->
+                <div class="bg-red-50 border border-red-200 rounded-xl p-3 flex items-center gap-2">
+                    <span class="text-red-600 text-sm">⏰</span>
+                    <p class="text-xs text-red-700 font-semibold">Price increases to ₹2,199 very soon. Lock in your price now!</p>
                 </div>
 
-                <!-- One Time Addon Offer 2 (49) -->
-                <div id="addonCard2" class="border border-amber-500/30 rounded-2xl overflow-hidden bg-zinc-950/40">
-                    <div class="flex items-center justify-between px-4 py-3 bg-amber-500/10 border-b border-amber-500/20 gap-2">
-                        <span class="inline-flex items-center gap-2 text-amber-500 text-xs font-bold">
-                            <span class="w-5 h-5 rounded-full bg-amber-500 text-zinc-950 grid place-items-center text-[10px]">3</span>
-                            One-time offer #2
-                        </span>
-                        <span class="text-[10px] font-bold bg-amber-500 text-zinc-950 px-2 py-0.5 rounded-md">SAVE 92%</span>
-                    </div>
-                    <div class="p-4 space-y-3">
-                        <h3 class="font-bold text-zinc-100 text-sm leading-snug">📌 Add Zero-Demolition Element Cures Guide</h3>
-                        <p class="text-xs text-zinc-400">Quick-fix guide using metal wires, specific colors, and layout shifts to bypass structural renovations.</p>
-                        <div class="flex items-center gap-2 text-sm">
-                            <span class="text-xl font-bold text-amber-500">₹49</span>
-                            <span class="line-through text-zinc-500 text-xs">₹599</span>
-                            <span class="text-emerald-400 font-bold text-xs">92% OFF</span>
+                <!-- Form Details -->
+                <form id="checkoutForm" class="space-y-4">
+                    <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4 space-y-4">
+                        <div class="flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-blue-600 text-white grid place-items-center text-xs font-bold shrink-0">1</span>
+                            <h3 class="font-bold text-gray-800 text-sm">Your delivery details</h3>
                         </div>
-                        <label class="mt-4 flex items-center gap-3 cursor-pointer rounded-xl px-4 py-3 font-bold text-xs transition bg-amber-500/10 border border-amber-500/30 text-amber-400 select-none">
-                            <input type="checkbox" id="addon2" checked class="w-4 h-4 accent-amber-500 shrink-0">
-                            Tick the box — YES, I WANT THIS!
-                        </label>
-                    </div>
-                </div>
+                        
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">Email Address</label>
+                            <input type="email" id="email" required placeholder="you@example.com" class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-base text-gray-900 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 transition">
+                        </div>
 
-                <!-- Coupon Code Section -->
-                <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-4 space-y-3">
-                    <label class="block text-xs font-semibold text-zinc-400 uppercase tracking-wider">Have a Coupon Code?</label>
-                    <div class="flex gap-2">
-                        <input type="text" id="couponCode" placeholder="Enter code (e.g. admin1)" class="flex-1 rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-2.5 text-sm text-white outline-none focus:border-amber-500 transition">
-                        <button type="button" id="applyCouponBtn" class="bg-amber-500 hover:bg-amber-600 text-zinc-950 font-bold px-4 py-2.5 rounded-xl text-xs transition uppercase tracking-wider">Apply</button>
-                    </div>
-                    <p id="couponMessage" class="text-xs font-semibold hidden"></p>
-                </div>
-
-                
-                <!-- Order Summary -->
-                <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-4">
-                    <div class="flex items-center gap-2 mb-3">
-                        <span class="w-6 h-6 rounded-full bg-amber-500 text-zinc-950 grid place-items-center text-xs font-bold shrink-0">4</span>
-                        <h3 class="font-bold text-zinc-100 text-sm">Order summary</h3>
-                    </div>
-                    <div class="space-y-2 text-xs">
-                        <div class="flex justify-between">
-                            <span class="text-zinc-400">Practical Vastu 4-in-1 Combo</span>
-                            <span class="font-semibold text-zinc-200">₹199</span>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">WhatsApp Number</label>
+                            <div class="flex rounded-xl border border-gray-300 bg-white focus-within:border-blue-600 focus-within:ring-2 focus-within:ring-blue-600/20 overflow-hidden transition">
+                                <span class="px-4 py-3 text-base font-semibold border-r border-gray-200 bg-gray-100 text-gray-500">+91</span>
+                                <input type="tel" id="whatsapp" required pattern="[0-9]{10}" placeholder="10-digit number" class="flex-1 min-w-0 px-4 py-3 text-base text-gray-900 outline-none bg-transparent">
+                            </div>
                         </div>
-                        <div id="addon1Row" class="flex justify-between text-amber-500">
-                            <span>+ 50 Quick Vastu Tips</span>
-                            <span class="font-semibold">₹99</span>
-                        </div>
-                        <div id="addon2Row" class="flex justify-between text-amber-500">
-                            <span>+ Zero-Demolition Element Cures Guide</span>
-                            <span class="font-semibold">₹49</span>
-                        </div>
-                    </div>
-                    <div class="border-t border-dashed border-zinc-800 my-3"></div>
-                    <div class="flex justify-between items-center">
-                        <span class="font-bold text-zinc-300 text-sm">Total Price</span>
-                        <span id="totalPrice" class="text-2xl font-black text-amber-500">₹347</span>
                     </div>
 
-                    <button type="submit" id="submitBtn" class="mt-4 w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 text-zinc-950 py-4 rounded-xl font-bold text-base shadow-lg shadow-amber-500/15 hover:opacity-90 transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>
-                        </svg>
-                        <span id="btnText">Proceed to Payment</span>
-                    </button>
-                </div>
-            </form>
+                    <!-- One Time Addon Offer 1 (99) -->
+                    <div id="addonCard1" class="border border-blue-200 rounded-2xl overflow-hidden bg-gray-50/50">
+                        <div class="flex items-center justify-between px-4 py-3 bg-blue-50 border-b border-blue-100 gap-2">
+                            <span class="inline-flex items-center gap-2 text-blue-700 text-xs font-bold">
+                                <span class="w-5 h-5 rounded-full bg-blue-600 text-white grid place-items-center text-[10px]">2</span>
+                                One-time offer #1
+                            </span>
+                            <span class="text-[10px] font-bold bg-amber-500 text-white px-2 py-0.5 rounded-md">SAVE 90%</span>
+                        </div>
+                        <div class="p-4 space-y-3">
+                            <h3 class="font-bold text-gray-800 text-sm leading-snug">📌 Add 50 Quick Vastu Tips Checklist</h3>
+                            <p class="text-xs text-gray-500">Get our pocket cheat sheet checklist for rented homes, offices, and quick room layout fixes.</p>
+                            <div class="flex items-center gap-2 text-sm">
+                                <span class="text-xl font-bold text-blue-600">₹99</span>
+                                <span class="line-through text-gray-400 text-xs">₹999</span>
+                                <span class="text-emerald-600 font-bold text-xs">90% OFF</span>
+                            </div>
+                            <label class="mt-4 flex items-center gap-3 cursor-pointer rounded-xl px-4 py-3 font-bold text-xs transition bg-blue-50 border border-blue-100 text-blue-700 select-none">
+                                <input type="checkbox" id="addon1" checked class="w-4 h-4 accent-blue-600 shrink-0">
+                                Tick the box — YES, I WANT THIS!
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- One Time Addon Offer 2 (49) -->
+                    <div id="addonCard2" class="border border-blue-200 rounded-2xl overflow-hidden bg-gray-50/50">
+                        <div class="flex items-center justify-between px-4 py-3 bg-blue-50 border-b border-blue-100 gap-2">
+                            <span class="inline-flex items-center gap-2 text-blue-700 text-xs font-bold">
+                                <span class="w-5 h-5 rounded-full bg-blue-600 text-white grid place-items-center text-[10px]">3</span>
+                                One-time offer #2
+                            </span>
+                            <span class="text-[10px] font-bold bg-amber-500 text-white px-2 py-0.5 rounded-md">SAVE 92%</span>
+                        </div>
+                        <div class="p-4 space-y-3">
+                            <h3 class="font-bold text-gray-800 text-sm leading-snug">📌 Add Zero-Demolition Element Cures Guide</h3>
+                            <p class="text-xs text-gray-500">Quick-fix guide using metal wires, specific colors, and layout shifts to bypass structural renovations.</p>
+                            <div class="flex items-center gap-2 text-sm">
+                                <span class="text-xl font-bold text-blue-600">₹49</span>
+                                <span class="line-through text-gray-400 text-xs">₹599</span>
+                                <span class="text-emerald-600 font-bold text-xs">92% OFF</span>
+                            </div>
+                            <label class="mt-4 flex items-center gap-3 cursor-pointer rounded-xl px-4 py-3 font-bold text-xs transition bg-blue-50 border border-blue-100 text-blue-700 select-none">
+                                <input type="checkbox" id="addon2" checked class="w-4 h-4 accent-blue-600 shrink-0">
+                                Tick the box — YES, I WANT THIS!
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Coupon Code Section -->
+                    <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4 space-y-3">
+                        <label class="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">Have a Coupon Code?</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="couponCode" placeholder="Enter code (e.g. admin1)" class="flex-1 rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-blue-600 transition">
+                            <button type="button" id="applyCouponBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition uppercase tracking-wider">Apply</button>
+                        </div>
+                        <p id="couponMessage" class="text-xs font-semibold hidden"></p>
+                    </div>
+
+                    <!-- Order Summary -->
+                    <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="w-6 h-6 rounded-full bg-blue-600 text-white grid place-items-center text-xs font-bold shrink-0">4</span>
+                            <h3 class="font-bold text-gray-800 text-sm">Order summary</h3>
+                        </div>
+                        <div class="space-y-2 text-xs">
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Practical Vastu 4-in-1 Combo</span>
+                                <span class="font-semibold text-gray-800">₹199</span>
+                            </div>
+                            <div id="addon1Row" class="flex justify-between text-blue-600">
+                                <span>+ 50 Quick Vastu Tips</span>
+                                <span class="font-semibold">₹99</span>
+                            </div>
+                            <div id="addon2Row" class="flex justify-between text-blue-600">
+                                <span>+ Zero-Demolition Element Cures Guide</span>
+                                <span class="font-semibold">₹49</span>
+                            </div>
+                        </div>
+                        <div class="border-t border-dashed border-gray-300 my-3"></div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-gray-600 text-sm">Total Price</span>
+                            <span id="totalPrice" class="text-2xl font-black text-blue-600">₹347</span>
+                        </div>
+
+                        <!-- Proceed to Payment Button: Trust Color -->
+                        <button type="submit" id="submitBtn" class="mt-4 w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4 rounded-xl font-bold text-base shadow-lg shadow-blue-500/20 hover:opacity-90 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>
+                            </svg>
+                            <span id="btnText">Proceed to Payment</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
+
+        <!-- RBI Compliant Legal Footer -->
+        <footer class="w-full max-w-md text-center py-6 border-t border-gray-200 text-gray-500 text-[11px] space-y-4 mt-6">
+            <div class="flex flex-col gap-1.5">
+                <p>📞 <b>Contact Us:</b> +91 8282910470 | ✉ <b>Email:</b> support@infinitytech-six.vercel.app</p>
+                <p>📍 <b>Operational Address:</b> Ultar Kasipur, PO: Uttar Kashipur, Sub District: Bhangar - II, District: South 24 Parganas, State: West Bengal, PIN Code: 700135</p>
+            </div>
+            
+            <div class="flex justify-center gap-3 font-semibold text-blue-600">
+                <a href="/privacy-policy" class="hover:underline">Privacy Policy</a>
+                <span>|</span>
+                <a href="/terms-and-conditions" class="hover:underline">Terms & Conditions</a>
+                <span>|</span>
+                <a href="/disclaimer" class="hover:underline">Disclaimer</a>
+                <span>|</span>
+                <a href="/refund-policy" class="hover:underline">Refund Policy</a>
+            </div>
+            
+            <p class="text-gray-400">© 2026 Proprietor: Sania Khatun (Operating as Infinity Tech). All rights reserved.</p>
+        </footer>
+
     </div>
 
     <script>
@@ -250,26 +284,26 @@
         // Coupon code implementation
         applyCouponBtn.addEventListener('click', () => {
             const code = couponCode.value.trim().toLowerCase();
-            couponMessage.classList.remove('hidden', 'text-emerald-400', 'text-rose-400');
+            couponMessage.classList.remove('hidden', 'text-emerald-600', 'text-rose-400');
             
             if (code === 'admin1') {
                 isCouponApplied = true;
                 couponMessage.textContent = "Success: Coupon 'admin1' applied! Base price set to ₹1.";
-                couponMessage.classList.add('text-emerald-400');
+                couponMessage.classList.add('text-emerald-600');
                 // Change price display label in summary
-                document.querySelector('.bg-zinc-950.border.border-zinc-800.rounded-2xl.p-4 .space-y-2.text-xs div:first-child span:last-child').textContent = '₹1';
+                document.querySelector('.bg-gray-50.border.border-gray-200.rounded-2xl.p-4 .space-y-2.text-xs div:first-child span:last-child').textContent = '₹1';
                 updateSum();
             } else if (code === '') {
                 isCouponApplied = false;
                 couponMessage.textContent = "";
                 couponMessage.classList.add('hidden');
-                document.querySelector('.bg-zinc-950.border.border-zinc-800.rounded-2xl.p-4 .space-y-2.text-xs div:first-child span:last-child').textContent = '₹199';
+                document.querySelector('.bg-gray-50.border.border-gray-200.rounded-2xl.p-4 .space-y-2.text-xs div:first-child span:last-child').textContent = '₹199';
                 updateSum();
             } else {
                 isCouponApplied = false;
                 couponMessage.textContent = "Error: Invalid coupon code.";
-                couponMessage.classList.add('text-rose-400');
-                document.querySelector('.bg-zinc-950.border.border-zinc-800.rounded-2xl.p-4 .space-y-2.text-xs div:first-child span:last-child').textContent = '₹199';
+                couponMessage.classList.add('text-red-500');
+                document.querySelector('.bg-gray-50.border.border-gray-200.rounded-2xl.p-4 .space-y-2.text-xs div:first-child span:last-child').textContent = '₹199';
                 updateSum();
             }
         });
@@ -326,33 +360,5 @@
             }
         });
     </script>
-
-<!-- RBI Compliant Legal Footer -->
-<footer style="background-color: #0b0b0c; color: #71717a; padding: 40px 20px; font-family: sans-serif; font-size: 13px; border-top: 1px solid #18181b; text-align: center; margin-top: 50px;">
-    <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; align-items: center;">
-        
-        <!-- Contact block -->
-        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; color: #a1a1aa; font-weight: 500;">
-            <span>📞 <strong>Contact Us:</strong> +91 8282910470</span>
-            <span>✉ <strong>Email:</strong> support@infinitytech-six.vercel.app</span>
-            <span>📍 <strong>Operational Address:</strong> Ultar Kasipur, PO: Uttar Kashipur, Sub District: Bhangar - II, District: South 24 Parganas, State: West Bengal, PIN Code: 700135</span>
-        </div>
-        
-        <!-- Legal links -->
-        <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; font-weight: 600; margin-top: 5px;">
-            <a href="/privacy-policy" style="color: #f59e0b; text-decoration: none; hover: underline;">Privacy Policy</a> |
-            <a href="/terms-and-conditions" style="color: #f59e0b; text-decoration: none; hover: underline;">Terms & Conditions</a> |
-            <a href="/disclaimer" style="color: #f59e0b; text-decoration: none; hover: underline;">Disclaimer</a> |
-            <a href="/refund-policy" style="color: #f59e0b; text-decoration: none; hover: underline;">Refund Policy</a>
-        </div>
-        
-        <!-- Legal entity name -->
-        <div style="font-size: 12px; color: #52525b; margin-top: 10px;">
-            © 2026 Proprietor: Sania Khatun (Operating as Infinity Tech). All rights reserved.
-        </div>
-    </div>
-</footer>
-
-    </div>
 </body>
 </html>
