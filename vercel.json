@@ -1,6 +1,19 @@
 {
+  "redirects": [
+    {
+      "source": "/checkout",
+      "destination": "/vastucheckout",
+      "permanent": true
+    }
+  ],
   "rewrites": [
-    { "source": "/vastu", "destination": "/vastu/index.html" },
-    { "source": "/vastu/assets/(.*)", "destination": "/vastu/assets/$1" }
+    {
+      "source": "/vastu",
+      "destination": "/vastu/index.html"
+    },
+    {
+      "source": "/vastu/assets/(.*)",
+      "destination": "/vastu/assets/$1"
+    }
   ]
 }
