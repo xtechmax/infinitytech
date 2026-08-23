@@ -12,13 +12,14 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: 'Email and WhatsApp number are required' });
         }
 
-        // Calculate amount (with admin1 test coupon support)
+        // Calculate amount (with admin1 test coupon total override)
         let amount = 199;
         if (coupon && coupon.toLowerCase().trim() === 'admin1') {
-            amount = 1;
+            amount = 1; // Force final total price to 1
+        } else {
+            if (addon1) amount += 99;
+            if (addon2) amount += 49;
         }
-        if (addon1) amount += 99;
-        if (addon2) amount += 49;
 
         // Cashfree Credentials (loaded securely from Vercel Environment Variables, with obfuscated hardcoded fallbacks)
         const fallbackClientId = '138100120857dfff0a3ca8cbb271001831';
