@@ -137,8 +137,8 @@ const MARKET_LANDING_VARIANTS = new Set([
   MARKET_LANDING_TREATMENT_VARIANT
 ]);
 const MARKET_LANDING_RUNTIME = RUNTIME_CONFIG.experiments?.marketLanding || {};
-const PALM_SCAN_ASSET_URL = String(RUNTIME_CONFIG.assets?.palmScan || '/astroyogi/assets/palm-scan.webp');
-const FACE_SCAN_DEMO_URL = String(RUNTIME_CONFIG.assets?.faceScanDemo || '/astroyogi/assets/face-scan-animated.webp');
+const PALM_SCAN_ASSET_URL = '/astroyogi/assets/palm-scan.webp';
+const FACE_SCAN_DEMO_URL = '/astroyogi/assets/face-scan-animated.webp';
 // Palm pricing is supplied by the server so future price tests need one
 // lane-specific environment change. The fallback only covers offline previews.
 const PALM_REPORT_PRICE_INR = Number(RUNTIME_CONFIG.lanePricing?.palm_answers?.amount || 299);
@@ -780,12 +780,19 @@ const REFERRAL_CODE = String(
 ).trim().replace(/[^a-z0-9_-]/gi, '').slice(0, 80);
 const PATH_ALIASES = {
   '/mahakundli': 'mahakundli',
+  '/astroyogi/mahakundli': 'mahakundli',
   '/best-city': 'best_city',
+  '/astroyogi/best-city': 'best_city',
   '/partner-name': 'partner_name',
+  '/astroyogi/partner-name': 'partner_name',
   '/palm-answers': 'palm_answers',
+  '/astroyogi/palm-answers': 'palm_answers',
   '/face-reading': 'face_answers',
+  '/astroyogi/face-reading': 'face_answers',
   '/name-numerology': 'name_numerology',
-  '/market-profile': 'market_profile'
+  '/astroyogi/name-numerology': 'name_numerology',
+  '/market-profile': 'market_profile',
+  '/astroyogi/market-profile': 'market_profile'
 };
 const ANGLE_ALIASES = {
   mahakundli: 'mahakundli',
@@ -1292,9 +1299,12 @@ function cleanAngle(value) {
 }
 
 function resolveEntry() {
-  const normalizedPath = location.pathname.length > 1 ? location.pathname.replace(/\/+$/, '') : location.pathname;
+  let normalizedPath = location.pathname.length > 1 ? location.pathname.replace(/\/+$/, '') : location.pathname;
+  if (normalizedPath.startsWith('/astroyogi')) {
+    normalizedPath = normalizedPath.replace(/^\/astroyogi/, '') || '/';
+  }
   const queryA = cleanAngle(QUERY.get('a'));
-  const pathAngle = PATH_ALIASES[normalizedPath] || '';
+  const pathAngle = PATH_ALIASES[normalizedPath] || PATH_ALIASES[location.pathname] || '';
   let rawAngle = queryA;
   let source = queryA ? 'query_a' : '';
 
@@ -1320,7 +1330,7 @@ function resolveEntry() {
     resolvedAngle = 'palm_answers';
     source = source || 'storefront_default';
   }
-  if (resolvedAngle === 'face_answers' && normalizedPath !== '/face-reading') {
+  if (resolvedAngle === 'face_answers' && normalizedPath !== '/face-reading' && normalizedPath !== '/astroyogi/face-reading') {
     rawAngle = '_default';
     resolvedAngle = '_default';
     source = '';
