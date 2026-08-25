@@ -1,4 +1,5 @@
 {
+  "cleanUrls": true,
   "redirects": [
     {
       "source": "/checkout",
@@ -14,6 +15,58 @@
     {
       "source": "/astroyogi/assets/(.*)",
       "destination": "/astroyogi/assets/$1"
+    },
+    {
+      "source": "/astroyogi/face-reading",
+      "destination": "/astroyogi/face-reading/index.html"
+    },
+    {
+      "source": "/astroyogi/palm-answers",
+      "destination": "/astroyogi/palm-answers/index.html"
+    },
+    {
+      "source": "/astroyogi/name-numerology",
+      "destination": "/astroyogi/name-numerology/index.html"
+    },
+    {
+      "source": "/astroyogi/partner-name",
+      "destination": "/astroyogi/partner-name/index.html"
+    },
+    {
+      "source": "/astroyogi/best-city",
+      "destination": "/astroyogi/best-city/index.html"
+    },
+    {
+      "source": "/astroyogi/mahakundli",
+      "destination": "/astroyogi/mahakundli/index.html"
+    },
+    {
+      "source": "/astroyogi/market-profile",
+      "destination": "/astroyogi/market-profile/index.html"
+    },
+    {
+      "source": "/astroyogi/about-us",
+      "destination": "/astroyogi/about-us/index.html"
+    },
+    {
+      "source": "/astroyogi/contact-us",
+      "destination": "/astroyogi/contact-us/index.html"
+    },
+    {
+      "source": "/astroyogi/terms-and-conditions",
+      "destination": "/astroyogi/terms-and-conditions/index.html"
+    },
+    {
+      "source": "/astroyogi/refund-policy",
+      "destination": "/astroyogi/refund-policy/index.html"
+    },
+    {
+      "source": "/astroyogi/shipping-policy",
+      "destination": "/astroyogi/shipping-policy/index.html"
+    },
+    {
+      "source": "/astroyogi/privacy-policy",
+      "destination": "/astroyogi/privacy-policy/index.html"
     },
     {
       "source": "/vastu/admin",
