@@ -1,6 +1,6 @@
 'use strict';
 
-/* Astro Vela v68.0 — versioned international Palm report contract and guarded checkout. */
+/* Astro Yogi v68.0 — versioned international Palm report contract and guarded checkout. */
 // Preserve the v16 storage namespace so existing sessions and paid-report history survive this asset upgrade.
 const STORAGE_KEY = 'astro_vela_v16_session';
 const PAID_HISTORY_KEY = 'astro_vela_v16_paid_history';
@@ -2729,7 +2729,7 @@ function openFreshDialog() {
     paid: state.paid ? 'yes' : 'no',
     had_reading: state.readingId ? 'yes' : 'no'
   });
-  const product = LANES[state.lane]?.product || 'Astro Vela report';
+  const product = LANES[state.lane]?.product || 'Astro Yogi report';
   if (freshDialogTitle) freshDialogTitle.textContent = state.paid ? 'Start another report?' : 'Start over?';
   if (freshDialogCopy) freshDialogCopy.textContent = state.paid
     ? `You can reopen this report on this device. The new ${product} will start with blank answers.`
@@ -4376,8 +4376,6 @@ function palmGv4TrustBlockMarkup(isGv5 = false) {
     <div><i aria-hidden="true">\u21ba</i><b>Doesn't reach you? Full refund.</b></div>
     <div><i aria-hidden="true">\u270e</i><b>Details wrong? We regenerate it free.</b></div>
     <div class="palm-trust-proof__reach"><span>Reach us anytime</span>
-      <a href="https://www.instagram.com/tarotbyvela/" target="_blank" rel="noopener noreferrer" aria-label="Astro Vela on Instagram"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1.15" fill="currentColor" stroke="none"/></svg></a>
-      <a href="https://x.com/astrovela18" target="_blank" rel="noopener noreferrer" aria-label="Astro Vela on X"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.1 8.1L23.2 22h-6.6l-5.2-6.8L5.5 22H2.4l7.6-8.7L1.2 2h6.8l4.7 6.2L18.9 2Zm-1.1 18h1.8L7.3 3.8H5.4L17.8 20Z"/></svg></a>
       <a href="mailto:readings@tarotbyvela.com" aria-label="Email readings@tarotbyvela.com"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><rect x="2.6" y="4.6" width="18.8" height="14.8" rx="2.6"/><path d="m3.4 7.4 8.6 5.8 8.6-5.8"/></svg></a>
     </div>
   </div>`;
@@ -4610,7 +4608,7 @@ function lockedReportPreviewMarkup(config) {
 
 function referralArrivalMarkup() {
   if (!REFERRAL_CODE) return '';
-  return '<div class="referral-arrival" data-testid="referral-arrival">Someone shared an Astro Vela result with you. Their details remain private. Start your own reading below.</div>';
+  return '<div class="referral-arrival" data-testid="referral-arrival">Someone shared an Astro Yogi result with you. Their details remain private. Start your own reading below.</div>';
 }
 
 function screenMeta() {
@@ -5047,19 +5045,19 @@ function track(name, properties = {}, options = {}) {
       else window.fbq('trackCustom', name, thirdPartyData, { eventID: eventId });
     }
   } catch (error) {
-    try { console.warn('[Astro Vela] Meta analytics unavailable', error); } catch (_) {}
+    try { console.warn('[Astro Yogi] Meta analytics unavailable', error); } catch (_) {}
   }
   try {
     if (!CROSS_SELL_QA_ACTIVE && name === 'purchase' && window.twq) {
       window.twq('event', 'tw-re98j-re98l', {});
     }
   } catch (error) {
-    try { console.warn('[Astro Vela] X analytics unavailable', error); } catch (_) {}
+    try { console.warn('[Astro Yogi] X analytics unavailable', error); } catch (_) {}
   }
   try {
     if (!CROSS_SELL_QA_ACTIVE && window.gtag) window.gtag('event', name, gtagData);
   } catch (error) {
-    try { console.warn('[Astro Vela] Google analytics unavailable', error); } catch (_) {}
+    try { console.warn('[Astro Yogi] Google analytics unavailable', error); } catch (_) {}
   }
   try {
     if (!CROSS_SELL_QA_ACTIVE && name === 'purchase' && window.gtag) {
@@ -5067,9 +5065,9 @@ function track(name, properties = {}, options = {}) {
       if (googleAdsPurchase) window.gtag('event', 'conversion', googleAdsPurchase);
     }
   } catch (error) {
-    try { console.warn('[Astro Vela] Google Ads purchase tracking unavailable', error); } catch (_) {}
+    try { console.warn('[Astro Yogi] Google Ads purchase tracking unavailable', error); } catch (_) {}
   }
-  try { console.info('[Astro Vela]', name, data); } catch (_) {}
+  try { console.info('[Astro Yogi]', name, data); } catch (_) {}
   return eventId;
 }
 
@@ -5091,14 +5089,14 @@ function trackScreenView() {
   try {
     if (!IS_GLOBAL_STOREFRONT && !CROSS_SELL_QA_ACTIVE && window.gtag) {
       window.gtag('event', 'page_view', {
-        page_title: `Astro Vela - ${state.lane} - ${state.screen}`,
+        page_title: `Astro Yogi - ${state.lane} - ${state.screen}`,
         page_location: `${location.origin}${location.pathname}#${state.screen}`,
         page_path: `${location.pathname}#${state.screen}`,
         ...thirdPartyAnalyticsData(screenMeta())
       });
     }
   } catch (error) {
-    try { console.warn('[Astro Vela] Google page-view analytics unavailable', error); } catch (_) {}
+    try { console.warn('[Astro Yogi] Google page-view analytics unavailable', error); } catch (_) {}
   }
 }
 
@@ -5565,7 +5563,7 @@ async function refreshFlowSession() {
   flowRefreshPromise = fetch('/api/flow/refresh', { credentials: 'same-origin' })
     .then(async (response) => {
       const body = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(body.message || body.error || 'Please reopen Astro Vela and try again.');
+      if (!response.ok) throw new Error(body.message || body.error || 'Please reopen Astro Yogi and try again.');
       return body;
     })
     .finally(() => { flowRefreshPromise = null; });
@@ -6623,7 +6621,7 @@ function renderMahakundliLanding() {
         ${mahakundliPriceMarkup('mahakundli-price--hero')}
         <div class="mahakundli-proof-row" aria-label="Mahakundli customer, practice and method proof">
           <span><b>${MAHAKUNDLI_VERIFIED_PAID_REPORT_FLOOR}</b><small>Paid reports delivered</small></span>
-          <span><b>Since 2011</b><small>Astrology practice</small></span>
+          <span><b>Since 1998</b><small>Vedic practice</small></span>
           <span><b>17</b><small>Life areas covered</small></span>
           <span><b>Every answer</b><small>Explains the factors used in plain words</small></span>
         </div>
@@ -6734,9 +6732,9 @@ function renderLanding() {
       ${previousPaidReportMarkup()}
       <div class="home-hero">
         <span class="home-hero__ornament" aria-hidden="true">${homeStarOrnament()}</span>
-        <div class="kicker center">A private astrology practice · Since 2011</div>
-        <h1 class="hero-title home-hero-title">Readings prepared <em>for you alone.</em></h1>
-        <p class="hero-subtitle">Explore the path ahead. Or discover the impression you leave before you say a word.</p>
+        <div class="kicker center">Authentic Vedic Astrology & Insights · Est. 1998</div>
+        <h1 class="hero-title home-hero-title">Personalized Insights <em>prepared for your path alone.</em></h1>
+        <p class="hero-subtitle">Explore your path with Vedic clarity. Uncover the hidden patterns in your palm, face, and planetary alignment.</p>
       </div>
       <div class="home-primary-label">Choose your reading</div>
       <div class="home-mahakundli-questions">
@@ -6878,7 +6876,7 @@ function renderLanding() {
       : `<button class="primary-button" type="button" data-action="start-lane" data-testid="landing-cta">${escapeHtml(config.landingCta)}</button>`}
     ${state.lane === 'best_city' ? '<div class="landing-speed-line">About 60 seconds · Start free</div>' : ''}
     ${state.lane === 'palm_answers' ? '' : landingPriceMarkup()}
-    <div class="privacy-line">${state.lane === 'palm_answers' ? 'Only the photo you choose is sent securely for line detection. Astro Vela keeps the detected line points, not the photo.' : state.lane === 'market_profile' ? 'Personal reflection only · No stock tips or return promises' : 'Your details stay private · Pay once if you choose the full report'}</div>
+    <div class="privacy-line">${state.lane === 'palm_answers' ? 'Only the photo you choose is sent securely for line detection. Astro Yogi keeps the detected line points, not the photo.' : state.lane === 'market_profile' ? 'Personal reflection only · No stock tips or return promises' : 'Your details stay private · Pay once if you choose the full report'}</div>
   </div>`);
 }
 
@@ -7822,7 +7820,7 @@ function renderPalmUpload() {
       <button class="secondary-button" type="button" data-action="choose-palm" data-input="palmInput">Choose from gallery</button>
     </div>
     ${marketPalm ? '<button class="text-button market-palm-skip" type="button" data-action="skip-market-palm">Skip palm — continue with chart and numbers</button>' : ''}
-    <div class="privacy-line">Your chosen photo is sent securely for line detection. Astro Vela keeps the detected line points, not the photo.${marketPalm ? ' The palm is optional and never blocks your core report.' : ''}</div>`);
+    <div class="privacy-line">Your chosen photo is sent securely for line detection. Astro Yogi keeps the detected line points, not the photo.${marketPalm ? ' The palm is optional and never blocks your core report.' : ''}</div>`);
 }
 
 function renderPalmOffer() {
@@ -13787,7 +13785,7 @@ function normalizeServerPurchaseTracking(value = {}) {
     provider: String(value?.provider || 'payment_gateway').trim().slice(0, 40),
     value: amount,
     currency,
-    product: String(value?.product || laneConfig()?.product || 'Astro Vela report').trim().slice(0, 120),
+    product: String(value?.product || laneConfig()?.product || 'Astro Yogi report').trim().slice(0, 120),
     crossSell
   };
 }
@@ -14190,7 +14188,7 @@ async function startCheckout(ctaPlacement = '', { retryTrigger = '' } = {}) {
       key: checkout.key || body.key,
       amount: body.amount || checkout.amount,
       currency: body.currency || checkout.currency || 'INR',
-      name: 'Astro Vela',
+      name: 'Astro Yogi',
       image: 'https://astro.tarotbyvela.com/assets/logomark.png',
       description: checkout.description || laneConfig()?.product || 'Personal report',
       order_id: body.order_id || checkout.orderId,
@@ -15397,7 +15395,7 @@ function shareCardContent(full = state.full) {
           ? 'Face · Astrology · Numerology'
           : 'Portrait reflection · no photo shared'
         : reveal ? config.shareRevealNote : config.shareMysteryPrompt,
-    prompt: legacyPalmReport && reveal ? 'What would yours show?' : (reveal ? config.shareRevealPrompt : 'Try the same reading at Astro Vela')
+    prompt: legacyPalmReport && reveal ? 'What would yours show?' : (reveal ? config.shareRevealPrompt : 'Try the same reading at Astro Yogi')
   };
 }
 
@@ -15472,7 +15470,7 @@ function shareDraftText(full = state.full, platform = 'share_menu') {
 function sharePreviewMarkup(full = state.full) {
   const card = shareCardContent(full);
   return `<div class="story-card-preview ${card.reveal ? 'is-reveal' : ''}" data-testid="share-card-preview">
-    <div class="story-card-preview__brand"><span>☾ Astro Vela</span><small>Story mode</small></div>
+    <div class="story-card-preview__brand"><span>☾ Astro Yogi</span><small>Story mode</small></div>
     <div class="story-card-preview__star" aria-hidden="true">✦</div>
     <b>${escapeHtml(card.title)}</b>
     <strong>${escapeHtml(card.main)}</strong>
@@ -15621,7 +15619,7 @@ async function shareFromMenu(button) {
     const text = shareDraftText(state.full, 'share_menu').replace(link, '').trim();
     const blob = shareCardBlob();
     const file = typeof File === 'function' ? new File([blob], 'astro-vela-story.png', { type: 'image/png' }) : null;
-    const payload = { title: 'Astro Vela Story card', text, url: link };
+    const payload = { title: 'Astro Yogi Story card', text, url: link };
     const canShareFile = Boolean(file && navigator.canShare?.({ files: [file] }));
     if (canShareFile) payload.files = [file];
     else {
@@ -16477,7 +16475,7 @@ function postPurchaseEmail() {
 }
 
 function newReadingActionsMarkup() {
-  const product = laneConfig()?.product || 'Astro Vela report';
+  const product = laneConfig()?.product || 'Astro Yogi report';
   if (IS_GLOBAL_STOREFRONT) {
     return `<section class="new-reading-panel" data-testid="new-reading-panel">
       <small>Another Palm reading</small>
