@@ -8,6 +8,14 @@
   ],
   "rewrites": [
     {
+      "source": "/astroyogi",
+      "destination": "/astroyogi/index.html"
+    },
+    {
+      "source": "/astroyogi/assets/(.*)",
+      "destination": "/astroyogi/assets/$1"
+    },
+    {
       "source": "/vastu/admin",
       "destination": "/vastu/admin/index.html"
     },

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '28712657155007563');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
+    <title>Astro Vela — Private Astrology Readings, Prepared for You Alone</title>
+    <meta name="description" content="A private astrology practice since 2011. Palm, Name, City, Wealth and Love readings prepared from your own details. Every reading begins free." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Astro Vela" />
+    <meta property="og:title" content="Astro Vela — Private Astrology Readings, Prepared for You Alone" />
+    <meta property="og:description" content="A private astrology practice since 2011. Palm, Name, City, Wealth and Love readings prepared from your own details. Every reading begins free." />
+    <meta property="og:url" content="https://astro.tarotbyvela.com/" />
+    <meta property="og:image" content="https://astro.tarotbyvela.com/assets/palm-scan.webp?v=35d936999013d524b9bb0e857e20c7131f589395a508ac4a05cb64e1f318c74e" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@astrovela18" />
+    <meta name="twitter:title" content="Astro Vela — Private Astrology Readings, Prepared for You Alone" />
+    <meta name="twitter:description" content="A private astrology practice since 2011. Palm, Name, City, Wealth and Love readings prepared from your own details. Every reading begins free." />
+    <meta name="twitter:image" content="https://astro.tarotbyvela.com/assets/palm-x-social-v3.png" />
+    <script>
+      // CHARITY_GRANT_HANDOFF_START
+      (() => {
+        const params = new URLSearchParams(location.search);
+        const readingId = String(params.get('readingId') || '').trim();
+        const fragment = String(location.hash || '');
+        const match = /^#charity_grant=([a-f0-9]{32})$/.exec(fragment);
+        if (
+          match
+          && params.get('access') === 'charity'
+          && /^rdg_cg_[a-f0-9]{24}$/.test(readingId)
+        ) {
+          try {
+            sessionStorage.setItem(`astro_vela_charity_grant_v1:${readingId}`, match[1]);
+          } catch (_) {}
+          try {
+            Object.defineProperty(globalThis, '__ASTRO_VELA_CHARITY_GRANT_HANDOFF__', {
+              value: Object.freeze({ readingId, token: match[1] }),
+              configurable: true
+            });
+          } catch (_) {}
+        }
+        if (fragment.startsWith('#charity_grant=') && history?.replaceState) {
+          // Exact valid links survive storage-disabled browsers through the
+          // in-memory handoff above. Malformed fragments are always discarded.
+          history.replaceState(history.state, '', `${location.pathname}${location.search}`);
+        }
+      })();
+      // CHARITY_GRANT_HANDOFF_END
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/astroyogi/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Inter:wght@400;500;600;700;800&family=Noto+Serif+Devanagari:wght@600&display=swap" rel="stylesheet" media="print" onload="this.onload=null;this.media='all'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Inter:wght@400;500;600;700;800&family=Noto+Serif+Devanagari:wght@600&display=swap" rel="stylesheet" /></noscript>
+    <link rel="stylesheet" href="/astroyogi/app.v61.css?v=f03aca611e6762baa1ba4eb92a4681e547e8e890ca9da430d4fa8d174d565e8d" />
+    <style>
+      .palm-proof-primary-action { margin: 12px 0 10px; }
+      .palm-proof-primary-action .primary-button { margin: 0; }
+      .palm-proof-primary-action > span { display: block; margin-top: 6px; color: var(--muted); font-size: 9.5px; line-height: 1.3; text-align: center; }
+      [data-testid="screen-palmproof"] .palm-path-halo, [data-testid="screen-palmproof"] .palm-path-glow, [data-testid="screen-palmproof"] .palm-path-label, [data-testid="screen-palmproof"] .palm-path-anchor { display: none; }
+      [data-testid="screen-palmproof"] .palm-polyline { stroke: #bec5c8; stroke-opacity: .78; stroke-width: 1.5; vector-effect: non-scaling-stroke; filter: drop-shadow(0 1px .5px rgba(16, 18, 20, .68)); }
+      /* The mapped palm rides along as a compact dock above each step. At this
+         scale, one soft grey trace sits quietly on the photo; stacking bright or
+         coloured glow layers makes the detected lines look highlighted. */
+      .palm-dock { display: none; align-items: center; gap: 11px; margin: 9px 0 -6px; border: 1px solid rgba(214, 177, 106, .32); border-radius: 17px; padding: 9px 13px 9px 9px; background: linear-gradient(135deg, rgba(54, 44, 33, .97), rgba(37, 30, 23, .97)); box-shadow: 0 16px 34px -26px rgba(46, 32, 14, .95), inset 0 1px 0 rgba(255, 246, 226, .08); }
+      body.has-palm-dock .palm-dock { display: flex; animation: palm-dock-in .5s cubic-bezier(.22, .75, .24, 1) both; }
+      @keyframes palm-dock-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+      .palm-dock__chip { position: relative; flex: 0 0 auto; width: 56px; height: 56px; margin: 0; overflow: hidden; border: 1px solid rgba(231, 202, 143, .42); border-radius: 13px; background: #241d16; }
+      /* Same crop maths as the scan frame: the thumbnail is framed on the detected
+         palm, so it is filled by the hand however the upload was composed. */
+      .palm-dock__crop { position: absolute; left: calc(50% - 56px * var(--palm-dock-x, .5)); top: calc(50% - 56px * var(--palm-dock-y, .5)); width: calc(56px * var(--palm-dock-width, 1)); height: calc(56px * var(--palm-dock-height, 1.33)); }
+      .palm-dock__crop > img, .palm-dock__crop svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+      .palm-dock__crop > img { object-fit: cover; filter: saturate(.72) contrast(1.05) brightness(.82); }
+      .palm-dock .palm-path-halo, .palm-dock .palm-path-glow, .palm-dock .palm-path-label { display: none; }
+      .palm-dock .palm-polyline { stroke: #bec5c8; stroke-opacity: .76; stroke-width: 1.1; vector-effect: non-scaling-stroke; filter: drop-shadow(0 1px .5px rgba(16, 18, 20, .68)); }
+      .palm-dock--map-only .palm-dock__chip { background: radial-gradient(circle at 50% 42%, #3a2f23, #221b14); }
+      .palm-dock__meta { display: grid; gap: 2px; min-width: 0; }
+      .palm-dock__meta b { color: #fff6e4; font-size: 12.5px; font-weight: 750; line-height: 1.2; }
+      .palm-dock__meta span { overflow: hidden; color: rgba(234, 214, 179, .74); font-size: 10px; font-weight: 600; letter-spacing: .01em; line-height: 1.35; text-overflow: ellipsis; white-space: nowrap; }
+      .palm-dock__live { flex: 0 0 auto; width: 7px; height: 7px; margin-left: auto; border-radius: 50%; background: #74c8b8; box-shadow: 0 0 0 4px rgba(116, 200, 184, .14); animation: palm-dock-live 2.6s ease-in-out infinite; }
+      @keyframes palm-dock-live { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
+      @media (prefers-reduced-motion: reduce) { body.has-palm-dock .palm-dock, .palm-dock__live { animation: none; } }
+      .palm-unlock-view--e .palm-scan-result--compact-evidence { padding: 14px 15px; }
+      .palm-unlock-view--e .palm-scan-result--compact-evidence .palm-scan-result__top { grid-template-columns: 68px minmax(0, 1fr); gap: 12px; }
+      .palm-unlock-view--e .palm-scan-result--compact-evidence .palm-scan-result__count { width: 68px; height: 68px; }
+      .palm-unlock-view--e .palm-scan-result--compact-evidence .palm-scan-result__count > b { width: 29px; }
+      .palm-unlock-view--e .palm-scan-result--compact-evidence .palm-scan-result__count > b > i { width: 27px; }
+      .palm-unlock-view--e .palm-scan-result--compact-evidence .palm-scan-result__count > b > i:nth-child(2) { width: 21px; }
+      .palm-unlock-view--e .palm-scan-result--compact-evidence .palm-scan-result__count > b > i:nth-child(3) { width: 15px; }
+      .palm-unlock-view--e .palm-scan-result--compact-evidence .palm-scan-result__copy > b { font-size: 21px; line-height: 1.02; }
+      .payment-dismiss-recovery { display: grid; gap: 10px; margin: 15px 0; border: 1px solid rgba(156, 109, 45, .28); border-radius: 18px; padding: 16px; color: #2d261d; background: linear-gradient(145deg, rgba(255, 252, 244, .98), rgba(245, 235, 213, .94)); box-shadow: 0 16px 32px -26px rgba(42, 29, 13, .7); }
+      .payment-dismiss-recovery > small { color: #8b632c; font-size: 10px; font-weight: 850; letter-spacing: .13em; }
+      .payment-dismiss-recovery h2 { margin: 0; font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.05; }
+      .payment-dismiss-recovery p, .payment-dismiss-recovery > span { margin: 0; color: rgba(45, 38, 29, .72); font-size: 12px; line-height: 1.45; }
+      .payment-dismiss-recovery__actions { display: grid; gap: 8px; }
+      .payment-dismiss-recovery__actions .primary-button, .payment-dismiss-recovery__actions .secondary-button { min-height: 46px; margin: 0; padding: 10px 14px; font-size: 13px; }
+      .payment-dismiss-recovery__gateway { display: grid; gap: 3px; justify-items: center; }
+      .payment-dismiss-recovery__gateway > small { color: rgba(45, 38, 29, .64); font-size: 10px; font-weight: 600; line-height: 1.3; }
+      .payment-dismiss-recovery .payment-fallback-card--recovery { margin: 2px 0 0; }
+      .payment-dismiss-recovery .payment-fallback-card--recovery > small { color: rgba(45, 38, 29, .62); font-size: 10px; line-height: 1.35; text-align: center; }
+      /* Price and timing are adjacent low-emphasis choices that exist purely to
+         be told apart in the funnel, so a mis-tap is a wrong answer rather than
+         a wrong navigation. Both stay full-width 44px targets. */
+      .payment-dismiss-recovery__actions .text-button { justify-self: stretch; min-height: 44px; margin: 0; padding: 12px 10px; color: #6d5738; font-size: 12px; }
+      /* Trust-proof cohort (paywall_variant=g, palm_paywall_g_trust_proof_v4).
+         Additive only: variant E never renders these selectors. */
+      .palm-trust-proof { display: grid; gap: 7px; margin: 11px 0 4px; border: 1px solid rgba(40, 121, 110, .18); border-radius: 14px; padding: 12px 14px; background: rgba(238, 248, 241, .62); }
+      .palm-trust-proof > div { display: flex; align-items: center; gap: 9px; min-width: 0; }
+      /* Signpost above the top CTA. Visually quieter than the primary button by
+         design: it must advertise the add-on without competing for the click. */
+      /* Green surface, matching the offer card it scrolls to and the trust block
+         below it. Gold is reserved for the primary CTA, so the teaser must not
+         borrow it beyond the price. */
+      .palm-addon-teaser { display: flex; align-items: center; gap: 10px; width: 100%; margin: 0 0 9px; border: 1px solid rgba(40, 121, 110, .22); border-radius: 13px; padding: 9px 11px; background: rgba(238, 248, 241, .62); cursor: pointer; text-align: left; font: inherit; transition: border-color .18s ease, background .18s ease, transform .12s ease; }
+      .palm-addon-teaser:hover { border-color: rgba(40, 121, 110, .42); background: rgba(238, 248, 241, .85); }
+      .palm-addon-teaser:active { transform: scale(.994); }
+      .palm-addon-teaser:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+      .palm-addon-teaser.is-selected { border-color: rgba(40, 121, 110, .5); background: rgba(232, 246, 237, .92); }
+      .palm-addon-teaser > .palm-addon-teaser__glyph { flex: 0 0 auto; width: 22px; height: 22px; display: grid; place-items: center; border-radius: 50%; color: var(--green); font-size: 10px; line-height: 1; background: rgba(40, 121, 110, .12); }
+      .palm-addon-teaser > .palm-addon-teaser__copy { flex: 1 1 auto; min-width: 0; }
+      .palm-addon-teaser > .palm-addon-teaser__copy b { display: block; color: #24564e; font-size: 12.5px; font-weight: 700; line-height: 1.3; }
+      .palm-addon-teaser > .palm-addon-teaser__copy small { display: block; margin-top: 2px; color: rgba(36, 86, 78, .8); font-size: 10.5px; font-weight: 600; line-height: 1.35; }
+      .palm-addon-teaser > .palm-addon-teaser__copy small b { display: inline; color: var(--gold); font-size: inherit; font-weight: 800; }
+      .palm-addon-teaser > .palm-addon-teaser__chevron { flex: 0 0 auto; width: 7px; height: 7px; margin-right: 3px; border: solid rgba(40, 121, 110, .6); border-width: 0 1.7px 1.7px 0; transform: rotate(45deg) translate(-2px, -2px); }
+      /* Brief pulse when the teaser scrolls the real offer card into view. */
+      .palm-name-enhancement.is-highlighted { animation: palmAddOnPulse 1.8s ease; }
+      @keyframes palmAddOnPulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(40, 121, 110, 0); }
+        18% { box-shadow: 0 0 0 4px rgba(40, 121, 110, .26); }
+        60% { box-shadow: 0 0 0 4px rgba(40, 121, 110, .15); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .palm-name-enhancement.is-highlighted { animation-duration: .01ms; }
+        .palm-addon-teaser:active { transform: none; }
+      }
+      .palm-trust-proof i { flex: 0 0 auto; width: 17px; height: 17px; display: grid; place-items: center; border-radius: 50%; color: var(--green); font-size: 10px; font-style: normal; background: rgba(40, 121, 110, .12); }
+      .palm-trust-proof b { color: #24564e; font-size: 12px; font-weight: 700; line-height: 1.35; overflow-wrap: anywhere; }
+      /* The G proof card carries the customer's own scanned hand at dock scale. */
+      /* Beats the .palm-trust-proof > div flex rule, which would otherwise
+         squeeze this row into broken columns. */
+      .palm-trust-proof > .palm-trust-proof__reach { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 2px; padding-top: 9px; border-top: 1px solid rgba(40, 121, 110, .16); color: rgba(36, 86, 78, .82); font-size: 11px; line-height: 1.5; }
+      .palm-trust-proof > .palm-trust-proof__reach span { margin: 0 2px 0 0; font-size: 11px; font-weight: 700; }
+      .palm-trust-proof > .palm-trust-proof__reach a { display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid rgba(40, 121, 110, .22); border-radius: 50%; color: #24564e; background: rgba(255, 255, 255, .72); transition: background .18s ease, border-color .18s ease; }
+      .palm-trust-proof > .palm-trust-proof__reach a:hover { border-color: rgba(40, 121, 110, .45); background: #fff; }
+      .palm-trust-proof > .palm-trust-proof__reach a svg { display: block; }
+      .palm-scan-result--g-hand .palm-scan-result__top { grid-template-columns: 76px minmax(0, 1fr); gap: 13px; align-items: center; }
+      .palm-scan-result__hand { position: relative; width: 76px; height: 76px; margin: 0; border-radius: 16px; overflow: hidden; border: 1px solid rgba(214, 177, 106, .34); background: radial-gradient(circle at 50% 42%, #3a2f23, #221b14); }
+      .palm-scan-result__hand .palm-dock__crop { left: calc(50% - 76px * var(--palm-dock-x, .5)); top: calc(50% - 76px * var(--palm-dock-y, .5)); width: calc(76px * var(--palm-dock-width, 1)); height: calc(76px * var(--palm-dock-height, 1.33)); }
+      .palm-scan-result__hand .palm-path-halo, .palm-scan-result__hand .palm-path-glow, .palm-scan-result__hand .palm-path-label, .palm-scan-result__hand .palm-path-anchor { display: none; }
+      .palm-scan-result__hand .palm-polyline { stroke: #e6dcc6; stroke-opacity: .82; stroke-width: 1.3; vector-effect: non-scaling-stroke; filter: drop-shadow(0 1px .5px rgba(16, 18, 20, .7)); }
+      .life-age-context { display: block; margin-top: 7px; border-top: 1px solid rgba(40, 121, 110, .13); padding-top: 6px; color: #7a501d; font-size: 10.5px; font-style: normal; font-weight: 800; line-height: 1.35; }
+      .life-growth-summary article span { max-width: 100%; line-height: 1.35; }
+      .palm-life-hero__personalization { position: relative; z-index: 1; display: flex; justify-content: center; width: fit-content; max-width: calc(100% - 12px); margin: 10px auto 4px; border: 1px solid rgba(40, 121, 110, .22); border-radius: 999px; padding: 6px 11px; color: var(--green); font-size: 11px; font-weight: 850; line-height: 1.35; overflow-wrap: anywhere; text-align: center; background: rgba(238, 248, 241, .76); box-shadow: 0 10px 22px -19px rgba(28, 91, 80, .8); }
+      .life-main-window > div > .life-main-window__dasha { display: block; margin-top: 4px; color: var(--ink); font-family: Inter, system-ui, sans-serif; font-size: 15px; font-weight: 800; line-height: 1.35; overflow-wrap: anywhere; }
+      .life-main-window > div > .life-main-window__subperiod { display: block; margin-top: 5px; color: var(--ink-soft); font-size: 12px; line-height: 1.42; overflow-wrap: anywhere; }
+      .life-phase time { max-width: 100%; line-height: 1.35; overflow-wrap: anywhere; text-align: left; }
+      .topbar { grid-template-columns: minmax(44px, 64px) minmax(0, 1fr) auto minmax(58px, 72px); column-gap: clamp(4px, 1.5vw, 8px); }
+      .topbar:not(.has-saved-reports) { grid-template-columns: 72px minmax(0, 1fr) 72px; }
+      .saved-reports-button { justify-self: end; display: inline-flex; align-items: center; justify-content: center; gap: 6px; width: auto; min-width: 86px; min-height: 38px; border: 1px solid rgba(40, 121, 110, .24); border-radius: 999px; padding: 6px 7px 6px 11px; color: var(--green); font-size: 10px; font-weight: 750; line-height: 1; white-space: nowrap; background: rgba(236, 247, 241, .82); box-shadow: 0 8px 20px -18px rgba(31, 85, 75, .9); cursor: pointer; }
+      .saved-reports-button[hidden] { display: none; }
+      .saved-reports-button__count { display: grid; place-items: center; min-width: 20px; height: 20px; border-radius: 999px; padding: 0 5px; color: #fff; font-size: 10px; font-variant-numeric: tabular-nums; line-height: 1; background: linear-gradient(145deg, #3e9988, #236b60); box-shadow: 0 5px 12px -7px rgba(22, 76, 67, .95); }
+      .saved-reports-button__count[hidden] { display: none; }
+      .saved-reports-button:focus-visible, .saved-readings-dialog__close:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+      body.is-landing .topbar.has-saved-reports { grid-template-columns: minmax(86px, 1fr) auto minmax(86px, 1fr); }
+      body.is-landing .topbar.has-saved-reports .back-button, body.is-landing .topbar.has-saved-reports .fresh-button { display: none; }
+      body.is-landing .topbar.has-saved-reports .brand { grid-column: 2; gap: clamp(6px, 1.8vw, 8px); font-size: clamp(22px, 6.3vw, 24px); letter-spacing: .065em; }
+      body.is-landing .topbar.has-saved-reports .brand img { width: clamp(30px, 8.7vw, 32px); height: clamp(30px, 8.7vw, 32px); }
+      body.is-landing .topbar.has-saved-reports .saved-reports-button { grid-column: 3; }
+      .saved-readings-dialog { width: min(calc(100% - 34px), 410px); margin: auto; border: 1px solid rgba(40, 121, 110, .27); border-radius: 24px; padding: 0; color: var(--ink); background: var(--paper-light); box-shadow: 0 30px 80px -38px rgba(31, 85, 75, .55); }
+      .saved-readings-dialog::backdrop { background: rgba(38, 52, 43, .36); backdrop-filter: blur(4px); }
+      .saved-readings-dialog__shell { padding: 20px 18px 16px; }
+      .saved-readings-dialog__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+      .saved-readings-dialog__head small { color: var(--green); font-size: 8.5px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+      .saved-readings-dialog__head h2 { margin-top: 3px; font-family: "Cormorant Garamond", Georgia, serif; font-size: 27px; font-weight: 600; line-height: 1.05; }
+      .saved-readings-dialog__close { flex: 0 0 auto; width: 34px; height: 34px; border: 1px solid rgba(40, 121, 110, .22); border-radius: 50%; color: var(--green); font-size: 23px; line-height: 1; background: rgba(236, 247, 241, .68); cursor: pointer; }
+      .saved-readings-list { display: grid; gap: 7px; }
+      .saved-readings-list .previous-reading-row { border: 1px solid rgba(40, 121, 110, .15); border-radius: 14px; }
+      .saved-readings-empty { color: var(--muted); font-size: 12px; text-align: center; }
+      .landing-screen--palm_answers .palm-entry-actions { position: sticky; bottom: 0; z-index: 12; flex: 0 0 auto; margin: 12px -8px 0; border-top: 1px solid rgba(156, 109, 45, .15); padding: 10px 8px calc(8px + env(safe-area-inset-bottom)); background: linear-gradient(180deg, rgba(244, 234, 215, .58), rgba(244, 234, 215, .98) 25%); backdrop-filter: blur(8px); }
+      .palm-entry-reassurance { display: grid; gap: 2px; margin-bottom: 8px; color: var(--green); font-size: 10px; line-height: 1.35; text-align: center; }
+      .palm-entry-reassurance b { font-size: 10.5px; font-weight: 800; }
+      .palm-entry-reassurance span { color: var(--ink-soft); }
+      .palm-entry-price { margin: 8px 0 0; color: var(--gold); font-size: 10.5px; font-weight: 800; line-height: 1.35; text-align: center; }
+      .palm-entry-price .prepay-price-pair { margin-left: 3px; }
+      .palm-coverage { width: 100%; max-width: 390px; margin: -2px auto 14px; border: 1px solid rgba(40, 121, 110, .2); border-radius: 18px; padding: 10px; background: radial-gradient(circle at 50% -80%, rgba(221, 183, 94, .22), transparent 66%), rgba(255, 250, 240, .76); box-shadow: 0 16px 34px -32px rgba(31, 85, 75, .72); }
+      .palm-coverage__heading { display: flex; align-items: center; justify-content: center; gap: 7px; margin-bottom: 8px; color: var(--green); font-size: 11px; font-weight: 800; line-height: 1.3; text-align: center; text-wrap: balance; }
+      .palm-coverage__heading i { color: var(--gold); font-size: 8px; font-style: normal; }
+      .palm-coverage ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0; border: 1px solid rgba(40, 121, 110, .13); border-radius: 12px; padding: 0; overflow: hidden; list-style: none; background: rgba(255, 255, 255, .5); }
+      .palm-coverage li { display: grid; grid-template-columns: 20px minmax(0, 1fr); align-items: center; gap: 6px; min-height: 44px; padding: 7px; color: var(--ink); }
+      .palm-coverage li + li { border-left: 1px solid rgba(40, 121, 110, .13); }
+      .palm-coverage li > i { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; color: white; font-size: 10px; font-style: normal; font-weight: 800; background: linear-gradient(145deg, #3e9988, #236b60); box-shadow: 0 7px 13px -9px rgba(22, 76, 67, .95); }
+      .palm-coverage li > span { font-size: 10.5px; font-weight: 750; line-height: 1.25; text-align: left; }
+      @media (max-width: 600px) and (max-height: 900px) {
+        .landing-screen--palm_answers .palm-landing-main { justify-content: center; }
+        .landing-screen--palm_answers .palm-landing-scan { width: min(72vw, clamp(190px, 29dvh, 248px)); margin-top: 0; margin-bottom: 8px; border-radius: 18px; }
+        .landing-screen--palm_answers .palm-scan-gif { border-radius: 14px; }
+        .landing-screen--palm_answers .hero-title { max-width: 16ch; margin-bottom: 7px; font-size: clamp(34px, 9.6vw, 39px); line-height: .98; }
+        .landing-screen--palm_answers .hero-subtitle { max-width: 36ch; margin-bottom: 9px; font-size: 13px; line-height: 1.4; }
+        .landing-screen--palm_answers .palm-coverage { margin-bottom: 8px; padding: 8px; }
+        .landing-screen--palm_answers .palm-coverage__heading { margin-bottom: 6px; font-size: 10.75px; }
+        .landing-screen--palm_answers .palm-entry-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; width: 100%; margin-top: 6px; }
+        .landing-screen--palm_answers .palm-entry-reassurance, .landing-screen--palm_answers .palm-entry-price { grid-column: 1 / -1; margin-bottom: 0; }
+        .landing-screen--palm_answers .palm-entry-reassurance { margin-bottom: 0; font-size: 9.75px; }
+        .landing-screen--palm_answers .palm-entry-reassurance b { font-size: 10.25px; }
+        .landing-screen--palm_answers .palm-entry-actions .primary-button, .landing-screen--palm_answers .palm-entry-actions .secondary-button { min-height: 50px; margin: 0; border-radius: 14px; padding: 10px 8px; font-size: clamp(12px, 3.5vw, 13.5px); line-height: 1.2; }
+        .landing-screen--palm_answers .palm-entry-price { font-size: 10px; }
+      }
+      @media (max-width: 420px) {
+        .landing-screen--palm_answers .palm-coverage { width: min(100%, 340px); }
+        .landing-screen--palm_answers .palm-coverage ul { grid-template-columns: minmax(0, 1fr); }
+        .landing-screen--palm_answers .palm-coverage li { grid-template-columns: 20px minmax(0, 1fr); gap: 8px; min-height: 32px; padding: 5px 9px; }
+        .landing-screen--palm_answers .palm-coverage li + li { border-top: 1px solid rgba(40, 121, 110, .13); border-left: 0; }
+        .landing-screen--palm_answers .palm-coverage li > span { font-size: clamp(10.75px, 3vw, 11.5px); }
+      }
+      @media (max-width: 340px) {
+        .topbar { grid-template-columns: 40px minmax(0, 1fr) auto 58px; gap: 4px; }
+        .topbar:not(.has-saved-reports) { grid-template-columns: 58px minmax(0, 1fr) 58px; }
+        .topbar .brand { gap: 6px; font-size: 19px; letter-spacing: .045em; }
+        .topbar .brand img { width: 24px; height: 24px; }
+        .topbar .fresh-button { width: 58px; padding-right: 5px; padding-left: 5px; font-size: 8.5px; }
+        .saved-reports-button { min-width: 74px; gap: 4px; padding-right: 5px; padding-left: 8px; font-size: 9px; }
+        .saved-reports-button__count { min-width: 19px; height: 19px; padding: 0 4px; font-size: 9px; }
+        body.is-landing .topbar.has-saved-reports { grid-template-columns: minmax(74px, 1fr) auto minmax(74px, 1fr); }
+      }
+      @media (max-width: 600px) and (max-height: 680px) {
+        .landing-screen--palm_answers .palm-landing-main { justify-content: flex-start; }
+        .landing-screen--palm_answers .kicker { margin-bottom: 5px; font-size: 9px; }
+        .landing-screen--palm_answers .palm-landing-scan { width: min(62vw, clamp(150px, 24dvh, 178px)); margin-bottom: 6px; }
+        .landing-screen--palm_answers .hero-title { margin-bottom: 5px; font-size: clamp(30px, 9vw, 34px); }
+        .landing-screen--palm_answers .hero-subtitle { margin-bottom: 6px; font-size: 11.5px; line-height: 1.32; }
+        .landing-screen--palm_answers .palm-coverage { padding: 6px; }
+        .landing-screen--palm_answers .palm-coverage__heading { margin-bottom: 5px; font-size: 9.5px; }
+        .landing-screen--palm_answers .palm-coverage ul { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .landing-screen--palm_answers .palm-coverage li { grid-template-columns: 17px minmax(0, 1fr); gap: 4px; min-height: 35px; padding: 4px; }
+        .landing-screen--palm_answers .palm-coverage li + li { border-top: 0; border-left: 1px solid rgba(40, 121, 110, .13); }
+        .landing-screen--palm_answers .palm-coverage li > i { width: 17px; height: 17px; font-size: 8.5px; }
+        .landing-screen--palm_answers .palm-coverage li > span { font-size: 8.75px; }
+        .landing-screen--palm_answers .palm-entry-actions { padding-top: 8px; }
+        .landing-screen--palm_answers .palm-entry-actions .primary-button, .landing-screen--palm_answers .palm-entry-actions .secondary-button { min-height: 46px; font-size: 12px; }
+      }
+      /* V3 keeps the customer's answers first while the calculation-heavy
+         kundli material remains available below as a technical appendix. */
+      .mahakundli-report--impact-v3 .mahakundli-report__life--impact-v3 { border-top: 3px solid rgba(156, 109, 45, .34); }
+      .mahakundli-report__status-badge { display: inline-flex; width: fit-content; max-width: 100%; border: 1px solid rgba(73, 52, 91, .14); border-radius: 999px; padding: 5px 9px; color: #63586a; font-size: 10px; font-weight: 800; line-height: 1.25; overflow-wrap: anywhere; background: #f3f0f3; }
+      .mahakundli-report__status-badge.status-supportive { border-color: rgba(75, 137, 112, .28); color: #2f6b55; background: #edf6f0; }
+      .mahakundli-report__status-badge.status-mixed { border-color: rgba(156, 109, 45, .28); color: #805b28; background: #fbf2df; }
+      .mahakundli-report__status-badge.status-needs-care { border-color: rgba(156, 89, 97, .26); color: #844750; background: #faedef; }
+      .mahakundli-report__life-body--impact-v3 section.is-wide { grid-column: 1 / -1; }
+      .mahakundli-report__life-body--impact-v3 .is-impact { background: #fffdf8; }
+      .mahakundli-report__life-body--impact-v3 .is-situations { background: #f8f4fb; }
+      .mahakundli-report__life-body--impact-v3 .is-current { background: #f7f1e5; }
+      .mahakundli-report__life-body--impact-v3 .is-past { background: #f7f4ef; }
+      .mahakundli-report__life-body--impact-v3 .is-next { background: #edf6f0; }
+      .mahakundli-report__life-body--impact-v3 ul { display: grid; gap: 7px; margin: 9px 0 0; padding-left: 18px; color: #5f5563; font-size: 14px; line-height: 1.5; }
+      .mahakundli-report__life-body--impact-v3 time { display: block; width: fit-content; max-width: 100%; margin-top: 8px; border-radius: 8px; padding: 5px 7px; color: #62491f; font-size: 12px; font-weight: 800; line-height: 1.35; overflow-wrap: anywhere; background: rgba(217, 183, 109, .18); }
+      .mahakundli-report__technical-divider { display: grid; gap: 4px; margin: 22px 0 8px; border: 1px solid rgba(73, 52, 91, .12); border-radius: 14px; padding: 14px 16px; color: #665c6a; background: #f3f0f3; }
+      .mahakundli-report__technical-divider small { color: #805b28; font-size: 10px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+      .mahakundli-report__technical-divider b { font-size: 13px; line-height: 1.45; }
+      @media (max-width: 600px) {
+        .mahakundli-report__life-body--impact-v3 section.is-wide { grid-column: auto; }
+        .mahakundli-report__status-badge { font-size: 9px; }
+      }
+    </style>
+    <link rel="stylesheet" href="/astroyogi/face-reading.v4.css?v=ab20ad2653c9c2379d8cf06d701d5c9b7bd37140b179e65ad1dd7762dffb19cf" />
+    
+    <script src="/astroyogi/app.v68.js?v=69cd6b39e0d8cafa2730e65604d99bb340a4af3c6b41cc8bfd57ea4d2bd505a5" defer fetchpriority="high"></script>
+  <script>window.__ASTRO_VELA_CONFIG__={"storefront":{"id":"india","version":"storefront_v1","global":false,"publicBaseUrl":"https://astro.tarotbyvela.com","locale":"en-IN","currency":"INR","defaultLane":"_default","allowedLanes":["mahakundli","best_city","partner_name","palm_answers","face_answers","name_numerology","market_profile"],"paymentProvider":"razorpay","taxMode":"india_gst","placeSearchScope":"india","reportCopyVersion":null,"capabilities":{"addOns":true,"crossSell":true,"productDirectory":true}},"pricing":{"key":"full","label":"Full personal report","amount":299,"compareAtAmount":499,"currency":"INR","displayPrice":"₹299","compareAtDisplayPrice":"₹499","offer":null,"tax":{"mode":"exclusive","gstRateBps":1800}},"lanePricing":{"mahakundli":{"key":"full","label":"Complete Mahakundli Report","amount":501,"compareAtAmount":2100,"currency":"INR","displayPrice":"₹501","compareAtDisplayPrice":"₹2,100","offer":null,"tax":{"mode":"exclusive","gstRateBps":1800}},"palm_answers":{"key":"full","label":"Full personal report","amount":299,"compareAtAmount":null,"currency":"INR","displayPrice":"₹299","compareAtDisplayPrice":null,"offer":null,"tax":{"mode":"exclusive","gstRateBps":1800}},"face_answers":{"key":"full","label":"Full personal report","amount":449,"compareAtAmount":null,"currency":"INR","displayPrice":"₹449","compareAtDisplayPrice":null,"offer":null,"tax":{"mode":"exclusive","gstRateBps":1800}},"face_personality":{"key":"full","label":"Full personal report","amount":299,"compareAtAmount":null,"currency":"INR","displayPrice":"₹299","compareAtDisplayPrice":null,"offer":null,"tax":{"mode":"exclusive","gstRateBps":1800}},"best_city":{"key":"full","label":"Full personal report","amount":299,"compareAtAmount":499,"currency":"INR","displayPrice":"₹299","compareAtDisplayPrice":"₹499","offer":null,"tax":{"mode":"exclusive","gstRateBps":1800}},"partner_name":{"key":"full","label":"Full personal report","amount":299,"compareAtAmount":499,"currency":"INR","displayPrice":"₹299","compareAtDisplayPrice":"₹499","offer":null,"tax":{"mode":"exclusive","gstRateBps":1800}},"name_numerology":{"key":"full","label":"Full personal report","amount":299,"compareAtAmount":11000,"currency":"INR","displayPrice":"₹299","compareAtDisplayPrice":"₹11,000","offer":null,"tax":{"mode":"exclusive","gstRateBps":1800}},"market_profile":{"key":"full","label":"Full personal report","amount":299,"compareAtAmount":499,"currency":"INR","displayPrice":"₹299","compareAtDisplayPrice":"₹499","offer":null,"tax":{"mode":"exclusive","gstRateBps":1800}}},"addOns":{"palm_name_alignment":{"amount":150,"offerBaseAmount":351,"experimentVersion":"v13","compareAtAmount":500,"currency":"INR"}},"trust":{"deliveredMilestone":15000},"assets":{"palmScan":"/assets/palm-scan.webp?v=35d936999013d524b9bb0e857e20c7131f589395a508ac4a05cb64e1f318c74e","faceScanDemo":"/assets/face-scan-animated.webp?v=570c8b00cbc8dcdbd368ed5cf8d10edc519feec4348ddc0fded735f0f60e91a7","faceScanGif":"/assets/face-scan-social.gif?v=c7793124bdd6b0a08c73b1b1c8d79c3e54df5d195cc7812375644983663b977c","faceScanStill":"/assets/face-scan-demo.webp?v=2e4968a89e66440a933aa1c72baaf64d618debe32bbc30766d9f0f2589d279b2","mahakundliSocial":"/assets/mahakundli-social-v1.png?v=0f7617fcb488568ecd93831be69cebae77efb7e139be8404770df51f3d21aabb"},"experiments":{"palmProofDensity":{"version":"v1","allocationConfigVersion":"palm_conversion_experiment_config_v1","allocationEpoch":"palm_proof_density_v1_off_2026_08_13","treatmentPercent":0},"palmGatewayRecovery":{"version":"v1","allocationConfigVersion":"palm_conversion_experiment_config_v1","allocationEpoch":"palm_gateway_recovery_v1_off_2026_08_13","treatmentPercent":0},"marketLanding":{"version":"v1","treatmentPercent":0},"mahakundliPrice":{"version":"mahakundli_price_v3","treatmentPercent":0,"rolloutPercent":100,"arm":"price_501"}},"publicBaseUrl":"https://astro.tarotbyvela.com","payments":{"cashfreeFallback":true,"payglocal":{"enabled":false,"environment":"production","contractProfile":"account-v1.8.6-jwe","hostedCheckout":null}}};</script>
+  </head>
+  <body>
+    <div class="ambient" aria-hidden="true"></div>
+    <div class="app" id="app">
+      <header class="topbar" id="topbar">
+        <button class="back-button" id="backButton" type="button" aria-label="Go back">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+        </button>
+        <a class="brand" id="homeLink" href="/" aria-label="Astro Vela home">
+          <img src="/astroyogi/assets/logomark.svg" alt="" width="30" height="30" />
+          <span>Astro Vela</span>
+        </a>
+        <button class="saved-reports-button" id="savedReportsButton" type="button" aria-label="Open my saved reports" hidden><span class="saved-reports-button__label">My reports</span><span class="saved-reports-button__count" id="savedReportsCount" aria-hidden="true" hidden></span></button>
+        <button class="fresh-button" id="freshButton" type="button" aria-label="Start a new reading for someone else">Start fresh</button>
+      </header>
+      <div class="progress" id="progress" aria-hidden="true"><i id="progressBar"></i></div>
+      <main class="stage" id="stage" aria-live="polite" aria-atomic="true"></main>
+      <footer class="site-legal-links" aria-label="Company and legal information">
+        <a href="/about-us">About us</a>
+        <span aria-hidden="true">·</span>
+        <a href="/contact-us">Contact us</a>
+        <span aria-hidden="true">·</span>
+        <a href="/terms-and-conditions">Terms &amp; conditions</a>
+        <span aria-hidden="true">·</span>
+        <a href="/refund-policy">Refund &amp; cancellation</a>
+        <span aria-hidden="true">·</span>
+        <a href="/shipping-policy">Delivery</a>
+        <span aria-hidden="true">·</span>
+        <a href="/privacy-policy">Privacy policy</a>
+      </footer>
+    </div>
+    <dialog class="fresh-dialog" id="freshDialog" aria-labelledby="freshDialogTitle" aria-describedby="freshDialogCopy">
+      <div class="fresh-dialog__icon" aria-hidden="true">↻</div>
+      <h2 id="freshDialogTitle">Start a new reading?</h2>
+      <p id="freshDialogCopy">This will clear the current answers.</p>
+      <div class="fresh-dialog__actions">
+        <button class="text-button" id="freshCancel" type="button">Keep this reading</button>
+        <button class="primary-button" id="freshConfirm" type="button">Start fresh</button>
+      </div>
+    </dialog>
+    <dialog class="saved-readings-dialog" id="savedReadingsDialog" aria-labelledby="savedReadingsTitle">
+      <div class="saved-readings-dialog__shell">
+        <header class="saved-readings-dialog__head">
+          <div>
+            <small>Your saved reports</small>
+            <h2 id="savedReadingsTitle">Continue a previous reading</h2>
+          </div>
+          <button class="saved-readings-dialog__close" id="savedReadingsClose" type="button" aria-label="Close saved reports">×</button>
+        </header>
+        <div class="saved-readings-dialog__content" id="savedReadingsContent"></div>
+      </div>
+    </dialog>
+    <dialog class="palm-camera-dialog" id="palmCameraDialog" aria-labelledby="palmCameraTitle" aria-describedby="palmCameraPrivacy">
+      <div class="palm-camera-shell">
+        <header class="palm-camera-head">
+          <div>
+            <small>Guided left-palm photo</small>
+            <h2 id="palmCameraTitle">Fit your palm inside the outline</h2>
+          </div>
+          <button class="palm-camera-close" id="palmCameraClose" type="button" aria-label="Close camera">×</button>
+        </header>
+        <div class="palm-camera-stage" id="palmCameraStage">
+          <video id="palmCameraVideo" autoplay muted playsinline aria-label="Live camera preview"></video>
+          <img id="palmCameraStill" alt="Your captured left palm" hidden />
+          <svg class="palm-camera-guide" viewBox="0 0 300 400" aria-hidden="true">
+            <path class="palm-camera-guide__outline" d="M111 352C85 338 70 310 66 279L51 181C49 166 56 155 67 154C78 153 84 163 87 176L96 219L84 108C82 91 91 80 104 80C117 80 121 92 122 108L126 196L128 68C128 50 138 40 151 41C164 42 168 55 167 70L165 196L175 85C177 69 187 60 199 62C211 64 214 77 212 91L204 207L218 133C221 118 232 111 243 115C254 119 255 132 251 146L232 251C225 294 212 325 188 347C169 363 132 363 111 352Z" />
+          </svg>
+          <div class="palm-camera-badge">LEFT PALM · LINES FACING CAMERA</div>
+          <div class="palm-camera-status" id="palmCameraStatus" role="status" aria-live="polite">The camera opens only after you allow access.</div>
+        </div>
+        <div class="palm-camera-tips" aria-label="Photo tips">
+          <span><i>1</i>All five fingers inside</span>
+          <span><i>2</i>Bright, even light</span>
+          <span><i>3</i>Hold still and straight</span>
+        </div>
+        <div class="palm-camera-message" id="palmCameraMessage" aria-live="polite"></div>
+        <div class="palm-camera-controls" id="palmCameraControls">
+          <button class="secondary-button" id="palmCameraSwitch" type="button" hidden>Switch camera</button>
+          <button class="primary-button" id="palmCameraCapture" type="button" disabled>Take palm photo</button>
+          <button class="text-button" id="palmCameraFallback" type="button">Choose an existing photo</button>
+        </div>
+        <div class="palm-camera-review" id="palmCameraReview" hidden>
+          <button class="secondary-button" id="palmCameraRetake" type="button">Retake</button>
+          <button class="primary-button" id="palmCameraUse" type="button">Use this photo</button>
+        </div>
+        <input class="file-input" id="palmCameraFallbackInput" type="file" accept="image/*" aria-hidden="true" tabindex="-1" hidden />
+        <canvas id="palmCameraCanvas" hidden></canvas>
+        <p class="palm-camera-privacy" id="palmCameraPrivacy">The live camera view stays on your device. Only the photo you choose is sent securely for line detection.</p>
+      </div>
+    </dialog>
+    <dialog class="face-camera-dialog" id="faceCameraDialog" aria-labelledby="faceCameraTitle" aria-describedby="faceCameraPrivacy">
+      <div class="face-camera__shell">
+        <header class="face-camera__head">
+          <div>
+            <small>Private first-impression scan</small>
+            <h2 id="faceCameraTitle">Centre your face. See what people notice first.</h2>
+          </div>
+          <button class="face-camera__close" id="faceCameraClose" type="button" aria-label="Close camera">×</button>
+        </header>
+        <div class="face-camera__stage" id="faceCameraStage">
+          <video id="faceCameraVideo" autoplay muted playsinline aria-label="Live camera preview"></video>
+          <img id="faceCameraStill" alt="Your captured face photo" hidden />
+          <div class="face-camera__shade" aria-hidden="true"></div>
+          <div class="face-camera__oval" aria-hidden="true"></div>
+          <div class="face-camera__quality" aria-hidden="true">
+            <span class="face-quality-chip">One face only</span>
+            <span class="face-quality-chip">70–80% of frame</span>
+            <span class="face-quality-chip">Even light</span>
+          </div>
+          <div class="face-camera__status" id="faceCameraStatus" role="status" aria-live="polite">The camera opens only after you allow access.</div>
+        </div>
+        <div class="face-camera__tips" aria-label="Photo tips">
+          <span><i>1</i>Look straight ahead</span>
+          <span><i>2</i>Fill most of the frame</span>
+          <span><i>3</i>Keep hair and chin visible</span>
+        </div>
+        <div class="face-camera__message" id="faceCameraMessage" aria-live="polite"></div>
+        <div class="face-camera__controls" id="faceCameraControls">
+          <button class="face-camera__secondary" id="faceCameraSwitch" type="button" hidden>Switch camera</button>
+          <button class="face-camera__capture" id="faceCameraCapture" type="button" disabled>Capture my face</button>
+          <button class="face-camera__secondary" id="faceCameraFallback" type="button">Upload a clear photo</button>
+        </div>
+        <div class="face-camera__review" id="faceCameraReview" hidden>
+          <button class="face-camera__secondary" id="faceCameraRetake" type="button">Retake photo</button>
+          <button class="face-camera__capture" id="faceCameraUse" type="button">Scan this photo</button>
+        </div>
+        <input class="file-input" id="faceCameraFallbackInput" type="file" accept="image/*" aria-hidden="true" tabindex="-1" hidden />
+        <canvas id="faceCameraCanvas" hidden></canvas>
+        <p class="face-camera__privacy" id="faceCameraPrivacy">Private by design: the face scan runs on this device. Your photo is never uploaded or stored.</p>
+      </div>
+    </dialog>
+  
+</body>
+</html>

@@ -1,0 +1,8 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Astro Vela mark">
+  
+  <path d="M44.5 12.5a23 23 0 1 0 0 39 18.5 18.5 0 0 1 0-39Z" fill="none" stroke="#C2A35E" stroke-width="2.4" stroke-linejoin="round"></path>
+  
+  <path d="M40 23.5c.7 4.2 1.9 5.4 6.1 6.1-4.2.7-5.4 1.9-6.1 6.1-.7-4.2-1.9-5.4-6.1-6.1 4.2-.7 5.4-1.9 6.1-6.1Z" fill="#D8BE84"></path>
+  
+  <circle cx="31.5" cy="40.5" r="1.6" fill="#C2A35E"></circle>
+</svg>
