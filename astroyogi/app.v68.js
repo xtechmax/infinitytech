@@ -1122,9 +1122,9 @@ const LANES = {
   palm_answers: {
     label: 'Palm Reading',
     icon: '✋',
-    kicker: 'Authentic Vedic Palmistry Analysis',
-    headline: 'When does your golden life phase begin?',
-    subline: 'An authentic Vedic palm analysis highlighting your upcoming shifts in career, wealth, relationships, and wellbeing.',
+    kicker: 'Your personal Palm life reading',
+    headline: 'When does your strongest life phase begin?',
+    subline: 'A free Palm scan highlights your next shift in love, family, career and wellbeing.',
     promises: ['Love & marriage', 'Career & wealth', 'Family & wellbeing'],
     landingCta: 'Scan my palm',
     landingPrice: 'Start free · Complete Palm Life Timeline',
@@ -6125,41 +6125,7 @@ function cleanPalmOutlineSvg() {
 }
 
 function palmHeroArt() {
-  return `<div class="palm-svg-scanner-card" aria-hidden="true">
-    <div class="palm-svg-scanner-card__frame"></div>
-    <div class="palm-svg-corner palm-svg-corner--tl"></div>
-    <div class="palm-svg-corner palm-svg-corner--tr"></div>
-    <div class="palm-svg-corner palm-svg-corner--bl"></div>
-    <div class="palm-svg-corner palm-svg-corner--br"></div>
-
-    <!-- Glowing Laser Sweep Line -->
-    <div class="palm-svg-scanner-card__laser"></div>
-
-    <!-- Vedic Floating Badges -->
-    <div class="palm-svg-chip palm-svg-chip--children">👶 Children</div>
-    <div class="palm-svg-chip palm-svg-chip--career">💼 Career</div>
-    <div class="palm-svg-chip palm-svg-chip--marriage">💍 Marriage</div>
-    <div class="palm-svg-chip palm-svg-chip--shift">⚡ Big Change</div>
-    <div class="palm-svg-chip palm-svg-chip--wealth">💰 Money</div>
-
-    <!-- Custom SVG Palm Linework -->
-    <svg class="palm-svg-scanner-card__hand" viewBox="45 35 215 335" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Outer Palm Contour -->
-      <path d="M111 352C85 338 70 310 66 279L51 181C49 166 56 155 67 154C78 153 84 163 87 176L96 219L84 108C82 91 91 80 104 80C117 80 121 92 122 108L126 196L128 68C128 50 138 40 151 41C164 42 168 55 167 70L165 196L175 85C177 69 187 60 199 62C211 64 214 77 212 91L204 207L218 133C221 118 232 111 243 115C254 119 255 132 251 146L232 251C225 294 212 325 188 347C169 363 132 363 111 352Z" stroke="#C2A35E" stroke-width="2.2" stroke-linejoin="round" fill="rgba(194, 163, 94, 0.05)" />
-      <!-- Jeevan Rekha / Life Line -->
-      <path d="M112 170 C100 210, 105 270, 145 315" stroke="#5eead4" stroke-width="2" stroke-linecap="round" opacity="0.85"/>
-      <!-- Mastishka Rekha / Head Line -->
-      <path d="M112 170 C140 185, 175 220, 205 235" stroke="#d4af37" stroke-width="2" stroke-linecap="round" opacity="0.85"/>
-      <!-- Hridaya Rekha / Heart Line -->
-      <path d="M102 135 C145 140, 185 160, 218 185" stroke="#f43f5e" stroke-width="2" stroke-linecap="round" opacity="0.75"/>
-      <!-- Bhagya Rekha / Fate Line -->
-      <path d="M152 325 C152 260, 150 190, 148 130" stroke="#fbbf24" stroke-width="1.8" stroke-dasharray="3 2" opacity="0.8"/>
-      <!-- Wrist Bracelets (Manibandha) -->
-      <path d="M105 355 C125 365, 165 365, 185 355" stroke="#C2A35E" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
-      <path d="M108 362 C125 372, 165 372, 182 362" stroke="#C2A35E" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/>
-    </svg>
-  </div>`;
-}" alt="" width="440" height="311" loading="eager" decoding="async" fetchpriority="high" /></div>`;
+  return `<div class="palm-scan-viewport palm-landing-scan" aria-hidden="true"><img class="palm-scan-gif" src="${escapeHtml(PALM_SCAN_ASSET_URL)}" alt="" width="440" height="311" loading="eager" decoding="async" fetchpriority="high" /></div>`;
 }
 
 const PALM_COVERAGE_AREAS = Object.freeze(IS_GLOBAL_STOREFRONT
@@ -6777,8 +6743,8 @@ function renderLanding() {
       <div class="home-hero">
         <span class="home-hero__ornament" aria-hidden="true">${homeStarOrnament()}</span>
         <div class="kicker center">Authentic Vedic Astrology & Insights · Est. 1998</div>
-        <h1 class="hero-title home-hero-title">Vedic Astrology &amp; <em>Personal Destiny Insights.</em></h1>
-        <p class="hero-subtitle">Discover the hidden roadmap of your life timeline through authentic Vedic wisdom, palmistry, and planetary calculations.</p>
+        <h1 class="hero-title home-hero-title">Personalized Insights <em>prepared for your path alone.</em></h1>
+        <p class="hero-subtitle">Explore your path with Vedic clarity. Uncover the hidden patterns in your palm, face, and planetary alignment.</p>
       </div>
       <div class="home-primary-label">Choose your reading</div>
       <div class="home-mahakundli-questions">
