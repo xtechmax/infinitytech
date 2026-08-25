@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal — Infinity Tech / Vastu Orders</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-950 text-gray-100 min-h-screen">
+
+    <!-- LOGIN SCREEN -->
+    <div id="loginScreen" class="min-h-screen flex items-center justify-center px-4">
+        <div class="w-full max-w-md bg-gray-900 border border-gray-800 rounded-3xl p-8 shadow-2xl space-y-6">
+            <div class="text-center space-y-2">
+                <div class="w-14 h-14 mx-auto rounded-2xl bg-blue-600/20 border border-blue-500/30 grid place-items-center text-2xl">
+                    🔐
+                </div>
+                <h1 class="text-2xl font-black tracking-tight text-white">Vastu Admin Portal</h1>
+                <p class="text-xs text-gray-400">Sign in to view live deliveries and orders</p>
+            </div>
+
+            <form id="loginForm" class="space-y-4" onsubmit="handleLogin(event)">
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 mb-1 uppercase tracking-wider">Email Address</label>
+                    <input type="email" id="loginEmail" required placeholder="zulak.ns@gmail.com" 
+                        class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-blue-500 transition">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 mb-1 uppercase tracking-wider">Password</label>
+                    <input type="password" id="loginPassword" required placeholder="••••••••••••" 
+                        class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-blue-500 transition">
+                </div>
+
+                <div id="loginError" class="hidden bg-rose-500/10 border border-rose-500/30 rounded-xl p-3 text-xs text-rose-400 text-center font-semibold">
+                    Invalid email or password.
+                </div>
+
+                <button type="submit" id="loginBtn"
+                    class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:opacity-90 text-white font-bold py-3.5 rounded-xl text-sm transition shadow-lg shadow-blue-500/20">
+                    Sign In
+                </button>
+            </form>
+            <p class="text-[11px] text-gray-500 text-center">Session will stay logged in on this browser until manually logged out.</p>
+        </div>
+    </div>
+
+    <!-- DASHBOARD SCREEN -->
+    <div id="dashboardScreen" class="hidden min-h-screen p-4 sm:p-8 space-y-8 max-w-7xl mx-auto">
+        
+        <!-- Top Navbar -->
+        <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-gray-900 border border-gray-800 rounded-2xl p-5 shadow-lg">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-blue-600/20 border border-blue-500/30 grid place-items-center text-lg">
+                    🏡
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-white leading-tight">Vastu Order & Delivery Manager</h1>
+                    <p id="adminUserTag" class="text-xs text-gray-400">Logged in as zulak.ns@gmail.com</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 self-end sm:self-center">
+                <button onclick="fetchDeliveries()" 
+                    class="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-xs font-semibold px-4 py-2.5 rounded-xl border border-gray-700 transition">
+                    <span>🔄</span> Refresh
+                </button>
+                <button onclick="handleLogout()" 
+                    class="flex items-center gap-2 bg-rose-600/10 hover:bg-rose-600/20 text-rose-400 text-xs font-bold px-4 py-2.5 rounded-xl border border-rose-500/30 transition">
+                    <span>🚪</span> Logout
+                </button>
+            </div>
+        </header>
+
+        <!-- Stats Overview -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 shadow-lg">
+                <div class="flex justify-between items-center text-gray-400 text-xs uppercase font-bold tracking-wider mb-2">
+                    <span>Delivered Orders</span>
+                    <span class="text-blue-400">📦</span>
+                </div>
+                <p id="totalDeliveriesStat" class="text-3xl font-black text-white">—</p>
+                <p class="text-[11px] text-gray-500 mt-1">Sent via automated Resend delivery</p>
+            </div>
+
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 shadow-lg">
+                <div class="flex justify-between items-center text-gray-400 text-xs uppercase font-bold tracking-wider mb-2">
+                    <span>System Health</span>
+                    <span class="text-emerald-400">⚡</span>
+                </div>
+                <div class="flex items-center gap-2 text-xl font-bold text-emerald-400">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                    <span>Active & Syncing</span>
+                </div>
+                <p class="text-[11px] text-gray-500 mt-1">Cashfree PG + Resend Webhooks live</p>
+            </div>
+
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 shadow-lg">
+                <div class="flex justify-between items-center text-gray-400 text-xs uppercase font-bold tracking-wider mb-2">
+                    <span>Store Status</span>
+                    <span class="text-indigo-400">🌐</span>
+                </div>
+                <a href="/vastu" target="_blank" class="text-sm font-bold text-indigo-400 hover:underline flex items-center gap-1">
+                    infinitytech-six.vercel.app/vastu &rarr;
+                </a>
+                <p class="text-[11px] text-gray-500 mt-1">Base Price: ₹199 | Auto Deliveries Active</p>
+            </div>
+        </div>
+
+        <!-- Order Lookup Section -->
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 shadow-lg space-y-4">
+            <div>
+                <h2 class="text-sm font-bold text-white uppercase tracking-wider">🔎 Cashfree Order Inspector</h2>
+                <p class="text-xs text-gray-400">Enter a Cashfree Order ID (e.g. order_1787...) to inspect payment status & customer details</p>
+            </div>
+            <form onsubmit="handleOrderLookup(event)" class="flex flex-col sm:flex-row gap-3">
+                <input type="text" id="lookupOrderId" required placeholder="Enter Cashfree Order ID (e.g. order_1740465227000)"
+                    class="flex-1 bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-xs text-white outline-none focus:border-blue-500 transition">
+                <button type="submit" id="lookupBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition">
+                    Inspect Order
+                </button>
+            </form>
+            <div id="lookupResult" class="hidden bg-gray-950 border border-gray-800 rounded-xl p-4 text-xs font-mono overflow-x-auto"></div>
+        </div>
+
+        <!-- Deliveries Table -->
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl shadow-lg overflow-hidden space-y-4">
+            <div class="p-5 border-b border-gray-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                <div>
+                    <h2 class="text-base font-bold text-white">Live Email Delivery & Purchase Logs</h2>
+                    <p class="text-xs text-gray-400">Automatic PDF dispatches triggered by verified customer payments</p>
+                </div>
+                <input type="text" id="searchTableInput" oninput="filterDeliveries()" placeholder="Filter by email..." 
+                    class="bg-gray-800 border border-gray-700 rounded-xl px-3 py-1.5 text-xs text-white outline-none focus:border-blue-500 transition sm:w-64">
+            </div>
+
+            <!-- Loader -->
+            <div id="tableLoading" class="py-16 text-center text-gray-400 text-xs animate-pulse">
+                ⏳ Loading delivery records from Resend...
+            </div>
+
+            <!-- Empty -->
+            <div id="tableEmpty" class="hidden py-16 text-center text-gray-500 text-xs">
+                No delivery logs found.
+            </div>
+
+            <!-- Table -->
+            <div id="tableContainer" class="hidden overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                    <thead>
+                        <tr class="bg-gray-800/60 text-gray-400 uppercase tracking-wider text-[10px]">
+                            <th class="px-5 py-3.5 font-bold">#</th>
+                            <th class="px-5 py-3.5 font-bold">Customer Email</th>
+                            <th class="px-5 py-3.5 font-bold">Subject / Product</th>
+                            <th class="px-5 py-3.5 font-bold">Status</th>
+                            <th class="px-5 py-3.5 font-bold">Date (IST)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="deliveriesTableBody" class="divide-y divide-gray-800">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const AUTH_STORAGE_KEY = 'vastu_admin_session';
+        let allDeliveries = [];
+
+        // Check if already logged in on initial load
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedSession = localStorage.getItem(AUTH_STORAGE_KEY);
+            if (savedSession) {
+                try {
+                    const sessionData = JSON.parse(savedSession);
+                    if (sessionData && sessionData.token) {
+                        showDashboard(sessionData);
+                        fetchDeliveries();
+                        return;
+                    }
+                } catch(e) {}
+            }
+            showLogin();
+        });
+
+        function showLogin() {
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('dashboardScreen').classList.add('hidden');
+        }
+
+        function showDashboard(session) {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('dashboardScreen').classList.remove('hidden');
+            if (session?.user?.email) {
+                document.getElementById('adminUserTag').textContent = `Logged in as ${session.user.email}`;
+            }
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            const btn = document.getElementById('loginBtn');
+            const errEl = document.getElementById('loginError');
+
+            errEl.classList.add('hidden');
+            btn.disabled = true;
+            btn.textContent = 'Authenticating...';
+
+            try {
+                const res = await fetch('/api/admin-orders', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'login', email, password })
+                });
+
+                const data = await res.json();
+                if (!res.ok || !data.success) {
+                    throw new Error(data.error || 'Authentication failed');
+                }
+
+                // Save session in localStorage so it stays logged in permanently
+                localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(data));
+                showDashboard(data);
+                fetchDeliveries();
+
+            } catch (err) {
+                errEl.textContent = err.message;
+                errEl.classList.remove('hidden');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Sign In';
+            }
+        }
+
+        function handleLogout() {
+            if (confirm('Are you sure you want to log out?')) {
+                localStorage.removeItem(AUTH_STORAGE_KEY);
+                location.reload();
+            }
+        }
+
+        function getAuthToken() {
+            try {
+                const raw = localStorage.getItem(AUTH_STORAGE_KEY);
+                if (raw) {
+                    const data = JSON.parse(raw);
+                    return data.token || '';
+                }
+            } catch(e) {}
+            return '';
+        }
+
+        async function fetchDeliveries() {
+            const token = getAuthToken();
+            const loading = document.getElementById('tableLoading');
+            const empty = document.getElementById('tableEmpty');
+            const container = document.getElementById('tableContainer');
+
+            loading.classList.remove('hidden');
+            empty.classList.add('hidden');
+            container.classList.add('hidden');
+
+            try {
+                const res = await fetch('/api/admin-orders', {
+                    headers: { 'x-admin-token': token }
+                });
+
+                if (res.status === 401) {
+                    localStorage.removeItem(AUTH_STORAGE_KEY);
+                    showLogin();
+                    return;
+                }
+
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Failed to fetch');
+
+                allDeliveries = data.orders || [];
+                document.getElementById('totalDeliveriesStat').textContent = data.total_deliveries || allDeliveries.length;
+
+                renderDeliveriesTable(allDeliveries);
+
+            } catch(err) {
+                loading.classList.add('hidden');
+                empty.textContent = '⚠️ Error loading records: ' + err.message;
+                empty.classList.remove('hidden');
+            }
+        }
+
+        function renderDeliveriesTable(list) {
+            const loading = document.getElementById('tableLoading');
+            const empty = document.getElementById('tableEmpty');
+            const container = document.getElementById('tableContainer');
+            const tbody = document.getElementById('deliveriesTableBody');
+
+            loading.classList.add('hidden');
+
+            if (!list || list.length === 0) {
+                empty.classList.remove('hidden');
+                container.classList.add('hidden');
+                return;
+            }
+
+            empty.classList.add('hidden');
+            container.classList.remove('hidden');
+            tbody.innerHTML = '';
+
+            list.forEach((order, idx) => {
+                const dateStr = order.created_at 
+                    ? new Date(order.created_at).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }) 
+                    : '—';
+
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-gray-800/40 transition';
+                tr.innerHTML = `
+                    <td class="px-5 py-3.5 text-gray-500 font-mono">${idx + 1}</td>
+                    <td class="px-5 py-3.5 font-semibold text-white">${order.to}</td>
+                    <td class="px-5 py-3.5 text-gray-300 max-w-xs truncate" title="${order.subject}">${order.subject}</td>
+                    <td class="px-5 py-3.5">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                            ${order.status}
+                        </span>
+                    </td>
+                    <td class="px-5 py-3.5 text-gray-400 text-[11px]">${dateStr}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filterDeliveries() {
+            const query = document.getElementById('searchTableInput').value.toLowerCase();
+            const filtered = allDeliveries.filter(d => d.to.toLowerCase().includes(query) || (d.subject && d.subject.toLowerCase().includes(query)));
+            renderDeliveriesTable(filtered);
+        }
+
+        async function handleOrderLookup(e) {
+            e.preventDefault();
+            const orderId = document.getElementById('lookupOrderId').value.trim();
+            const btn = document.getElementById('lookupBtn');
+            const resEl = document.getElementById('lookupResult');
+            const token = getAuthToken();
+
+            btn.disabled = true;
+            btn.textContent = 'Inspecting...';
+            resEl.classList.remove('hidden');
+            resEl.innerHTML = '<span class="text-gray-400">Querying Cashfree API...</span>';
+
+            try {
+                const res = await fetch('/api/admin-orders', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'x-admin-token': token 
+                    },
+                    body: JSON.stringify({ action: 'lookup', order_id: orderId })
+                });
+
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Failed to lookup order');
+
+                resEl.innerHTML = `
+                    <div class="space-y-2">
+                        <div class="flex justify-between border-b border-gray-800 pb-2">
+                            <span class="text-blue-400 font-bold">Order ID: ${data.order.order_id}</span>
+                            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold">${data.order.order_status}</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-gray-300">
+                            <div>Amount: <b class="text-white">₹${data.order.order_amount}</b></div>
+                            <div>Currency: <b class="text-white">${data.order.order_currency}</b></div>
+                            <div>Customer Email: <b class="text-white">${data.order.customer_details?.customer_email || '—'}</b></div>
+                            <div>Customer Phone: <b class="text-white">${data.order.customer_details?.customer_phone || '—'}</b></div>
+                        </div>
+                    </div>
+                `;
+            } catch(err) {
+                resEl.innerHTML = `<span class="text-rose-400 font-bold">Error: ${err.message}</span>`;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Inspect Order';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -8,6 +8,14 @@
   ],
   "rewrites": [
     {
+      "source": "/vastu/admin",
+      "destination": "/vastu/admin/index.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/vastu/admin/index.html"
+    },
+    {
       "source": "/vastu",
       "destination": "/vastu/index.html"
     },
