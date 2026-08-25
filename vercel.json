@@ -9,16 +9,12 @@
   ],
   "rewrites": [
     {
-      "source": "/astroyogi/assets/(.*)",
-      "destination": "/astroyogi/assets/$1"
-    },
-    {
-      "source": "/astroyogi/(.*\\.(?:css|js|svg|png|jpg|jpeg|webp|ico|json))",
-      "destination": "/astroyogi/$1"
-    },
-    {
       "source": "/astroyogi",
       "destination": "/astroyogi/index.html"
+    },
+    {
+      "source": "/astroyogi/assets/(.*)",
+      "destination": "/astroyogi/assets/$1"
     },
     {
       "source": "/astroyogi/face-reading",

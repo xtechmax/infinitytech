@@ -21,37 +21,37 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
-    <title>Complete Mahakundli: Every Major Life Area, Clearly Explained | Astroyogi</title>
+    <title>Complete Mahakundli: Every Major Life Area, Clearly Explained | Astro Vela</title>
     <meta name="description" content="See which dasha is running in your kundli right now, what it means for marriage, money, career and 14 more areas, and the exact date it changes. Free to start, full report ₹590." />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Astroyogi" />
-    <meta property="og:title" content="Complete Mahakundli: Every Major Life Area, Clearly Explained | Astroyogi" />
+    <meta property="og:site_name" content="Astro Vela" />
+    <meta property="og:title" content="Complete Mahakundli: Every Major Life Area, Clearly Explained | Astro Vela" />
     <meta property="og:description" content="See which dasha is running in your kundli right now, what it means for marriage, money, career and 14 more areas, and the exact date it changes. Free to start, full report ₹590." />
     <meta property="og:url" content="https://astro.tarotbyvela.com/mahakundli" />
     <meta property="og:image" content="/astroyogi/assets/mahakundli-social-v1.png?v=0f7617fcb488568ecd93831be69cebae77efb7e139be8404770df51f3d21aabb" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@astrovela18" />
-    <meta name="twitter:title" content="Complete Mahakundli: Every Major Life Area, Clearly Explained | Astroyogi" />
+    <meta name="twitter:title" content="Complete Mahakundli: Every Major Life Area, Clearly Explained | Astro Vela" />
     <meta name="twitter:description" content="See which dasha is running in your kundli right now, what it means for marriage, money, career and 14 more areas, and the exact date it changes. Free to start, full report ₹590." />
     <meta name="twitter:image" content="/astroyogi/assets/mahakundli-social-v1.png?v=0f7617fcb488568ecd93831be69cebae77efb7e139be8404770df51f3d21aabb" />
     <script>
       // CHARITY_GRANT_HANDOFF_START
       (() => {
         const params = new URLSearchParams(location.search);
-        const scanId = String(params.get('scanId') || '').trim();
+        const readingId = String(params.get('readingId') || '').trim();
         const fragment = String(location.hash || '');
         const match = /^#charity_grant=([a-f0-9]{32})$/.exec(fragment);
         if (
           match
           && params.get('access') === 'charity'
-          && /^rdg_cg_[a-f0-9]{24}$/.test(scanId)
+          && /^rdg_cg_[a-f0-9]{24}$/.test(readingId)
         ) {
           try {
-            sessionStorage.setItem(`astro_vela_charity_grant_v1:${scanId}`, match[1]);
+            sessionStorage.setItem(`astro_vela_charity_grant_v1:${readingId}`, match[1]);
           } catch (_) {}
           try {
             Object.defineProperty(globalThis, '__ASTRO_VELA_CHARITY_GRANT_HANDOFF__', {
-              value: Object.freeze({ scanId, token: match[1] }),
+              value: Object.freeze({ readingId, token: match[1] }),
               configurable: true
             });
           } catch (_) {}
@@ -177,22 +177,22 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
       .saved-reports-button[hidden] { display: none; }
       .saved-reports-button__count { display: grid; place-items: center; min-width: 20px; height: 20px; border-radius: 999px; padding: 0 5px; color: #fff; font-size: 10px; font-variant-numeric: tabular-nums; line-height: 1; background: linear-gradient(145deg, #3e9988, #236b60); box-shadow: 0 5px 12px -7px rgba(22, 76, 67, .95); }
       .saved-reports-button__count[hidden] { display: none; }
-      .saved-reports-button:focus-visible, .saved-scans-dialog__close:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+      .saved-reports-button:focus-visible, .saved-readings-dialog__close:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
       body.is-landing .topbar.has-saved-reports { grid-template-columns: minmax(86px, 1fr) auto minmax(86px, 1fr); }
       body.is-landing .topbar.has-saved-reports .back-button, body.is-landing .topbar.has-saved-reports .fresh-button { display: none; }
       body.is-landing .topbar.has-saved-reports .brand { grid-column: 2; gap: clamp(6px, 1.8vw, 8px); font-size: clamp(22px, 6.3vw, 24px); letter-spacing: .065em; }
       body.is-landing .topbar.has-saved-reports .brand img { width: clamp(30px, 8.7vw, 32px); height: clamp(30px, 8.7vw, 32px); }
       body.is-landing .topbar.has-saved-reports .saved-reports-button { grid-column: 3; }
-      .saved-scans-dialog { width: min(calc(100% - 34px), 410px); margin: auto; border: 1px solid rgba(40, 121, 110, .27); border-radius: 24px; padding: 0; color: var(--ink); background: var(--paper-light); box-shadow: 0 30px 80px -38px rgba(31, 85, 75, .55); }
-      .saved-scans-dialog::backdrop { background: rgba(38, 52, 43, .36); backdrop-filter: blur(4px); }
-      .saved-scans-dialog__shell { padding: 20px 18px 16px; }
-      .saved-scans-dialog__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
-      .saved-scans-dialog__head small { color: var(--green); font-size: 8.5px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
-      .saved-scans-dialog__head h2 { margin-top: 3px; font-family: "Cormorant Garamond", Georgia, serif; font-size: 27px; font-weight: 600; line-height: 1.05; }
-      .saved-scans-dialog__close { flex: 0 0 auto; width: 34px; height: 34px; border: 1px solid rgba(40, 121, 110, .22); border-radius: 50%; color: var(--green); font-size: 23px; line-height: 1; background: rgba(236, 247, 241, .68); cursor: pointer; }
-      .saved-scans-list { display: grid; gap: 7px; }
-      .saved-scans-list .previous-scan-row { border: 1px solid rgba(40, 121, 110, .15); border-radius: 14px; }
-      .saved-scans-empty { color: var(--muted); font-size: 12px; text-align: center; }
+      .saved-readings-dialog { width: min(calc(100% - 34px), 410px); margin: auto; border: 1px solid rgba(40, 121, 110, .27); border-radius: 24px; padding: 0; color: var(--ink); background: var(--paper-light); box-shadow: 0 30px 80px -38px rgba(31, 85, 75, .55); }
+      .saved-readings-dialog::backdrop { background: rgba(38, 52, 43, .36); backdrop-filter: blur(4px); }
+      .saved-readings-dialog__shell { padding: 20px 18px 16px; }
+      .saved-readings-dialog__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+      .saved-readings-dialog__head small { color: var(--green); font-size: 8.5px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+      .saved-readings-dialog__head h2 { margin-top: 3px; font-family: "Cormorant Garamond", Georgia, serif; font-size: 27px; font-weight: 600; line-height: 1.05; }
+      .saved-readings-dialog__close { flex: 0 0 auto; width: 34px; height: 34px; border: 1px solid rgba(40, 121, 110, .22); border-radius: 50%; color: var(--green); font-size: 23px; line-height: 1; background: rgba(236, 247, 241, .68); cursor: pointer; }
+      .saved-readings-list { display: grid; gap: 7px; }
+      .saved-readings-list .previous-reading-row { border: 1px solid rgba(40, 121, 110, .15); border-radius: 14px; }
+      .saved-readings-empty { color: var(--muted); font-size: 12px; text-align: center; }
       .landing-screen--palm_answers .palm-entry-actions { position: sticky; bottom: 0; z-index: 12; flex: 0 0 auto; margin: 12px -8px 0; border-top: 1px solid rgba(156, 109, 45, .15); padding: 10px 8px calc(8px + env(safe-area-inset-bottom)); background: linear-gradient(180deg, rgba(244, 234, 215, .58), rgba(244, 234, 215, .98) 25%); backdrop-filter: blur(8px); }
       .palm-entry-reassurance { display: grid; gap: 2px; margin-bottom: 8px; color: var(--green); font-size: 10px; line-height: 1.35; text-align: center; }
       .palm-entry-reassurance b { font-size: 10.5px; font-weight: 800; }
@@ -278,7 +278,7 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
         .mahakundli-report__status-badge { font-size: 9px; }
       }
     </style>
-    <link rel="stylesheet" href="/astroyogi/face-scan.v4.css?v=ab20ad2653c9c2379d8cf06d701d5c9b7bd37140b179e65ad1dd7762dffb19cf" />
+    <link rel="stylesheet" href="/astroyogi/face-reading.v4.css?v=ab20ad2653c9c2379d8cf06d701d5c9b7bd37140b179e65ad1dd7762dffb19cf" />
     
     <script src="/astroyogi/app.v68.js?v=69cd6b39e0d8cafa2730e65604d99bb340a4af3c6b41cc8bfd57ea4d2bd505a5" defer fetchpriority="high"></script>
   <meta property="og:image:type" content="image/png" />
@@ -287,11 +287,6 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
   <meta property="og:image:alt" content="An antique-gold Vedic birth-chart wheel on a midnight-indigo field." />
   <meta name="twitter:image:alt" content="An antique-gold Vedic birth-chart wheel on a midnight-indigo field." />
   <script>window.__ASTRO_VELA_CONFIG__={"storefront":{"id":"india","version":"storefront_v1","global":false,"publicBaseUrl":"https://astro.tarotbyvela.com","locale":"en-IN","currency":"INR","defaultLane":"_default","allowedLanes":["mahakundli","best_city","partner_name","palm_answers","face_answers","name_numerology","market_profile"],"paymentProvider":"razorpay","taxMode":"india_gst","placeSearchScope":"india","reportCopyVersion":null,"capabilities":{"addOns":true,"crossSell":true,"productDirectory":true}},"pricing":{"key":"full","label":"Complete Mahakundli Report","amount":501,"compareAtAmount":2100,"currency":"INR","displayPrice":"₹501","compareAtDisplayPrice":"₹2,100","offer":null,"tax":{"mode":"exclusive","gstRateBps":1800}},"lanePricing":{"mahakundli":{"key":"full","label":"Complete Mahakundli Report","amount":501,"compareAtAmount":2100,"currency":"INR","displayPrice":"₹501","compareAtDisplayPrice":"₹2,100","offer":null,"tax":{"mode":"exclusive","gstRateBps":1800}},"palm_answers":{"key":"full","label":"Full personal report","amount":299,"compareAtAmount":null,"currency":"INR","displayPrice":"₹299","compareAtDisplayPrice":null,"offer":null,"tax":{"mode":"exclusive","gstRateBps":1800}},"face_answers":{"key":"full","label":"Full personal report","amount":449,"compareAtAmount":null,"currency":"INR","displayPrice":"₹449","compareAtDisplayPrice":null,"offer":null,"tax":{"mode":"exclusive","gstRateBps":1800}},"face_personality":{"key":"full","label":"Full personal report","amount":299,"compareAtAmount":null,"currency":"INR","displayPrice":"₹299","compareAtDisplayPrice":null,"offer":null,"tax":{"mode":"exclusive","gstRateBps":1800}},"best_city":{"key":"full","label":"Full personal report","amount":299,"compareAtAmount":499,"currency":"INR","displayPrice":"₹299","compareAtDisplayPrice":"₹499","offer":null,"tax":{"mode":"exclusive","gstRateBps":1800}},"partner_name":{"key":"full","label":"Full personal report","amount":299,"compareAtAmount":499,"currency":"INR","displayPrice":"₹299","compareAtDisplayPrice":"₹499","offer":null,"tax":{"mode":"exclusive","gstRateBps":1800}},"name_numerology":{"key":"full","label":"Full personal report","amount":299,"compareAtAmount":11000,"currency":"INR","displayPrice":"₹299","compareAtDisplayPrice":"₹11,000","offer":null,"tax":{"mode":"exclusive","gstRateBps":1800}},"market_profile":{"key":"full","label":"Full personal report","amount":299,"compareAtAmount":499,"currency":"INR","displayPrice":"₹299","compareAtDisplayPrice":"₹499","offer":null,"tax":{"mode":"exclusive","gstRateBps":1800}}},"addOns":{"palm_name_alignment":{"amount":150,"offerBaseAmount":351,"experimentVersion":"v13","compareAtAmount":500,"currency":"INR"}},"trust":{"deliveredMilestone":15000},"assets":{"palmScan":"/assets/palm-scan.webp?v=35d936999013d524b9bb0e857e20c7131f589395a508ac4a05cb64e1f318c74e","faceScanDemo":"/assets/face-scan-animated.webp?v=570c8b00cbc8dcdbd368ed5cf8d10edc519feec4348ddc0fded735f0f60e91a7","faceScanGif":"/assets/face-scan-social.gif?v=c7793124bdd6b0a08c73b1b1c8d79c3e54df5d195cc7812375644983663b977c","faceScanStill":"/assets/face-scan-demo.webp?v=2e4968a89e66440a933aa1c72baaf64d618debe32bbc30766d9f0f2589d279b2","mahakundliSocial":"/assets/mahakundli-social-v1.png?v=0f7617fcb488568ecd93831be69cebae77efb7e139be8404770df51f3d21aabb"},"experiments":{"palmProofDensity":{"version":"v1","allocationConfigVersion":"palm_conversion_experiment_config_v1","allocationEpoch":"palm_proof_density_v1_off_2026_08_13","treatmentPercent":0},"palmGatewayRecovery":{"version":"v1","allocationConfigVersion":"palm_conversion_experiment_config_v1","allocationEpoch":"palm_gateway_recovery_v1_off_2026_08_13","treatmentPercent":0},"marketLanding":{"version":"v1","treatmentPercent":0},"mahakundliPrice":{"version":"mahakundli_price_v3","treatmentPercent":0,"rolloutPercent":100,"arm":"price_501"}},"publicBaseUrl":"https://astro.tarotbyvela.com","payments":{"cashfreeFallback":true,"payglocal":{"enabled":false,"environment":"production","contractProfile":"account-v1.8.6-jwe","hostedCheckout":null}}};</script>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/astroyogi/precision-theme.css" />
-
   </head>
   <body>
     <div class="ambient" aria-hidden="true"></div>
@@ -300,12 +295,12 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
         <button class="back-button" id="backButton" type="button" aria-label="Go back">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
         </button>
-        <a class="brand" id="homeLink" href="/astroyogi" aria-label="Astroyogi home">
+        <a class="brand" id="homeLink" href="/astroyogi" aria-label="Astro Vela home">
           <img src="/astroyogi/assets/logomark.svg" alt="" width="30" height="30" />
-          <span>Astroyogi</span>
+          <span>Astro Vela</span>
         </a>
         <button class="saved-reports-button" id="savedReportsButton" type="button" aria-label="Open my saved reports" hidden><span class="saved-reports-button__label">My reports</span><span class="saved-reports-button__count" id="savedReportsCount" aria-hidden="true" hidden></span></button>
-        <button class="fresh-button" id="freshButton" type="button" aria-label="Start a new scan for someone else">Start fresh</button>
+        <button class="fresh-button" id="freshButton" type="button" aria-label="Start a new reading for someone else">Start fresh</button>
       </header>
       <div class="progress" id="progress" aria-hidden="true"><i id="progressBar"></i></div>
       <main class="stage" id="stage" aria-live="polite" aria-atomic="true"></main>
@@ -325,23 +320,23 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
     </div>
     <dialog class="fresh-dialog" id="freshDialog" aria-labelledby="freshDialogTitle" aria-describedby="freshDialogCopy">
       <div class="fresh-dialog__icon" aria-hidden="true">↻</div>
-      <h2 id="freshDialogTitle">Start a new scan?</h2>
+      <h2 id="freshDialogTitle">Start a new reading?</h2>
       <p id="freshDialogCopy">This will clear the current answers.</p>
       <div class="fresh-dialog__actions">
-        <button class="text-button" id="freshCancel" type="button">Keep this scan</button>
+        <button class="text-button" id="freshCancel" type="button">Keep this reading</button>
         <button class="primary-button" id="freshConfirm" type="button">Start fresh</button>
       </div>
     </dialog>
-    <dialog class="saved-scans-dialog" id="savedScansDialog" aria-labelledby="savedScansTitle">
-      <div class="saved-scans-dialog__shell">
-        <header class="saved-scans-dialog__head">
+    <dialog class="saved-readings-dialog" id="savedReadingsDialog" aria-labelledby="savedReadingsTitle">
+      <div class="saved-readings-dialog__shell">
+        <header class="saved-readings-dialog__head">
           <div>
             <small>Your saved reports</small>
-            <h2 id="savedScansTitle">Continue a previous scan</h2>
+            <h2 id="savedReadingsTitle">Continue a previous reading</h2>
           </div>
-          <button class="saved-scans-dialog__close" id="savedScansClose" type="button" aria-label="Close saved reports">×</button>
+          <button class="saved-readings-dialog__close" id="savedReadingsClose" type="button" aria-label="Close saved reports">×</button>
         </header>
-        <div class="saved-scans-dialog__content" id="savedScansContent"></div>
+        <div class="saved-readings-dialog__content" id="savedReadingsContent"></div>
       </div>
     </dialog>
     <dialog class="palm-camera-dialog" id="palmCameraDialog" aria-labelledby="palmCameraTitle" aria-describedby="palmCameraPrivacy">
