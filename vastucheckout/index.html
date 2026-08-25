@@ -438,6 +438,12 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
             localStorage.setItem('checkout_addon2', addon2.checked);
 
             // Update UI state to loading
+            // Track AddPaymentInfo on submit
+            if (typeof window.trackAddPaymentInfo === 'function') {
+                const totalText = document.getElementById('totalPrice').textContent;
+                const valueNum = parseFloat(totalText.replace('₹', '')) || 347.00;
+                window.trackAddPaymentInfo({ value: valueNum });
+            }
             submitBtn.disabled = true;
             btnText.textContent = 'Preparing Secure Payment...';
 
@@ -474,5 +480,16 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
             }
         });
     </script>
+<script src="/vastu/assets/pixelEvents.js"></script>
+
+    <script>
+        // Track InitiateCheckout on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            if (typeof window.trackInitiateCheckout === 'function') {
+                window.trackInitiateCheckout({ value: 347.00, ids: ['vastu_bundle_1'] });
+            }
+        });
+    </script>
+
 </body>
 </html>

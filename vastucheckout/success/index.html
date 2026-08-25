@@ -133,6 +133,10 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
                     throw new Error(data.error || 'Failed to verify payment');
                 }
 
+                // Track Purchase event on payment success
+                if (typeof window.trackPurchase === 'function') {
+                    window.trackPurchase({ value: 199.00, ids: ['vastu_bundle_1'] });
+                }
                 // Show success view
                 loaderSection.classList.add('hidden');
                 successSection.classList.remove('hidden');
@@ -147,5 +151,6 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
         // Trigger on load
         window.addEventListener('DOMContentLoaded', verify);
     </script>
+<script src="/vastu/assets/pixelEvents.js"></script>
 </body>
 </html>
