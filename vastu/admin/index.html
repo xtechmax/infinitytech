@@ -20,7 +20,7 @@
                     🔐
                 </div>
                 <h1 class="text-2xl font-black tracking-tight text-white">Vastu Admin Portal</h1>
-                <p class="text-xs text-gray-400">Sign in to view live deliveries and orders</p>
+                <p class="text-xs text-gray-400">Sign in to view live leads, deliveries & orders</p>
             </div>
 
             <form id="loginForm" class="space-y-4" onsubmit="handleLogin(event)">
@@ -58,12 +58,12 @@
                     🏡
                 </div>
                 <div>
-                    <h1 class="text-lg font-bold text-white leading-tight">Vastu Order & Delivery Manager</h1>
+                    <h1 class="text-lg font-bold text-white leading-tight">Vastu Order & Lead Manager</h1>
                     <p id="adminUserTag" class="text-xs text-gray-400">Logged in as Administrator</p>
                 </div>
             </div>
             <div class="flex items-center gap-3 self-end sm:self-center">
-                <button onclick="fetchDeliveries()" 
+                <button onclick="fetchData()" 
                     class="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-xs font-semibold px-4 py-2.5 rounded-xl border border-gray-700 transition">
                     <span>🔄</span> Refresh
                 </button>
@@ -78,23 +78,20 @@
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 shadow-lg">
                 <div class="flex justify-between items-center text-gray-400 text-xs uppercase font-bold tracking-wider mb-2">
-                    <span>Delivered Orders</span>
-                    <span class="text-blue-400">📦</span>
+                    <span>Captured Phone Leads</span>
+                    <span class="text-amber-400">🎯</span>
                 </div>
-                <p id="totalDeliveriesStat" class="text-3xl font-black text-white">—</p>
-                <p class="text-[11px] text-gray-500 mt-1">Sent via automated Resend delivery</p>
+                <p id="totalLeadsStat" class="text-3xl font-black text-amber-400">—</p>
+                <p class="text-[11px] text-gray-500 mt-1">Visitors who entered phone/email on checkout</p>
             </div>
 
             <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 shadow-lg">
                 <div class="flex justify-between items-center text-gray-400 text-xs uppercase font-bold tracking-wider mb-2">
-                    <span>System Health</span>
-                    <span class="text-emerald-400">⚡</span>
+                    <span>Paid Deliveries</span>
+                    <span class="text-emerald-400">📦</span>
                 </div>
-                <div class="flex items-center gap-2 text-xl font-bold text-emerald-400">
-                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-                    <span>Active & Syncing</span>
-                </div>
-                <p class="text-[11px] text-gray-500 mt-1">Cashfree PG + Resend Webhooks live</p>
+                <p id="totalDeliveriesStat" class="text-3xl font-black text-emerald-400">—</p>
+                <p class="text-[11px] text-gray-500 mt-1">Customers who completed payment</p>
             </div>
 
             <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 shadow-lg">
@@ -105,11 +102,11 @@
                 <a href="/vastu" target="_blank" class="text-sm font-bold text-indigo-400 hover:underline flex items-center gap-1">
                     infinitytech-six.vercel.app/vastu &rarr;
                 </a>
-                <p class="text-[11px] text-gray-500 mt-1">Base Price: ₹199 | Auto Deliveries Active</p>
+                <p class="text-[11px] text-gray-500 mt-1">Live checkout lead capture active</p>
             </div>
         </div>
 
-        <!-- Order Lookup Section -->
+        <!-- Cashfree Live Order Lookup Inspector -->
         <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 shadow-lg space-y-4">
             <div>
                 <h2 class="text-sm font-bold text-white uppercase tracking-wider">🔎 Cashfree Order Inspector</h2>
@@ -125,52 +122,82 @@
             <div id="lookupResult" class="hidden bg-gray-950 border border-gray-800 rounded-xl p-4 text-xs font-mono overflow-x-auto"></div>
         </div>
 
-        <!-- Deliveries Table -->
+        <!-- Main Data Management Card with Switchable Tabs -->
         <div class="bg-gray-900 border border-gray-800 rounded-2xl shadow-lg overflow-hidden space-y-4">
-            <div class="p-5 border-b border-gray-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-                <div>
-                    <h2 class="text-base font-bold text-white">Live Email Delivery & Purchase Logs</h2>
-                    <p class="text-xs text-gray-400">Automatic PDF dispatches triggered by verified customer payments</p>
+            
+            <!-- Tab Controls & Search Header -->
+            <div class="p-5 border-b border-gray-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                
+                <div class="flex items-center gap-2 bg-gray-950 p-1 rounded-xl border border-gray-800">
+                    <button id="tabLeadsBtn" onclick="switchTab('leads')" 
+                        class="px-4 py-2 rounded-lg text-xs font-bold transition bg-blue-600 text-white shadow-sm">
+                        🎯 Abandoned Leads (<span id="tabLeadsCount">0</span>)
+                    </button>
+                    <button id="tabDeliveriesBtn" onclick="switchTab('deliveries')" 
+                        class="px-4 py-2 rounded-lg text-xs font-bold transition text-gray-400 hover:text-white">
+                        📦 Paid Deliveries (<span id="tabDeliveriesCount">0</span>)
+                    </button>
                 </div>
-                <input type="text" id="searchTableInput" oninput="filterDeliveries()" placeholder="Filter by email..." 
-                    class="bg-gray-800 border border-gray-700 rounded-xl px-3 py-1.5 text-xs text-white outline-none focus:border-blue-500 transition sm:w-64">
+
+                <input type="text" id="searchTableInput" oninput="filterData()" placeholder="Filter by phone or email..." 
+                    class="bg-gray-800 border border-gray-700 rounded-xl px-4 py-2 text-xs text-white outline-none focus:border-blue-500 transition w-full sm:w-72">
             </div>
 
             <!-- Loader -->
             <div id="tableLoading" class="py-16 text-center text-gray-400 text-xs animate-pulse">
-                ⏳ Loading delivery records from Resend...
+                ⏳ Syncing live records...
             </div>
 
-            <!-- Empty -->
+            <!-- Empty State -->
             <div id="tableEmpty" class="hidden py-16 text-center text-gray-500 text-xs">
-                No delivery logs found.
+                No records found.
             </div>
 
-            <!-- Table -->
-            <div id="tableContainer" class="hidden overflow-x-auto">
+            <!-- Leads Table View -->
+            <div id="leadsTableContainer" class="hidden overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                    <thead>
+                        <tr class="bg-gray-800/60 text-gray-400 uppercase tracking-wider text-[10px]">
+                            <th class="px-5 py-3.5 font-bold">#</th>
+                            <th class="px-5 py-3.5 font-bold">WhatsApp Phone</th>
+                            <th class="px-5 py-3.5 font-bold">Customer Email</th>
+                            <th class="px-5 py-3.5 font-bold">Status</th>
+                            <th class="px-5 py-3.5 font-bold">Captured Date (IST)</th>
+                            <th class="px-5 py-3.5 font-bold text-center">Quick Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leadsTableBody" class="divide-y divide-gray-800">
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Deliveries Table View -->
+            <div id="deliveriesTableContainer" class="hidden overflow-x-auto">
                 <table class="w-full text-left text-xs">
                     <thead>
                         <tr class="bg-gray-800/60 text-gray-400 uppercase tracking-wider text-[10px]">
                             <th class="px-5 py-3.5 font-bold">#</th>
                             <th class="px-5 py-3.5 font-bold">Customer Email</th>
                             <th class="px-5 py-3.5 font-bold">Subject / Product</th>
-                            <th class="px-5 py-3.5 font-bold">Status</th>
-                            <th class="px-5 py-3.5 font-bold">Date (IST)</th>
+                            <th class="px-5 py-3.5 font-bold">Delivery Status</th>
+                            <th class="px-5 py-3.5 font-bold">Dispatched Date (IST)</th>
                         </tr>
                     </thead>
                     <tbody id="deliveriesTableBody" class="divide-y divide-gray-800">
                     </tbody>
                 </table>
             </div>
+
         </div>
 
     </div>
 
     <script>
         const AUTH_STORAGE_KEY = 'vastu_admin_session';
+        let currentTab = 'leads';
+        let allLeads = [];
         let allDeliveries = [];
 
-        // Check if already logged in on initial load
         window.addEventListener('DOMContentLoaded', () => {
             const savedSession = localStorage.getItem(AUTH_STORAGE_KEY);
             if (savedSession) {
@@ -178,7 +205,7 @@
                     const sessionData = JSON.parse(savedSession);
                     if (sessionData && sessionData.token) {
                         showDashboard(sessionData);
-                        fetchDeliveries();
+                        fetchData();
                         return;
                     }
                 } catch(e) {}
@@ -222,10 +249,9 @@
                     throw new Error(data.error || 'Authentication failed');
                 }
 
-                // Save session in localStorage so it stays logged in permanently
                 localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(data));
                 showDashboard(data);
-                fetchDeliveries();
+                fetchData();
 
             } catch (err) {
                 errEl.textContent = err.message;
@@ -254,15 +280,15 @@
             return '';
         }
 
-        async function fetchDeliveries() {
+        async function fetchData() {
             const token = getAuthToken();
             const loading = document.getElementById('tableLoading');
             const empty = document.getElementById('tableEmpty');
-            const container = document.getElementById('tableContainer');
 
             loading.classList.remove('hidden');
             empty.classList.add('hidden');
-            container.classList.add('hidden');
+            document.getElementById('leadsTableContainer').classList.add('hidden');
+            document.getElementById('deliveriesTableContainer').classList.add('hidden');
 
             try {
                 const res = await fetch('/api/admin-orders', {
@@ -278,10 +304,15 @@
                 const data = await res.json();
                 if (!res.ok) throw new Error(data.error || 'Failed to fetch');
 
-                allDeliveries = data.orders || [];
-                document.getElementById('totalDeliveriesStat').textContent = data.total_deliveries || allDeliveries.length;
+                allLeads = data.leads || [];
+                allDeliveries = data.deliveries || [];
 
-                renderDeliveriesTable(allDeliveries);
+                document.getElementById('totalLeadsStat').textContent = data.total_leads || allLeads.length;
+                document.getElementById('totalDeliveriesStat').textContent = data.total_deliveries || allDeliveries.length;
+                document.getElementById('tabLeadsCount').textContent = allLeads.length;
+                document.getElementById('tabDeliveriesCount').textContent = allDeliveries.length;
+
+                renderActiveTab();
 
             } catch(err) {
                 loading.classList.add('hidden');
@@ -290,51 +321,119 @@
             }
         }
 
-        function renderDeliveriesTable(list) {
+        function switchTab(tab) {
+            currentTab = tab;
+            const btnLeads = document.getElementById('tabLeadsBtn');
+            const btnDeliveries = document.getElementById('tabDeliveriesBtn');
+
+            if (tab === 'leads') {
+                btnLeads.className = 'px-4 py-2 rounded-lg text-xs font-bold transition bg-blue-600 text-white shadow-sm';
+                btnDeliveries.className = 'px-4 py-2 rounded-lg text-xs font-bold transition text-gray-400 hover:text-white';
+            } else {
+                btnDeliveries.className = 'px-4 py-2 rounded-lg text-xs font-bold transition bg-blue-600 text-white shadow-sm';
+                btnLeads.className = 'px-4 py-2 rounded-lg text-xs font-bold transition text-gray-400 hover:text-white';
+            }
+
+            renderActiveTab();
+        }
+
+        function renderActiveTab() {
+            const query = document.getElementById('searchTableInput').value.toLowerCase();
             const loading = document.getElementById('tableLoading');
             const empty = document.getElementById('tableEmpty');
-            const container = document.getElementById('tableContainer');
-            const tbody = document.getElementById('deliveriesTableBody');
+            const leadsContainer = document.getElementById('leadsTableContainer');
+            const deliveriesContainer = document.getElementById('deliveriesTableContainer');
 
             loading.classList.add('hidden');
 
-            if (!list || list.length === 0) {
-                empty.classList.remove('hidden');
-                container.classList.add('hidden');
-                return;
+            if (currentTab === 'leads') {
+                deliveriesContainer.classList.add('hidden');
+                const filtered = allLeads.filter(l => (l.phone && l.phone.includes(query)) || (l.email && l.email.toLowerCase().includes(query)));
+                
+                if (filtered.length === 0) {
+                    empty.classList.remove('hidden');
+                    leadsContainer.classList.add('hidden');
+                    return;
+                }
+
+                empty.classList.add('hidden');
+                leadsContainer.classList.remove('hidden');
+                const tbody = document.getElementById('leadsTableBody');
+                tbody.innerHTML = '';
+
+                filtered.forEach((lead, idx) => {
+                    const dateStr = lead.created_at 
+                        ? new Date(lead.created_at).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }) 
+                        : '—';
+                    const cleanPhoneOnly = (lead.phone || '').replace(/\D/g, '');
+
+                    const tr = document.createElement('tr');
+                    tr.className = 'hover:bg-gray-800/40 transition';
+                    tr.innerHTML = `
+                        <td class="px-5 py-3.5 text-gray-500 font-mono">${idx + 1}</td>
+                        <td class="px-5 py-3.5 font-bold text-amber-300 font-mono text-sm">${lead.phone || '—'}</td>
+                        <td class="px-5 py-3.5 text-gray-300 font-semibold">${lead.email || '—'}</td>
+                        <td class="px-5 py-3.5">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                                <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                                Abandoned / Live Lead
+                            </span>
+                        </td>
+                        <td class="px-5 py-3.5 text-gray-400 text-[11px]">${dateStr}</td>
+                        <td class="px-5 py-3.5 text-center">
+                            ${cleanPhoneOnly ? `
+                                <a href="https://wa.me/${cleanPhoneOnly.startsWith('91') ? cleanPhoneOnly : '91' + cleanPhoneOnly}?text=Hello,%20we%20noticed%20you%20were%20interested%20in%20our%20Practical%20Vastu%20Bundle.%20Do%20you%20have%20any%20questions?" 
+                                   target="_blank" 
+                                   class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] px-3 py-1.5 rounded-lg transition shadow-sm">
+                                    <span>💬</span> WhatsApp
+                                </a>
+                            ` : '—'}
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+
+            } else {
+                leadsContainer.classList.add('hidden');
+                const filtered = allDeliveries.filter(d => d.to.toLowerCase().includes(query) || (d.subject && d.subject.toLowerCase().includes(query)));
+                
+                if (filtered.length === 0) {
+                    empty.classList.remove('hidden');
+                    deliveriesContainer.classList.add('hidden');
+                    return;
+                }
+
+                empty.classList.add('hidden');
+                deliveriesContainer.classList.remove('hidden');
+                const tbody = document.getElementById('deliveriesTableBody');
+                tbody.innerHTML = '';
+
+                filtered.forEach((order, idx) => {
+                    const dateStr = order.created_at 
+                        ? new Date(order.created_at).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }) 
+                        : '—';
+
+                    const tr = document.createElement('tr');
+                    tr.className = 'hover:bg-gray-800/40 transition';
+                    tr.innerHTML = `
+                        <td class="px-5 py-3.5 text-gray-500 font-mono">${idx + 1}</td>
+                        <td class="px-5 py-3.5 font-semibold text-white">${order.to}</td>
+                        <td class="px-5 py-3.5 text-gray-300 max-w-xs truncate" title="${order.subject}">${order.subject}</td>
+                        <td class="px-5 py-3.5">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                                ${order.status}
+                            </span>
+                        </td>
+                        <td class="px-5 py-3.5 text-gray-400 text-[11px]">${dateStr}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
             }
-
-            empty.classList.add('hidden');
-            container.classList.remove('hidden');
-            tbody.innerHTML = '';
-
-            list.forEach((order, idx) => {
-                const dateStr = order.created_at 
-                    ? new Date(order.created_at).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }) 
-                    : '—';
-
-                const tr = document.createElement('tr');
-                tr.className = 'hover:bg-gray-800/40 transition';
-                tr.innerHTML = `
-                    <td class="px-5 py-3.5 text-gray-500 font-mono">${idx + 1}</td>
-                    <td class="px-5 py-3.5 font-semibold text-white">${order.to}</td>
-                    <td class="px-5 py-3.5 text-gray-300 max-w-xs truncate" title="${order.subject}">${order.subject}</td>
-                    <td class="px-5 py-3.5">
-                        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                            ${order.status}
-                        </span>
-                    </td>
-                    <td class="px-5 py-3.5 text-gray-400 text-[11px]">${dateStr}</td>
-                `;
-                tbody.appendChild(tr);
-            });
         }
 
-        function filterDeliveries() {
-            const query = document.getElementById('searchTableInput').value.toLowerCase();
-            const filtered = allDeliveries.filter(d => d.to.toLowerCase().includes(query) || (d.subject && d.subject.toLowerCase().includes(query)));
-            renderDeliveriesTable(filtered);
+        function filterData() {
+            renderActiveTab();
         }
 
         async function handleOrderLookup(e) {

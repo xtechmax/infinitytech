@@ -1,5 +1,5 @@
 // Vercel Serverless Function: api/admin-orders.js
-// Secure Admin Backend for Vastu Orders & Delivery Logs
+// Secure Admin Backend for Vastu Orders, Deliveries & Abandoned Leads
 
 const ADMIN_EMAIL = 'zulak.ns@gmail.com';
 const ADMIN_PASS = '@Akash.com1';
@@ -23,7 +23,6 @@ export default async function handler(req, res) {
     if (req.method === 'POST' && req.body?.action === 'login') {
         const { email, password } = req.body;
         if (email === ADMIN_EMAIL && password === ADMIN_PASS) {
-            // Generate a simple auth token
             const token = Buffer.from(`${ADMIN_EMAIL}:${Date.now()}:${ADMIN_PASS}`).toString('base64');
             return res.status(200).json({ 
                 success: true, 
@@ -37,27 +36,20 @@ export default async function handler(req, res) {
     // 2. Validate Authorization for all data requests
     const authHeader = req.headers['authorization'] || '';
     const tokenParam = req.query?.token || '';
-    const hasValidAuth = authHeader.includes(Buffer.from(ADMIN_PASS).toString('base64')) 
-        || authHeader.includes(ADMIN_PASS)
-        || tokenParam.includes(Buffer.from(ADMIN_PASS).toString('base64'))
-        || req.headers['x-admin-password'] === ADMIN_PASS;
-
-    if (!hasValidAuth && !req.headers['x-admin-token']) {
-        // Double check token structure if passed
-        const passedToken = req.headers['x-admin-token'] || tokenParam;
-        let tokenValid = false;
+    const passedToken = req.headers['x-admin-token'] || tokenParam;
+    
+    let isAuthorized = req.headers['x-admin-password'] === ADMIN_PASS;
+    if (!isAuthorized && passedToken) {
         try {
-            if (passedToken) {
-                const decoded = Buffer.from(passedToken, 'base64').toString('utf-8');
-                if (decoded.includes(ADMIN_EMAIL) && decoded.includes(ADMIN_PASS)) {
-                    tokenValid = true;
-                }
+            const decoded = Buffer.from(passedToken, 'base64').toString('utf-8');
+            if (decoded.includes(ADMIN_EMAIL) && decoded.includes(ADMIN_PASS)) {
+                isAuthorized = true;
             }
         } catch (e) {}
+    }
 
-        if (!tokenValid && !hasValidAuth) {
-            return res.status(401).json({ error: 'Unauthorized. Please login again.' });
-        }
+    if (!isAuthorized) {
+        return res.status(401).json({ error: 'Unauthorized. Please login again.' });
     }
 
     // 3. Lookup specific Cashfree Order: POST with action: 'lookup'
@@ -89,7 +81,7 @@ export default async function handler(req, res) {
         }
     }
 
-    // 4. Fetch Delivered Orders & Delivery Status via Resend Logs
+    // 4. Fetch Delivered Orders & Captured Leads via Resend Logs
     try {
         const resendKey = getResendApiKey();
         const resendRes = await fetch('https://api.resend.com/emails', {
@@ -105,21 +97,51 @@ export default async function handler(req, res) {
         }
 
         const emails = resendData.data || [];
-        
-        // Structure and format order deliveries
-        const orders = emails.map(email => ({
-            id: email.id,
-            to: Array.isArray(email.to) ? email.to.join(', ') : email.to,
-            from: email.from,
-            subject: email.subject,
-            status: email.last_event || 'delivered',
-            created_at: email.created_at
-        }));
+        const leads = [];
+        const deliveries = [];
+
+        emails.forEach(email => {
+            const subject = email.subject || '';
+            const recipient = Array.isArray(email.to) ? email.to.join(', ') : email.to;
+
+            if (subject.includes('[VASTU LEAD]') || subject.includes('[LEAD]')) {
+                // Parse phone and email from subject: "[VASTU LEAD] +919876543210 | test@gmail.com"
+                let phone = '';
+                let customerEmail = '';
+                const parts = subject.replace(/\[VASTU LEAD\]|\[LEAD\]/gi, '').split('|');
+                if (parts.length >= 2) {
+                    phone = parts[0].trim();
+                    customerEmail = parts[1].trim();
+                } else {
+                    phone = parts[0]?.trim() || '';
+                }
+
+                leads.push({
+                    id: email.id,
+                    phone: phone,
+                    email: customerEmail,
+                    raw_subject: subject,
+                    status: 'Captured (Pre-Payment)',
+                    created_at: email.created_at
+                });
+            } else {
+                deliveries.push({
+                    id: email.id,
+                    to: recipient,
+                    from: email.from,
+                    subject: subject,
+                    status: email.last_event || 'delivered',
+                    created_at: email.created_at
+                });
+            }
+        });
 
         return res.status(200).json({
             success: true,
-            total_deliveries: orders.length,
-            orders
+            total_leads: leads.length,
+            total_deliveries: deliveries.length,
+            leads,
+            deliveries
         });
 
     } catch (err) {

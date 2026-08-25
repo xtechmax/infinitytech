@@ -425,6 +425,43 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
         addon1.addEventListener('change', updateSum);
         addon2.addEventListener('change', updateSum);
 
+        // Automated Lead Capture (even if user does not click Buy Now)
+        let leadCaptureTimer = null;
+        let lastCapturedPayload = '';
+
+        function triggerLeadCapture() {
+            const email = document.getElementById('email')?.value.trim();
+            const whatsapp = document.getElementById('whatsapp')?.value.trim();
+            const cleanPhone = (whatsapp || '').replace(/\D/g, '');
+
+            if (email && email.includes('@') && email.includes('.') && cleanPhone.length >= 10) {
+                const currentPayload = `${email}_${cleanPhone}_${addon1.checked}_${addon2.checked}`;
+                if (currentPayload === lastCapturedPayload) return;
+
+                clearTimeout(leadCaptureTimer);
+                leadCaptureTimer = setTimeout(async () => {
+                    try {
+                        lastCapturedPayload = currentPayload;
+                        await fetch('/api/capture-lead', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                email,
+                                whatsapp: cleanPhone,
+                                addon1: addon1.checked,
+                                addon2: addon2.checked
+                            })
+                        });
+                    } catch (err) {}
+                }, 800);
+            }
+        }
+
+        document.getElementById('email')?.addEventListener('input', triggerLeadCapture);
+        document.getElementById('email')?.addEventListener('blur', triggerLeadCapture);
+        document.getElementById('whatsapp')?.addEventListener('input', triggerLeadCapture);
+        document.getElementById('whatsapp')?.addEventListener('blur', triggerLeadCapture);
+
         checkoutForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
