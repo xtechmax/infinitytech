@@ -51,6 +51,42 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
 
+
+<style id="light-sweep-style">
+/* Light sweep smooth effect */
+.shine-sweep-btn {
+    position: relative;
+    overflow: hidden;
+}
+.shine-sweep-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 65%;
+    height: 100%;
+    background: linear-gradient(
+        115deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.1) 20%,
+        rgba(255, 255, 255, 0.6) 50%,
+        rgba(255, 255, 255, 0.1) 80%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: skewX(-25deg);
+    animation: light-sweep-effect 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    pointer-events: none;
+}
+@keyframes light-sweep-effect {
+    0% {
+        left: -150%;
+    }
+    35%, 100% {
+        left: 170%;
+    }
+}
+</style>
+
 </head>
 <body class="bg-gray-100 min-h-screen py-6 sm:py-10 px-3 sm:px-4 text-gray-800 font-sans antialiased pb-28">
     <div class="w-full max-w-3xl mx-auto flex flex-col space-y-6">
@@ -328,17 +364,10 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
                         </div>
                     </div>
 
-                    <!-- 6. FINAL PAY NOW BUTTON -->
-                    <button type="submit" id="submitBtn" class="w-full inline-flex items-center justify-center gap-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4 sm:py-4.5 px-6 rounded-2xl font-extrabold text-base sm:text-lg shadow-lg shadow-blue-500/30 hover:opacity-95 active:scale-[0.99] transition cursor-pointer">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                            <rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>
-                        </svg>
-                        <span id="btnText">🔒 Pay Now &amp; Access Instantly</span>
-                    </button>
-                    
-                    <p class="text-center text-xs sm:text-sm text-gray-500">
+                    <!-- 6. FINAL PAY NOW BUTTON AREA (Managed by Sticky Button) -->
+                    <div class="pt-2 text-center text-xs text-gray-500 font-semibold">
                         🔒 256-Bit SSL Encrypted Payment · Instant Download Guaranteed
-                    </p>
+                    </div>
                 </div>
 
             </form>
@@ -416,8 +445,7 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
             }
 
             totalPrice.textContent = '₹' + sum;
-            const stickyTotalPrice = document.getElementById('stickyTotalPrice');
-            if (stickyTotalPrice) stickyTotalPrice.textContent = '₹' + sum;
+            
 
             if (e && e.currentTarget) {
                 const checkbox = e.currentTarget;
@@ -494,10 +522,8 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
         document.getElementById('whatsapp')?.addEventListener('input', triggerLeadCapture);
         document.getElementById('whatsapp')?.addEventListener('blur', triggerLeadCapture);
 
-        
-        // Sticky Pay Now Click Validation & Smooth Scroll
-        const stickySubmitBtnEl = document.getElementById('stickySubmitBtn');
-        stickySubmitBtnEl?.addEventListener('click', (e) => {
+        // Pay Now Click Validation & Smooth Scroll
+        submitBtn?.addEventListener('click', (e) => {
             const emailInput = document.getElementById('email');
             const whatsappInput = document.getElementById('whatsapp');
 
@@ -544,10 +570,7 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
             }
             submitBtn.disabled = true;
             btnText.textContent = 'Preparing Secure Payment...';
-            const stickySubmitBtn = document.getElementById('stickySubmitBtn');
-            const stickyBtnText = document.getElementById('stickyBtnText');
-            if (stickySubmitBtn) stickySubmitBtn.disabled = true;
-            if (stickyBtnText) stickyBtnText.textContent = 'Preparing...';
+            
 
             try {
                 const response = await fetch('/api/create-order', {
@@ -579,8 +602,7 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
                 alert('Checkout Error: ' + err.message);
                 submitBtn.disabled = false;
                 btnText.textContent = '🔒 Pay Now & Access Instantly';
-                if (stickySubmitBtn) stickySubmitBtn.disabled = false;
-                if (stickyBtnText) stickyBtnText.textContent = '🔒 Pay Now';
+                
             }
         });
     </script>
@@ -596,27 +618,23 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
     </script>
 
 
-    <!-- Sticky Bottom Payment Bar (Always visible while scrolling) -->
+
+
+
+    <!-- Sticky "Pay Now & Access Instantly" Button (Always visible with Light Sweep effect) -->
     <div id="stickyPayBar" class="fixed bottom-0 left-0 w-full z-50 bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-2xl py-3 px-4 sm:px-6">
-        <div class="max-w-3xl mx-auto flex items-center justify-between gap-4">
-            <!-- Dynamic Price & Delivery Status -->
-            <div class="flex flex-col">
-                <div class="flex items-baseline gap-1.5">
-                    <span class="text-xs text-gray-500 font-bold uppercase tracking-wider">Total:</span>
-                    <span id="stickyTotalPrice" class="text-2xl sm:text-3xl font-black text-blue-600">₹347</span>
-                </div>
-                <span class="text-[11px] font-bold text-emerald-600 flex items-center gap-1">
-                    <span>⚡ Instant PDF Delivery</span>
-                </span>
-            </div>
-            
-            <!-- Sticky Pay Now Button -->
-            <button type="submit" form="checkoutForm" id="stickySubmitBtn" class="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-extrabold px-6 sm:px-8 py-3.5 rounded-xl text-base sm:text-lg shadow-lg shadow-blue-500/25 hover:opacity-95 active:scale-[0.99] transition cursor-pointer">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <div class="max-w-3xl mx-auto flex flex-col items-center gap-1.5">
+            <button type="submit" form="checkoutForm" id="submitBtn" class="shine-sweep-btn w-full inline-flex items-center justify-center gap-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3.5 sm:py-4 px-6 rounded-2xl font-extrabold text-base sm:text-lg shadow-lg shadow-blue-500/30 hover:opacity-95 active:scale-[0.99] transition cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                     <rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>
                 </svg>
-                <span id="stickyBtnText">🔒 Pay Now</span>
+                <span id="btnText">🔒 Pay Now &amp; Access Instantly (<span id="btnPriceDisplay">₹347</span>)</span>
             </button>
+            <p class="text-[11px] text-gray-500 font-semibold text-center flex items-center justify-center gap-1">
+                <span>🔒 256-Bit SSL Encrypted</span>
+                <span>·</span>
+                <span>⚡ Instant Digital Delivery to Email &amp; WhatsApp</span>
+            </p>
         </div>
     </div>
 
