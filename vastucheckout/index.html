@@ -52,7 +52,7 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
 <!-- End Meta Pixel Code -->
 
 </head>
-<body class="bg-gray-100 min-h-screen py-6 sm:py-10 px-3 sm:px-4 text-gray-800 font-sans antialiased">
+<body class="bg-gray-100 min-h-screen py-6 sm:py-10 px-3 sm:px-4 text-gray-800 font-sans antialiased pb-28">
     <div class="w-full max-w-3xl mx-auto flex flex-col space-y-6">
 
         <!-- Main Card Container -->
@@ -416,6 +416,8 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
             }
 
             totalPrice.textContent = '₹' + sum;
+            const stickyTotalPrice = document.getElementById('stickyTotalPrice');
+            if (stickyTotalPrice) stickyTotalPrice.textContent = '₹' + sum;
 
             if (e && e.currentTarget) {
                 const checkbox = e.currentTarget;
@@ -492,6 +494,36 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
         document.getElementById('whatsapp')?.addEventListener('input', triggerLeadCapture);
         document.getElementById('whatsapp')?.addEventListener('blur', triggerLeadCapture);
 
+        
+        // Sticky Pay Now Click Validation & Smooth Scroll
+        const stickySubmitBtnEl = document.getElementById('stickySubmitBtn');
+        stickySubmitBtnEl?.addEventListener('click', (e) => {
+            const emailInput = document.getElementById('email');
+            const whatsappInput = document.getElementById('whatsapp');
+
+            if (!emailInput?.value || !emailInput?.checkValidity()) {
+                e.preventDefault();
+                emailInput.focus();
+                window.scrollTo({
+                    top: emailInput.getBoundingClientRect().top + window.scrollY - 120,
+                    behavior: 'smooth'
+                });
+                emailInput.reportValidity();
+                return;
+            }
+
+            if (!whatsappInput?.value || !whatsappInput?.checkValidity()) {
+                e.preventDefault();
+                whatsappInput.focus();
+                window.scrollTo({
+                    top: whatsappInput.getBoundingClientRect().top + window.scrollY - 120,
+                    behavior: 'smooth'
+                });
+                whatsappInput.reportValidity();
+                return;
+            }
+        });
+
         checkoutForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -512,6 +544,10 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
             }
             submitBtn.disabled = true;
             btnText.textContent = 'Preparing Secure Payment...';
+            const stickySubmitBtn = document.getElementById('stickySubmitBtn');
+            const stickyBtnText = document.getElementById('stickyBtnText');
+            if (stickySubmitBtn) stickySubmitBtn.disabled = true;
+            if (stickyBtnText) stickyBtnText.textContent = 'Preparing...';
 
             try {
                 const response = await fetch('/api/create-order', {
@@ -543,6 +579,8 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
                 alert('Checkout Error: ' + err.message);
                 submitBtn.disabled = false;
                 btnText.textContent = '🔒 Pay Now & Access Instantly';
+                if (stickySubmitBtn) stickySubmitBtn.disabled = false;
+                if (stickyBtnText) stickyBtnText.textContent = '🔒 Pay Now';
             }
         });
     </script>
@@ -556,6 +594,31 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
             }
         });
     </script>
+
+
+    <!-- Sticky Bottom Payment Bar (Always visible while scrolling) -->
+    <div id="stickyPayBar" class="fixed bottom-0 left-0 w-full z-50 bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-2xl py-3 px-4 sm:px-6">
+        <div class="max-w-3xl mx-auto flex items-center justify-between gap-4">
+            <!-- Dynamic Price & Delivery Status -->
+            <div class="flex flex-col">
+                <div class="flex items-baseline gap-1.5">
+                    <span class="text-xs text-gray-500 font-bold uppercase tracking-wider">Total:</span>
+                    <span id="stickyTotalPrice" class="text-2xl sm:text-3xl font-black text-blue-600">₹347</span>
+                </div>
+                <span class="text-[11px] font-bold text-emerald-600 flex items-center gap-1">
+                    <span>⚡ Instant PDF Delivery</span>
+                </span>
+            </div>
+            
+            <!-- Sticky Pay Now Button -->
+            <button type="submit" form="checkoutForm" id="stickySubmitBtn" class="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-extrabold px-6 sm:px-8 py-3.5 rounded-xl text-base sm:text-lg shadow-lg shadow-blue-500/25 hover:opacity-95 active:scale-[0.99] transition cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>
+                </svg>
+                <span id="stickyBtnText">🔒 Pay Now</span>
+            </button>
+        </div>
+    </div>
 
 </body>
 </html>
