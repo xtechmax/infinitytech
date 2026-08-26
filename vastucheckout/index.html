@@ -52,62 +52,144 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
 <!-- End Meta Pixel Code -->
 
 </head>
-<body class="bg-gray-100 min-h-screen py-10 px-4">
-    <div class="w-full max-w-5xl mx-auto flex flex-col space-y-4">
+<body class="bg-gray-100 min-h-screen py-6 sm:py-10 px-3 sm:px-4 text-gray-800 font-sans antialiased">
+    <div class="w-full max-w-3xl mx-auto flex flex-col space-y-6">
 
-        <!-- Main Card -->
+        <!-- Main Card Container -->
         <div class="bg-white border border-gray-200 rounded-3xl shadow-xl overflow-hidden">
-            <!-- Header: Trust Color (Blue/Indigo Gradient) with Urgency indicators -->
-            <div class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white px-6 py-4 flex flex-col sm:flex-row justify-between items-center gap-2 relative">
+            
+            <!-- Header: Blue/Indigo Gradient with Urgency Indicators -->
+            <div class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white px-5 sm:px-8 py-5 flex flex-col sm:flex-row justify-between items-center gap-3 relative">
                 <div class="text-center sm:text-left">
-                    <h1 class="text-xl sm:text-2xl font-black uppercase tracking-tight">Secure Checkout</h1>
-                    <p class="text-xs opacity-90">Instant access to your Vastu Shastra bundle</p>
+                    <h1 class="text-2xl sm:text-3xl font-black uppercase tracking-tight">Secure Checkout</h1>
+                    <p class="text-sm sm:text-base opacity-95 mt-0.5">Instant access to your Vastu Shastra bundle</p>
                 </div>
-                <div class="flex items-center gap-2">
-                    <span class="bg-red-500 text-white text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full animate-pulse shadow-sm">
+                <div class="flex items-center gap-2.5">
+                    <span class="bg-red-500 text-white text-xs font-black uppercase tracking-wider px-3 py-1.5 rounded-full animate-pulse shadow-sm">
                         Price rises soon ⏰
                     </span>
-                    <span class="text-white text-xs font-semibold">₹199 Today</span>
+                    <span class="text-white text-sm sm:text-base font-bold bg-white/20 px-3 py-1.5 rounded-full">₹199 Today</span>
                 </div>
             </div>
 
-            <!-- 2-Column layout: Left for Sales Copy/Value Stack, Right for inputs and checkout -->
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 p-6 sm:p-8">
-                
-                <!-- Left Column: High-Converting Sales Copy -->
-                <div class="md:col-span-7 space-y-6">
-                    <!-- Hero Image -->
-                    <div class="rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
-                        <img src="/vastu/assets/vastu_bundle_hero.jpg" alt="Practical Vastu Bundle" class="w-full h-auto">
+            <!-- Single Form Wrapper enclosing top inputs, middle info, and bottom payment button -->
+            <form id="checkoutForm" class="p-5 sm:p-8 space-y-8">
+
+                <!-- 1. Hero Image -->
+                <div class="rounded-2xl overflow-hidden border border-gray-200 shadow-md">
+                    <img src="/vastu/assets/vastu_bundle_hero.jpg" alt="Practical Vastu Bundle" class="w-full h-auto object-cover">
+                </div>
+
+                <!-- 2. DIRECTLY BELOW IMAGE: Delivery Details (Email & WhatsApp) -->
+                <div class="bg-blue-50/60 border-2 border-blue-500/30 rounded-2xl p-5 sm:p-6 space-y-4 shadow-sm">
+                    <div class="flex items-center gap-3 pb-1 border-b border-blue-100">
+                        <span class="w-7 h-7 rounded-full bg-blue-600 text-white grid place-items-center text-sm font-black shrink-0 shadow-sm">1</span>
+                        <div>
+                            <h2 class="font-extrabold text-gray-900 text-base sm:text-lg uppercase tracking-wide">Enter Delivery Details</h2>
+                            <p class="text-xs sm:text-sm text-gray-600">Digital download links will be sent directly to your Email &amp; WhatsApp</p>
+                        </div>
                     </div>
-                    <div class="space-y-2">
-                        <span class="text-xs font-bold text-amber-500 uppercase tracking-widest">🎉 Excellent Choice!</span>
-                        <h2 class="text-lg sm:text-xl font-extrabold text-gray-900 leading-tight">You're One Step Away from Transforming Your Home with Practical Vastu Wisdom</h2>
-                        <p class="text-sm text-gray-600">You've made a smart decision to invest in a complete Vastu learning system designed for modern homes. In just a few minutes, you'll receive instant access to all four premium eBooks so you can begin creating a more harmonious, organised, and positive living environment.</p>
+                    
+                    <div class="space-y-4 pt-1">
+                        <div>
+                            <label for="email" class="block text-xs sm:text-sm font-bold text-gray-700 mb-1.5 uppercase tracking-wider">
+                                Email Address <span class="text-red-500">*</span>
+                            </label>
+                            <input type="email" id="email" required placeholder="you@example.com" class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-base text-gray-900 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 transition shadow-sm">
+                        </div>
+                        <div>
+                            <label for="whatsapp" class="block text-xs sm:text-sm font-bold text-gray-700 mb-1.5 uppercase tracking-wider">
+                                WhatsApp Mobile Number <span class="text-red-500">*</span>
+                            </label>
+                            <div class="flex rounded-xl border border-gray-300 bg-white focus-within:border-blue-600 focus-within:ring-2 focus-within:ring-blue-600/20 overflow-hidden transition shadow-sm">
+                                <span class="px-3.5 py-3 text-base font-bold bg-gray-100 text-gray-600 border-r border-gray-200">+91</span>
+                                <input type="tel" id="whatsapp" required pattern="[0-9]{10}" placeholder="10-digit number" class="w-full px-4 py-3 text-base text-gray-900 outline-none bg-transparent">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. DIRECTLY BELOW DETAILS: Special Upgrades (Order Bumps) -->
+                <div class="bg-amber-50/50 border border-amber-200 rounded-2xl p-5 sm:p-6 space-y-4 shadow-sm">
+                    <div class="flex items-center justify-between gap-2 pb-1 border-b border-amber-200/60">
+                        <div class="flex items-center gap-3">
+                            <span class="w-7 h-7 rounded-full bg-amber-500 text-white grid place-items-center text-sm font-black shrink-0 shadow-sm">2</span>
+                            <h2 class="font-extrabold text-gray-900 text-base sm:text-lg uppercase tracking-wide">Special Upgrades (Optional)</h2>
+                        </div>
+                        <span class="text-xs font-black uppercase text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full shadow-xs">Save 90%</span>
                     </div>
 
-                    <!-- Trust indicators grid -->
-                    <div class="grid grid-cols-2 gap-2 text-[10px] sm:text-xs font-semibold text-gray-700">
-                        <div class="flex items-center gap-1.5">⭐ 4.9/5 Customer Rating</div>
-                        <div class="flex items-center gap-1.5">👥 5,000+ Happy Readers</div>
-                        <div class="flex items-center gap-1.5">🔒 100% Secure Checkout</div>
-                        <div class="flex items-center gap-1.5">⚡ Instant Digital Delivery</div>
-                        <div class="flex items-center gap-1.5">📱 Works on Mobile & PC</div>
-                        <div class="flex items-center gap-1.5">💳 One-Time Payment</div>
+                    <div class="space-y-3 pt-1">
+                        <!-- Addon 1 -->
+                        <label id="addonCard1" class="flex items-center gap-3.5 cursor-pointer rounded-xl p-4 border border-gray-200 bg-white hover:bg-amber-50/30 transition select-none shadow-xs">
+                            <input type="checkbox" id="addon1" checked class="w-5 h-5 accent-blue-600 shrink-0 cursor-pointer">
+                            <div class="min-w-0 flex-1">
+                                <div class="flex justify-between items-start gap-2">
+                                    <span class="text-sm sm:text-base font-bold text-gray-900 leading-snug">Add 50 Quick Vastu Tips Checklist</span>
+                                    <span class="text-sm sm:text-base font-black text-blue-600 shrink-0">+₹99</span>
+                                </div>
+                                <p class="text-xs sm:text-sm text-gray-500 mt-1">Usually ₹999 · Printable quick action cards</p>
+                            </div>
+                        </label>
+
+                        <!-- Addon 2 -->
+                        <label id="addonCard2" class="flex items-center gap-3.5 cursor-pointer rounded-xl p-4 border border-gray-200 bg-white hover:bg-amber-50/30 transition select-none shadow-xs">
+                            <input type="checkbox" id="addon2" checked class="w-5 h-5 accent-blue-600 shrink-0 cursor-pointer">
+                            <div class="min-w-0 flex-1">
+                                <div class="flex justify-between items-start gap-2">
+                                    <span class="text-sm sm:text-base font-bold text-gray-900 leading-snug">Add Zero-Demolition Cures Guide</span>
+                                    <span class="text-sm sm:text-base font-black text-blue-600 shrink-0">+₹49</span>
+                                </div>
+                                <p class="text-xs sm:text-sm text-gray-500 mt-1">Usually ₹599 · Balance energy without tearing walls</p>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="text-center pt-1">
+                        <a href="#paymentSection" class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-blue-600 hover:text-blue-800 hover:underline">
+                            <span>Skip to payment summary</span>
+                            <span>↓</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 4. VALUE STACK & SALES COPY (FOUND AS YOU SCROLL DOWN) -->
+                <div class="space-y-6 pt-4 border-t border-gray-200">
+                    
+                    <div class="space-y-3">
+                        <span class="text-sm font-black text-amber-500 uppercase tracking-widest">🎉 Excellent Choice!</span>
+                        <h2 class="text-xl sm:text-2xl font-black text-gray-900 leading-tight">
+                            You're One Step Away from Transforming Your Home with Practical Vastu Wisdom
+                        </h2>
+                        <p class="text-base sm:text-lg text-gray-700 leading-relaxed">
+                            You've made a smart decision to invest in a complete Vastu learning system designed for modern homes. In just a few minutes, you'll receive instant access to all four premium eBooks so you can begin creating a more harmonious, organised, and positive living environment.
+                        </p>
+                    </div>
+
+                    <!-- Trust indicators grid with larger text -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 p-4 bg-gray-50 rounded-2xl border border-gray-200 text-xs sm:text-sm font-bold text-gray-800">
+                        <div class="flex items-center gap-2">⭐ 4.9/5 Customer Rating</div>
+                        <div class="flex items-center gap-2">👥 10,000+ Happy Readers</div>
+                        <div class="flex items-center gap-2">🔒 100% Secure Checkout</div>
+                        <div class="flex items-center gap-2">⚡ Instant Digital Delivery</div>
+                        <div class="flex items-center gap-2">📱 Mobile, Tablet &amp; PC</div>
+                        <div class="flex items-center gap-2">💳 One-Time Payment</div>
                     </div>
 
                     <!-- Here's Everything You'll Receive Today -->
-                    <div class="space-y-3 border-t border-gray-100 pt-5">
-                        <h3 class="text-base font-bold text-gray-900 uppercase tracking-wide">Here's Everything You'll Receive Today:</h3>
+                    <div class="space-y-4 pt-2">
+                        <h3 class="text-lg sm:text-xl font-black text-gray-900 uppercase tracking-wide">
+                            Here's Everything You'll Receive Today:
+                        </h3>
                         
-                        <div class="space-y-3 text-xs text-gray-700">
+                        <div class="space-y-3.5">
                             <!-- Item 1 -->
-                            <div class="bg-gray-50 rounded-xl p-3 border border-gray-100">
-                                <p class="font-bold text-gray-800">📘 1. Complete Vastu Shastra <span class="text-[10px] text-gray-500 font-normal ml-1">(Value: ₹1,999)</span></p>
-                                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-1 mt-2 text-xs text-gray-600 list-inside list-disc">
+                            <div class="bg-gray-50 rounded-2xl p-4 sm:p-5 border border-gray-200 shadow-xs">
+                                <p class="font-black text-gray-900 text-base sm:text-lg">📘 1. Complete Vastu Shastra Guide <span class="text-xs sm:text-sm text-gray-500 font-medium ml-1">(Value: ₹1,999)</span></p>
+                                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 mt-2.5 text-sm sm:text-base text-gray-700 list-inside list-disc">
                                     <li>Understand all 16 directions</li>
                                     <li>Room-by-room guidance</li>
-                                    <li>Apartment & Flat Vastu</li>
+                                    <li>Apartment &amp; Flat Vastu</li>
                                     <li>32 Entrance Types</li>
                                     <li>Panchatattva (Five Elements)</li>
                                     <li>Practical remedies without demolition</li>
@@ -115,10 +197,10 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
                             </div>
 
                             <!-- Item 2 -->
-                            <div class="bg-gray-50 rounded-xl p-3 border border-gray-100">
-                                <p class="font-bold text-gray-800">📙 2. Simple Vastu Remedies <span class="text-[10px] text-gray-500 font-normal ml-1">(Value: ₹999)</span></p>
-                                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-1 mt-2 text-xs text-gray-600 list-inside list-disc">
-                                    <li>Wealth & Health Remedies</li>
+                            <div class="bg-gray-50 rounded-2xl p-4 sm:p-5 border border-gray-200 shadow-xs">
+                                <p class="font-black text-gray-900 text-base sm:text-lg">📙 2. Simple Vastu Remedies <span class="text-xs sm:text-sm text-gray-500 font-medium ml-1">(Value: ₹999)</span></p>
+                                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 mt-2.5 text-sm sm:text-base text-gray-700 list-inside list-disc">
+                                    <li>Wealth &amp; Health Remedies</li>
                                     <li>Career Guidance</li>
                                     <li>Relationship Harmony</li>
                                     <li>Room-wise Remedies</li>
@@ -128,9 +210,9 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
                             </div>
 
                             <!-- Item 3 -->
-                            <div class="bg-gray-50 rounded-xl p-3 border border-gray-100">
-                                <p class="font-bold text-gray-800">📔 3. 30-Day Vastu Workbook <span class="text-[10px] text-gray-500 font-normal ml-1">(Value: ₹499)</span></p>
-                                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-1 mt-2 text-xs text-gray-600 list-inside list-disc">
+                            <div class="bg-gray-50 rounded-2xl p-4 sm:p-5 border border-gray-200 shadow-xs">
+                                <p class="font-black text-gray-900 text-base sm:text-lg">📔 3. 30-Day Vastu Workbook <span class="text-xs sm:text-sm text-gray-500 font-medium ml-1">(Value: ₹499)</span></p>
+                                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 mt-2.5 text-sm sm:text-base text-gray-700 list-inside list-disc">
                                     <li>Daily Action Plans</li>
                                     <li>Printable Worksheets</li>
                                     <li>Progress Tracker</li>
@@ -141,196 +223,143 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
                             </div>
 
                             <!-- Item 4 -->
-                            <div class="bg-gray-50 rounded-xl p-3 border border-gray-100">
-                                <p class="font-bold text-gray-800">📕 4. 50 Quick Vastu Tips <span class="text-[10px] text-gray-500 font-normal ml-1">(Value: ₹299)</span></p>
-                                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-1 mt-2 text-xs text-gray-600 list-inside list-disc">
-                                    <li>Wealth & Health Tips</li>
+                            <div class="bg-gray-50 rounded-2xl p-4 sm:p-5 border border-gray-200 shadow-xs">
+                                <p class="font-black text-gray-900 text-base sm:text-lg">📕 4. 50 Quick Vastu Tips <span class="text-xs sm:text-sm text-gray-500 font-medium ml-1">(Value: ₹299)</span></p>
+                                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 mt-2.5 text-sm sm:text-base text-gray-700 list-inside list-disc">
+                                    <li>Wealth &amp; Health Tips</li>
                                     <li>Family Harmony</li>
-                                    <li>Success & Energy Tips</li>
+                                    <li>Success &amp; Energy Tips</li>
                                     <li>Daily Reference Guide</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Bundle Value summary box -->
-                    <div class="bg-blue-50 border border-blue-100 rounded-2xl p-4 space-y-2.5">
-                        <h4 class="text-xs font-bold text-blue-900 uppercase tracking-wider">Your Bundle Value</h4>
-                        <div class="space-y-2 text-sm text-blue-800">
-                            <div class="flex justify-between"><span>Complete Vastu Shastra</span> <span class="font-semibold">₹1,999</span></div>
-                            <div class="flex justify-between"><span>Simple Vastu Remedies</span> <span class="font-semibold">₹999</span></div>
-                            <div class="flex justify-between"><span>30-Day Workbook</span> <span class="font-semibold">₹499</span></div>
-                            <div class="flex justify-between"><span>50 Quick Vastu Tips</span> <span class="font-semibold">₹299</span></div>
-                            <div class="border-t border-blue-200/60 my-2"></div>
-                            <div class="flex justify-between font-bold text-sm"><span>Total Value:</span> <span class="line-through">₹3,796</span></div>
-                            <div class="flex justify-between items-center text-emerald-700 font-black text-sm pt-1">
-                                <span>🎁 Today's Special Price:</span>
-                                <span class="text-lg bg-emerald-100 text-emerald-800 px-3 py-1 rounded-lg">Only ₹199</span>
+                    <!-- Bundle Value summary box with larger text -->
+                    <div class="bg-blue-50 border border-blue-200 rounded-2xl p-5 sm:p-6 space-y-3 shadow-xs">
+                        <h4 class="text-sm font-black text-blue-900 uppercase tracking-wider">Your Bundle Value Summary</h4>
+                        <div class="space-y-2 text-sm sm:text-base text-blue-950 font-medium">
+                            <div class="flex justify-between"><span>Complete Vastu Shastra</span> <span class="font-bold">₹1,999</span></div>
+                            <div class="flex justify-between"><span>Simple Vastu Remedies</span> <span class="font-bold">₹999</span></div>
+                            <div class="flex justify-between"><span>30-Day Workbook</span> <span class="font-bold">₹499</span></div>
+                            <div class="flex justify-between"><span>50 Quick Vastu Tips</span> <span class="font-bold">₹299</span></div>
+                            <div class="border-t border-blue-200 my-2.5"></div>
+                            <div class="flex justify-between font-bold text-base sm:text-lg text-gray-800">
+                                <span>Total Value:</span> <span class="line-through text-gray-500">₹3,796</span>
                             </div>
-                            <div class="text-[10px] text-emerald-600 font-bold text-right">You Save ₹3,597 Today!</div>
+                            <div class="flex justify-between items-center text-emerald-800 font-black text-base sm:text-lg pt-1">
+                                <span>🎁 Today's Special Price:</span>
+                                <span class="text-xl sm:text-2xl bg-emerald-100 text-emerald-900 px-4 py-1.5 rounded-xl shadow-xs">Only ₹199</span>
+                            </div>
+                            <div class="text-xs sm:text-sm text-emerald-700 font-black text-right pt-0.5">You Save ₹3,597 Today!</div>
                         </div>
                     </div>
 
                     <!-- Why this bundle is worth every rupee -->
-                    <div class="space-y-3 text-sm text-gray-600">
-                        <p class="font-bold text-gray-800">Why This Bundle Is Worth Every Rupee</p>
+                    <div class="space-y-2.5 text-base sm:text-lg text-gray-700 leading-relaxed">
+                        <p class="font-black text-gray-900">Why This Bundle Is Worth Every Rupee</p>
                         <p>Unlike buying a single Vastu book, this bundle gives you an entire learning and implementation system. You won't just understand Vastu principles—you'll know how to apply them in your own home using practical, easy-to-follow guidance.</p>
-                        <p class="font-semibold text-gray-700">Perfect for: Apartments, Flats, Independent Houses, Duplexes, or Rented Homes.</p>
+                        <p class="font-bold text-gray-800">Perfect for: Apartments, Flats, Independent Houses, Duplexes, or Rented Homes.</p>
                     </div>
 
                     <!-- Delivery checklist -->
-                    <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-2 text-sm text-gray-700">
-                        <div class="flex items-center gap-2">✅ Download links via email</div>
-                        <div class="flex items-center gap-2">✅ Lifetime access</div>
-                        <div class="flex items-center gap-2">✅ Mobile, Tablet & Computer compatible</div>
-                        <div class="flex items-center gap-2">✅ High-quality PDF format</div>
+                    <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4 sm:p-5 space-y-2 text-sm sm:text-base text-gray-800 font-medium">
+                        <div class="flex items-center gap-2.5">✅ Download links via email &amp; WhatsApp</div>
+                        <div class="flex items-center gap-2.5">✅ Lifetime unlimited access</div>
+                        <div class="flex items-center gap-2.5">✅ Mobile, Tablet &amp; Computer compatible</div>
+                        <div class="flex items-center gap-2.5">✅ High-quality PDF format</div>
                     </div>
                 </div>
 
-                <!-- Right Column: Interactive Form Inputs & Payment Details -->
-                <div class="md:col-span-5 space-y-4">
-                    <form id="checkoutForm" class="space-y-4">
-                        <!-- Delivery Details inputs -->
-                        <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4 space-y-3">
-                            <div class="flex items-center gap-2">
-                                <span class="w-5 h-5 rounded-full bg-blue-600 text-white grid place-items-center text-xs font-bold shrink-0">1</span>
-                                <h3 class="font-bold text-gray-800 text-xs uppercase tracking-wide">Delivery Details</h3>
+                <!-- 5. JUST ABOVE THE PAY NOW BUTTON (AT THE END OF THE SCROLL): Coupon & Order Summary -->
+                <div id="paymentSection" class="space-y-5 pt-6 border-t-2 border-dashed border-gray-300">
+                    
+                    <!-- Coupon Code box -->
+                    <div class="bg-gray-50 border border-gray-200 rounded-2xl p-5 space-y-3 shadow-xs">
+                        <div class="flex items-center gap-3">
+                            <span class="w-7 h-7 rounded-full bg-blue-600 text-white grid place-items-center text-sm font-black shrink-0 shadow-sm">3</span>
+                            <span class="text-sm sm:text-base font-bold text-gray-900 uppercase tracking-wide">Have a Promo / Coupon Code?</span>
+                        </div>
+                        <div class="flex gap-2.5 flex-col sm:flex-row">
+                            <input type="text" id="couponCode" placeholder="Enter coupon code" class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-base text-gray-900 outline-none focus:border-blue-600 uppercase transition shadow-sm">
+                            <button type="button" id="applyCouponBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-extrabold px-6 py-3 rounded-xl text-sm sm:text-base uppercase tracking-wider shrink-0 transition shadow-sm">Apply</button>
+                        </div>
+                        <p id="couponMessage" class="text-sm font-bold hidden"></p>
+                    </div>
+
+                    <!-- Order Summary -->
+                    <div class="bg-gray-50 border border-gray-200 rounded-2xl p-5 sm:p-6 space-y-4 shadow-sm">
+                        <div class="flex items-center gap-3 border-b border-gray-200 pb-3">
+                            <span class="w-7 h-7 rounded-full bg-blue-600 text-white grid place-items-center text-sm font-black shrink-0 shadow-sm">4</span>
+                            <h3 class="font-black text-gray-900 text-base sm:text-lg uppercase tracking-wide">Order Summary</h3>
+                        </div>
+
+                        <div class="space-y-3 text-sm sm:text-base font-medium">
+                            <div class="flex justify-between items-center text-gray-800">
+                                <span>Vastu 4-in-1 Combo (4 eBooks)</span>
+                                <span id="basePriceDisplay" class="font-bold text-gray-900 text-base">₹199</span>
                             </div>
-                            
-                            <div class="space-y-2">
-                                <div>
-                                    <label class="block text-[10px] font-bold text-gray-500 mb-1 uppercase tracking-wider">Email Address</label>
-                                    <input type="email" id="email" required placeholder="you@example.com" class="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600/20 transition">
-                                </div>
-                                <div>
-                                    <label class="block text-[10px] font-bold text-gray-500 mb-1 uppercase tracking-wider">WhatsApp Number</label>
-                                    <div class="flex rounded-xl border border-gray-300 bg-white focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600/20 overflow-hidden transition">
-                                        <span class="px-2.5 py-2 text-sm font-semibold bg-gray-100 text-gray-500 border-r border-gray-200">+91</span>
-                                        <input type="tel" id="whatsapp" required pattern="[0-9]{10}" placeholder="10-digit number" class="w-full px-3 py-2 text-sm text-gray-900 outline-none bg-transparent">
-                                    </div>
-                                </div>
+                            <div id="addon1Row" class="flex justify-between items-center text-blue-600">
+                                <span>+ 50 Quick Vastu Tips Checklist</span>
+                                <span class="font-bold text-base">₹99</span>
+                            </div>
+                            <div id="addon2Row" class="flex justify-between items-center text-blue-600">
+                                <span>+ Zero-Demolition Cures Guide</span>
+                                <span class="font-bold text-base">₹49</span>
                             </div>
                         </div>
 
-                        <!-- Special Upgrades -->
-                        <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4 space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-2">
-                                    <span class="w-5 h-5 rounded-full bg-blue-600 text-white grid place-items-center text-xs font-bold shrink-0">2</span>
-                                    <h3 class="font-bold text-gray-800 text-xs uppercase tracking-wide">Special Upgrades</h3>
-                                </div>
-                                <span class="text-[9px] font-black uppercase text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-full">Save 90%</span>
-                            </div>
-
-                            <div class="space-y-2">
-                                <!-- Addon 1 -->
-                                <label id="addonCard1" class="flex items-center gap-3 cursor-pointer rounded-xl p-3 border border-gray-200 bg-white hover:bg-blue-50/20 transition select-none">
-                                    <input type="checkbox" id="addon1" checked class="w-4 h-4 accent-blue-600 shrink-0">
-                                    <div class="min-w-0 flex-1">
-                                        <div class="flex justify-between items-start gap-2">
-                                            <span class="text-xs font-bold text-gray-800 leading-tight">Add 50 Quick Vastu Tips Checklist</span>
-                                            <span class="text-xs font-black text-blue-600 shrink-0">+₹99</span>
-                                        </div>
-                                        <p class="text-[10px] text-gray-500 mt-0.5">Usually ₹999</p>
-                                    </div>
-                                </label>
-
-                                <!-- Addon 2 -->
-                                <label id="addonCard2" class="flex items-center gap-3 cursor-pointer rounded-xl p-3 border border-gray-200 bg-white hover:bg-blue-50/20 transition select-none">
-                                    <input type="checkbox" id="addon2" checked class="w-4 h-4 accent-blue-600 shrink-0">
-                                    <div class="min-w-0 flex-1">
-                                        <div class="flex justify-between items-start gap-2">
-                                            <span class="text-xs font-bold text-gray-800 leading-tight">Add Zero-Demolition Cures Guide</span>
-                                            <span class="text-xs font-black text-blue-600 shrink-0">+₹49</span>
-                                        </div>
-                                        <p class="text-[10px] text-gray-500 mt-0.5">Usually ₹599</p>
-                                    </div>
-                                </label>
+                        <div class="border-t-2 border-dashed border-gray-300 pt-4">
+                            <div class="flex justify-between items-center">
+                                <span class="font-black text-gray-800 text-base sm:text-lg uppercase tracking-wide">Final Total Price</span>
+                                <span id="totalPrice" class="text-3xl sm:text-4xl font-black text-blue-600">₹347</span>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Coupon Code input -->
-                        <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-                            <div class="flex items-center gap-2">
-                                <span class="w-5 h-5 rounded-full bg-blue-600 text-white grid place-items-center text-xs font-bold shrink-0">3</span>
-                                <span class="text-xs font-bold text-gray-800 uppercase tracking-wide">Promo Code</span>
-                            </div>
-                            <div class="flex gap-2 flex-1 sm:max-w-xs">
-                                <input type="text" id="couponCode" placeholder="Enter coupon code" class="w-full rounded-xl border border-gray-300 bg-white px-3 py-1.5 text-xs text-gray-900 outline-none focus:border-blue-600 transition">
-                                <button type="button" id="applyCouponBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-3 py-1.5 rounded-xl text-xs uppercase tracking-wider">Apply</button>
-                            </div>
-                            <p id="couponMessage" class="text-xs font-semibold hidden"></p>
+                    <!-- Secure Trust Badge Box -->
+                    <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 flex items-start gap-3.5 shadow-xs">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" class="shrink-0 mt-0.5">
+                            <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+                        </svg>
+                        <div>
+                            <p class="text-sm sm:text-base font-bold text-emerald-900 leading-tight">Instant Digital PDF Delivery</p>
+                            <p class="text-xs sm:text-sm text-emerald-700 mt-1">Downloads sent directly to WhatsApp &amp; Email instantly upon payment confirmation.</p>
                         </div>
+                    </div>
 
-                        <!-- Order Summary -->
-                        <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4 space-y-4">
-                            <div class="flex items-center gap-2 border-b border-gray-200 pb-3">
-                                <span class="w-5 h-5 rounded-full bg-blue-600 text-white grid place-items-center text-xs font-bold shrink-0">4</span>
-                                <h3 class="font-bold text-gray-800 text-xs uppercase tracking-wide">Order Summary</h3>
-                            </div>
-
-                            <div class="space-y-2 text-xs">
-                                <div class="flex justify-between">
-                                    <span class="text-gray-500">Vastu 4-in-1 Combo</span>
-                                    <span class="font-semibold text-gray-800">₹199</span>
-                                </div>
-                                <div id="addon1Row" class="flex justify-between text-blue-600">
-                                    <span>+ 50 Vastu Tips</span>
-                                    <span class="font-semibold">₹99</span>
-                                </div>
-                                <div id="addon2Row" class="flex justify-between text-blue-600">
-                                    <span>+ Element Cures Guide</span>
-                                    <span class="font-semibold">₹49</span>
-                                </div>
-                            </div>
-
-                            <div class="border-t border-dashed border-gray-300 pt-3">
-                                <div class="flex justify-between items-center">
-                                    <span class="font-bold text-gray-600 text-xs uppercase tracking-wide">Total Price</span>
-                                    <span id="totalPrice" class="text-2xl font-black text-blue-600">₹347</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Secure checkout trust box -->
-                        <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-3 flex items-start gap-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" class="shrink-0 mt-0.5">
-                                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
-                            </svg>
-                            <div>
-                                <p class="text-xs font-bold text-emerald-800 leading-tight">Instant PDF Delivery</p>
-                                <p class="text-[10px] text-emerald-600 mt-0.5">Downloads sent directly to WhatsApp & Email instantly.</p>
-                            </div>
-                        </div>
-
-                        <!-- Proceed to Payment Button -->
-                        <button type="submit" id="submitBtn" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3.5 rounded-xl font-bold text-sm shadow-md shadow-blue-500/15 hover:opacity-90 transition">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>
-                            </svg>
-                            <span id="btnText">Proceed to Payment</span>
-                        </button>
-                    </form>
+                    <!-- 6. FINAL PAY NOW BUTTON -->
+                    <button type="submit" id="submitBtn" class="w-full inline-flex items-center justify-center gap-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4 sm:py-4.5 px-6 rounded-2xl font-extrabold text-base sm:text-lg shadow-lg shadow-blue-500/30 hover:opacity-95 active:scale-[0.99] transition cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>
+                        </svg>
+                        <span id="btnText">🔒 Pay Now &amp; Access Instantly</span>
+                    </button>
+                    
+                    <p class="text-center text-xs sm:text-sm text-gray-500">
+                        🔒 256-Bit SSL Encrypted Payment · Instant Download Guaranteed
+                    </p>
                 </div>
 
-            </div>
+            </form>
         </div>
 
         <!-- RBI Compliant Legal Footer -->
-        <footer class="w-full text-center py-4 text-gray-500 text-[10px] space-y-2">
-            <p>📞 <b>Contact:</b> +91 8282910470 | ✉ <b>Email:</b> support@infinitytech-six.vercel.app</p>
+        <footer class="w-full text-center py-6 text-gray-500 text-xs space-y-2.5">
+            <p>📞 <b>Contact:</b> +91 8910803089 | ✉ <b>Email:</b> support@infinitytech-six.vercel.app</p>
             <p>📍 <b>Address:</b> South 24 Parganas, State: West Bengal, PIN Code: 700135</p>
-            <div class="flex justify-center gap-2.5 font-semibold text-blue-600">
+            <div class="flex justify-center flex-wrap gap-3 font-semibold text-blue-600 pt-1">
                 <a href="/privacy-policy" class="hover:underline">Privacy Policy</a> |
-                <a href="/terms-and-conditions" class="hover:underline">Terms & Conditions</a> |
+                <a href="/terms-and-conditions" class="hover:underline">Terms &amp; Conditions</a> |
                 <a href="/disclaimer" class="hover:underline">Disclaimer</a> |
                 <a href="/refund-policy" class="hover:underline">Refund Policy</a>
             </div>
-            <p class="text-gray-400">© 2026 Proprietor: Sania Khatun (Operating as Infinity Tech). All rights reserved.</p>
+            <p class="text-gray-400 pt-1">© 2026 Proprietor: Sania Khatun (Operating as Infinity Tech). All rights reserved.</p>
         </footer>
 
     </div>
 
+    <!-- Script Logic -->
     <script>
         const addon1 = document.getElementById('addon1');
         const addon2 = document.getElementById('addon2');
@@ -339,6 +368,7 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
         const addon1Row = document.getElementById('addon1Row');
         const addon2Row = document.getElementById('addon2Row');
         const totalPrice = document.getElementById('totalPrice');
+        const basePriceDisplay = document.getElementById('basePriceDisplay');
         const checkoutForm = document.getElementById('checkoutForm');
         const couponCode = document.getElementById('couponCode');
         const applyCouponBtn = document.getElementById('applyCouponBtn');
@@ -404,20 +434,20 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
                 couponMessage.textContent = "Coupon 'admin1' applied!";
                 couponMessage.classList.remove('hidden');
                 couponMessage.classList.add('text-emerald-600');
-                document.querySelector('.text-xs .flex.justify-between span:last-child').textContent = '₹1';
+                if (basePriceDisplay) basePriceDisplay.textContent = '₹1';
                 updateSum();
             } else if (code === '') {
                 isCouponApplied = false;
                 couponMessage.textContent = "";
                 couponMessage.classList.add('hidden');
-                document.querySelector('.text-xs .flex.justify-between span:last-child').textContent = '₹199';
+                if (basePriceDisplay) basePriceDisplay.textContent = '₹199';
                 updateSum();
             } else {
                 isCouponApplied = false;
                 couponMessage.textContent = "Invalid code";
                 couponMessage.classList.remove('hidden');
                 couponMessage.classList.add('text-rose-400');
-                document.querySelector('.text-xs .flex.justify-between span:last-child').textContent = '₹199';
+                if (basePriceDisplay) basePriceDisplay.textContent = '₹199';
                 updateSum();
             }
         });
@@ -474,7 +504,6 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
             localStorage.setItem('checkout_addon1', addon1.checked);
             localStorage.setItem('checkout_addon2', addon2.checked);
 
-            // Update UI state to loading
             // Track AddPaymentInfo on submit
             if (typeof window.trackAddPaymentInfo === 'function') {
                 const totalText = document.getElementById('totalPrice').textContent;
@@ -513,11 +542,11 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
             } catch (err) {
                 alert('Checkout Error: ' + err.message);
                 submitBtn.disabled = false;
-                btnText.textContent = 'Proceed to Payment';
+                btnText.textContent = '🔒 Pay Now & Access Instantly';
             }
         });
     </script>
-<script src="/vastu/assets/pixelEvents.js"></script>
+    <script src="/vastu/assets/pixelEvents.js"></script>
 
     <script>
         // Track InitiateCheckout on page load
