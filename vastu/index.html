@@ -655,52 +655,161 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
 </head>
 <body>
 
-    <section class="no-space-section">
-        <div class="text-center pt-8 pb-4 px-4">
-            
-            <h2 class="text-sm md:text-lg font-black text-white leading-snug m-0">
-                Still have question marks circling around?
-                Here’s a little Heart-to-Heart, Out of
-                <br class="md:hidden">
-                <span class="text-[#FFB81C]">10,000+ learners.</span>
-            </h2>
+    
+    <!-- EXPLORE INSIDE LAYOUTS SLIDESHOW (REPLACING INSTAGRAM/WHATSAPP SLIDESHOW) -->
+    <style>
+        .explore-layouts-section {
+            background: #090d16;
+            padding: 40px 0 32px;
+            overflow: hidden;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .explore-layouts-section .samples-header {
+            text-align: center;
+            padding: 0 16px 16px;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+        .explore-layouts-section .divider-line {
+            width: 36px;
+            height: 4px;
+            background-color: #f59e0b;
+            margin: 0 auto 12px;
+            border-radius: 2px;
+        }
+        .explore-layouts-section .samples-title {
+            font-size: clamp(20px, 5vw, 28px);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+            color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+        }
+        .explore-layouts-section .samples-subtitle {
+            font-size: 14px;
+            color: #a1a1aa;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+        .explore-layouts-section .e-container {
+            max-width: 100%;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        .explore-layouts-section .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 14px;
+            display: flex;
+        }
+        .explore-layouts-section .marquee-track {
+            display: flex;
+            gap: 16px;
+            width: max-content;
+            padding: 6px 0;
+        }
+        .explore-layouts-section .track-left {
+            animation: scroll-left-layout 45s linear infinite;
+        }
+        .explore-layouts-section .track-right {
+            animation: scroll-right-layout 45s linear infinite;
+        }
+        .explore-layouts-section .card {
+            width: 170px;
+            flex-shrink: 0;
+        }
+        .explore-layouts-section .card img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+            border: 1px solid rgba(255,255,255,0.12);
+            background: #ffffff;
+            display: block;
+        }
+        @keyframes scroll-left-layout {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        @keyframes scroll-right-layout {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+        }
+        @media (min-width: 768px) {
+            .explore-layouts-section .card { width: 250px; }
+            .explore-layouts-section .marquee-track { gap: 20px; }
+        }
+    </style>
 
+    <section class="explore-layouts-section">
+        <div class="samples-header">
+            <div class="divider-line"></div>
+            <h2 class="samples-title">Explore Inside Layouts</h2>
+            <p class="samples-subtitle">Scroll through high-quality calculations, templates, and spreadsheets.</p>
         </div>
-
-        <div class="marquee-container">
-            <div class="marquee-track">
-                <div class="review-card"><img decoding="async" src="https://arcsio.in/wp-content/uploads/2026/06/WhatsApp-Image-2026-06-04-at-22.42.01-2.jpeg" class="review-img"></div>
-                <div class="review-card"><img decoding="async" src="https://arcsio.in/wp-content/uploads/2026/06/WhatsApp-Image-2026-06-04-at-22.42.01-1.jpeg" class="review-img"></div>
-                <div class="review-card"><img decoding="async" src="https://arcsio.in/wp-content/uploads/2026/06/WhatsApp-Image-2026-06-04-at-22.42.01.jpeg" class="review-img"></div>
-                <div class="review-card"><img decoding="async" src="https://arcsio.in/wp-content/uploads/2026/06/WhatsApp-Image-2026-06-04-at-22.42.00-1.jpeg" class="review-img"></div>
-                <div class="review-card"><img decoding="async" src="https://arcsio.in/wp-content/uploads/2026/06/WhatsApp-Image-2026-06-04-at-22.42.00.jpeg" class="review-img"></div>
-                <div class="review-card"><img decoding="async" src="https://arcsio.in/wp-content/uploads/2026/06/WhatsApp-Image-2026-06-04-at-22.41.59.jpeg" class="review-img"></div>
-
-                <div class="review-card"><img decoding="async" src="https://arcsio.in/wp-content/uploads/2026/06/WhatsApp-Image-2026-06-04-at-22.42.01-2.jpeg" class="review-img"></div>
-                <div class="review-card"><img decoding="async" src="https://arcsio.in/wp-content/uploads/2026/06/WhatsApp-Image-2026-06-04-at-22.42.01-1.jpeg" class="review-img"></div>
-                <div class="review-card"><img decoding="async" src="https://arcsio.in/wp-content/uploads/2026/06/WhatsApp-Image-2026-06-04-at-22.42.01.jpeg" class="review-img"></div>
-                <div class="review-card"><img decoding="async" src="https://arcsio.in/wp-content/uploads/2026/06/WhatsApp-Image-2026-06-04-at-22.42.00-1.jpeg" class="review-img"></div>
-                <div class="review-card"><img decoding="async" src="https://arcsio.in/wp-content/uploads/2026/04/WhatsApp-Image-2026-04-09-at-11.53.37-PM.jpeg" class="review-img"></div>
-                <div class="review-card"><img decoding="async" src="https://arcsio.in/wp-content/uploads/2026/06/WhatsApp-Image-2026-06-04-at-22.41.59.jpeg" class="review-img"></div>
+        
+        <div class="e-container">
+            <div class="marquee-container">
+                <div class="marquee-track track-left">
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_astroyogi_1.png" alt="Astroyogi Page 1"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_astroyogi_2.png" alt="Astroyogi Page 2"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_astroyogi_3.png" alt="Astroyogi Page 3"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_astroyogi_4.png" alt="Astroyogi Page 4"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_astroyogi_5.png" alt="Astroyogi Page 5"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_astroyogi_6.png" alt="Astroyogi Page 6"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_astroyogi_7.png" alt="Astroyogi Page 7"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_practical_1.png" alt="Practical Page 1"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_practical_2.png" alt="Practical Page 2"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_practical_3.png" alt="Practical Page 3"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_practical_4.png" alt="Practical Page 4"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_practical_5.png" alt="Practical Page 5"></div>
+                    <!-- Duplicate for infinite seamless marquee loop -->
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_astroyogi_1.png" alt="Astroyogi Page 1"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_astroyogi_2.png" alt="Astroyogi Page 2"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_astroyogi_3.png" alt="Astroyogi Page 3"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_astroyogi_4.png" alt="Astroyogi Page 4"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_astroyogi_5.png" alt="Astroyogi Page 5"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_astroyogi_6.png" alt="Astroyogi Page 6"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_astroyogi_7.png" alt="Astroyogi Page 7"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_practical_1.png" alt="Practical Page 1"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_practical_2.png" alt="Practical Page 2"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_practical_3.png" alt="Practical Page 3"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_practical_4.png" alt="Practical Page 4"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_practical_5.png" alt="Practical Page 5"></div>
+                </div>
             </div>
-        </div>
-
-        <div class="pt-4 pb-8 flex flex-col items-center justify-center">
-            <div class="flex items-center space-x-2">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="#00b67a">
-                    <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z"/>
-                </svg>
-                <span class="text-white font-bold text-base">Trustpilot</span>
-            </div>
-            <div class="flex space-x-0.5 mt-1">
-                <span class="trustpilot-green text-lg">★</span>
-                <span class="trustpilot-green text-lg">★</span>
-                <span class="trustpilot-green text-xl">★</span>
-                <span class="trustpilot-green text-lg">★</span>
-                <span class="trustpilot-green text-lg">★</span>
+            <div class="marquee-container">
+                <div class="marquee-track track-right">
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_astroyogi_8.png" alt="Astroyogi Page 8"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_astroyogi_9.png" alt="Astroyogi Page 9"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_astroyogi_10.png" alt="Astroyogi Page 10"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_astroyogi_11.png" alt="Astroyogi Page 11"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_astroyogi_12.png" alt="Astroyogi Page 12"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_astroyogi_13.png" alt="Astroyogi Page 13"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_practical_6.png" alt="Practical Page 6"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_practical_7.png" alt="Practical Page 7"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_practical_8.png" alt="Practical Page 8"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_practical_9.png" alt="Practical Page 9"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_practical_10.png" alt="Practical Page 10"></div>
+                    <!-- Duplicate for infinite seamless marquee loop -->
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_astroyogi_8.png" alt="Astroyogi Page 8"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_astroyogi_9.png" alt="Astroyogi Page 9"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_astroyogi_10.png" alt="Astroyogi Page 10"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_astroyogi_11.png" alt="Astroyogi Page 11"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_astroyogi_12.png" alt="Astroyogi Page 12"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_astroyogi_13.png" alt="Astroyogi Page 13"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_practical_6.png" alt="Practical Page 6"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_practical_7.png" alt="Practical Page 7"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_practical_8.png" alt="Practical Page 8"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_practical_9.png" alt="Practical Page 9"></div>
+                    <div class="card"><img decoding="async" src="/vastu/assets/slide_practical_10.png" alt="Practical Page 10"></div>
+                </div>
             </div>
         </div>
     </section>
+
 
 
 <!-- Direct Floating WhatsApp Button -->
@@ -1801,68 +1910,7 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
         </div>
     </div>
     
-    <div class="samples-header">
-        <div class="divider-line"></div>
-        <h2 class="samples-title">Explore Inside Layouts</h2>
-        <p class="samples-subtitle">Scroll through high-quality calculations, templates, and spreadsheets.</p>
-    </div>
     
-    <div class="e-container">
-        <div class="marquee-container">
-            <div class="marquee-track track-left">
-                <div class="card"><img decoding="async" src="vastu/assets/slide_astroyogi_1.png" alt="Astroyogi Page 1"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_astroyogi_2.png" alt="Astroyogi Page 2"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_astroyogi_3.png" alt="Astroyogi Page 3"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_astroyogi_4.png" alt="Astroyogi Page 4"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_astroyogi_5.png" alt="Astroyogi Page 5"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_astroyogi_6.png" alt="Astroyogi Page 6"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_astroyogi_7.png" alt="Astroyogi Page 7"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_practical_1.png" alt="Practical Page 1"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_practical_2.png" alt="Practical Page 2"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_practical_3.png" alt="Practical Page 3"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_practical_4.png" alt="Practical Page 4"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_practical_5.png" alt="Practical Page 5"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_astroyogi_1.png" alt="Astroyogi Page 1"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_astroyogi_2.png" alt="Astroyogi Page 2"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_astroyogi_3.png" alt="Astroyogi Page 3"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_astroyogi_4.png" alt="Astroyogi Page 4"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_astroyogi_5.png" alt="Astroyogi Page 5"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_astroyogi_6.png" alt="Astroyogi Page 6"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_astroyogi_7.png" alt="Astroyogi Page 7"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_practical_1.png" alt="Practical Page 1"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_practical_2.png" alt="Practical Page 2"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_practical_3.png" alt="Practical Page 3"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_practical_4.png" alt="Practical Page 4"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_practical_5.png" alt="Practical Page 5"></div>
-            </div>
-        </div>
-        <div class="marquee-container">
-            <div class="marquee-track track-right">
-                <div class="card"><img decoding="async" src="vastu/assets/slide_astroyogi_8.png" alt="Astroyogi Page 8"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_astroyogi_9.png" alt="Astroyogi Page 9"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_astroyogi_10.png" alt="Astroyogi Page 10"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_astroyogi_11.png" alt="Astroyogi Page 11"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_astroyogi_12.png" alt="Astroyogi Page 12"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_astroyogi_13.png" alt="Astroyogi Page 13"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_practical_6.png" alt="Practical Page 6"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_practical_7.png" alt="Practical Page 7"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_practical_8.png" alt="Practical Page 8"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_practical_9.png" alt="Practical Page 9"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_practical_10.png" alt="Practical Page 10"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_astroyogi_8.png" alt="Astroyogi Page 8"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_astroyogi_9.png" alt="Astroyogi Page 9"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_astroyogi_10.png" alt="Astroyogi Page 10"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_astroyogi_11.png" alt="Astroyogi Page 11"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_astroyogi_12.png" alt="Astroyogi Page 12"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_astroyogi_13.png" alt="Astroyogi Page 13"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_practical_6.png" alt="Practical Page 6"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_practical_7.png" alt="Practical Page 7"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_practical_8.png" alt="Practical Page 8"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_practical_9.png" alt="Practical Page 9"></div>
-                <div class="card"><img decoding="async" src="vastu/assets/slide_practical_10.png" alt="Practical Page 10"></div>
-            </div>
-        </div>
-    </div>
 </div>				</div>
 					</div>
 				</div>
