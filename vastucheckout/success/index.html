@@ -133,10 +133,33 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
                     throw new Error(data.error || 'Failed to verify payment');
                 }
 
-                // Track Purchase event on payment success
-                if (typeof window.trackPurchase === 'function') {
-                    window.trackPurchase({ value: 199.00, ids: ['vastu_bundle_1'] });
+                // Resolve dynamic order values returned from payment verification and cart session
+                const orderTotal = parseFloat(data.order_amount) || 199.00;
+                const orderCurrency = data.order_currency || 'INR';
+
+                // Resolve dynamic product SKUs and item count from cart details
+                const addon1Selected = localStorage.getItem('checkout_addon1') === 'true';
+                const addon2Selected = localStorage.getItem('checkout_addon2') === 'true';
+                const contentIds = ['vastu_bundle_1'];
+                if (addon1Selected) contentIds.push('vastu_addon_tips');
+                if (addon2Selected) contentIds.push('vastu_addon_cures');
+                const numItems = contentIds.length;
+
+                // Track Purchase event exactly once per completed order (prevents duplicates on page refresh)
+                const purchaseDedupeKey = 'fb_purchase_tracked_' + orderId;
+                if (!localStorage.getItem(purchaseDedupeKey)) {
+                    if (typeof fbq === 'function') {
+                        fbq('track', 'Purchase', {
+                            value: orderTotal,
+                            currency: orderCurrency,
+                            content_ids: contentIds,
+                            content_type: 'product',
+                            num_items: numItems
+                        });
+                    }
+                    localStorage.setItem(purchaseDedupeKey, 'true');
                 }
+
                 // Show success view
                 loaderSection.classList.add('hidden');
                 successSection.classList.remove('hidden');

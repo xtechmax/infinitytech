@@ -110,6 +110,10 @@ export default async function handler(req, res) {
             return res.status(200).json({ 
                 verified: true, 
                 email_sent: false, 
+                order_id,
+                order_amount: orderData.order_amount,
+                order_currency: orderData.order_currency || 'INR',
+                customer_email: customerEmail,
                 warning: 'Payment verified, but email delivery failed: ' + (resendData.message || 'unknown error')
             });
         }
@@ -118,6 +122,9 @@ export default async function handler(req, res) {
             verified: true,
             email_sent: true,
             order_id,
+            order_amount: orderData.order_amount,
+            order_currency: orderData.order_currency || 'INR',
+            customer_email: customerEmail,
             email_id: resendData.id
         });
 

@@ -91,16 +91,24 @@ window.trackAddPaymentInfo = function(paymentData = {}) {
  * 7. Purchase - Triggered on successful checkout completion
  */
 window.trackPurchase = function(purchaseData = {}) {
-    // Note: If Server-Side Conversions API (CAPI) is implemented later,
-    // match this with the event_id parameter to ensure deduplication.
+    const orderId = purchaseData.order_id || '';
+    const dedupeKey = orderId ? 'fb_purchase_tracked_' + orderId : '';
+    if (dedupeKey && localStorage.getItem(dedupeKey)) {
+        console.log(`[Meta Pixel] Purchase event already tracked for order ${orderId}, skipping duplicate.`);
+        return;
+    }
+
     safeTrack('Purchase', {
-        content_ids: purchaseData.ids || ['vastu_bundle_1'],
-        contents: purchaseData.contents || [{ id: 'vastu_bundle_1', quantity: 1 }],
-        content_type: 'product',
-        value: purchaseData.value || 199.00,
+        value: Number(purchaseData.value) || 199.00,
         currency: purchaseData.currency || 'INR',
+        content_ids: purchaseData.content_ids || purchaseData.ids || ['vastu_bundle_1'],
+        content_type: 'product',
         num_items: purchaseData.num_items || 1
     });
+
+    if (dedupeKey) {
+        localStorage.setItem(dedupeKey, 'true');
+    }
 };
 
 /**
