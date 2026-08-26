@@ -364,8 +364,9 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
 <meta name="msapplication-TileImage" content="https://arcsio.in/wp-content/uploads/2026/03/cropped-1-270x270.png" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
+
 <style id="whatsapp-position-override">
-/* Lower WhatsApp floating button to sit neatly above the mobile sticky bar */
+/* Ensure WhatsApp floating button sits nicely above the sticky checkout bar and is 100% visible */
 .qlwapp,
 .qlwapp__container,
 .qlwapp__container.qlwapp__container--middle-right,
@@ -374,9 +375,12 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
 .direct-whatsapp-float {
     position: fixed !important;
     top: auto !important;
-    bottom: 95px !important;
-    right: 18px !important;
-    z-index: 99999 !important;
+    bottom: 135px !important;
+    right: 20px !important;
+    z-index: 2147483648 !important;
+    pointer-events: auto !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 @media (min-width: 768px) {
@@ -386,7 +390,7 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
     .qlwapp__container.qlwapp__container--bottom-right,
     .qlwapp__container.qlwapp__container--middle-right:not(.qlwapp__container--closing,.qlwapp__container--opening,.qlwapp__container--open),
     .direct-whatsapp-float {
-        bottom: 30px !important;
+        bottom: 130px !important;
         right: 25px !important;
     }
 }
@@ -3437,8 +3441,9 @@ var e="script#wp-emoji-settings",t=document.querySelector(e);if(!(t instanceof H
 </script>
 
 
+
 <style id="whatsapp-position-override">
-/* Lower WhatsApp floating button to sit neatly above the mobile sticky bar */
+/* Ensure WhatsApp floating button sits nicely above the sticky checkout bar and is 100% visible */
 .qlwapp,
 .qlwapp__container,
 .qlwapp__container.qlwapp__container--middle-right,
@@ -3447,9 +3452,12 @@ var e="script#wp-emoji-settings",t=document.querySelector(e);if(!(t instanceof H
 .direct-whatsapp-float {
     position: fixed !important;
     top: auto !important;
-    bottom: 95px !important;
-    right: 18px !important;
-    z-index: 99999 !important;
+    bottom: 135px !important;
+    right: 20px !important;
+    z-index: 2147483648 !important;
+    pointer-events: auto !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 @media (min-width: 768px) {
@@ -3459,7 +3467,7 @@ var e="script#wp-emoji-settings",t=document.querySelector(e);if(!(t instanceof H
     .qlwapp__container.qlwapp__container--bottom-right,
     .qlwapp__container.qlwapp__container--middle-right:not(.qlwapp__container--closing,.qlwapp__container--opening,.qlwapp__container--open),
     .direct-whatsapp-float {
-        bottom: 30px !important;
+        bottom: 130px !important;
         right: 25px !important;
     }
 }
