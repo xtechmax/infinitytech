@@ -81,12 +81,20 @@
       "destination": "/vastu/admin/index.html"
     },
     {
-      "source": "/vastu",
-      "destination": "/vastu/index.html"
+      "source": "/vastucheckout/success",
+      "destination": "/vastucheckout/success/index.html"
+    },
+    {
+      "source": "/vastucheckout",
+      "destination": "/vastucheckout/index.html"
     },
     {
       "source": "/vastu/assets/(.*)",
       "destination": "/vastu/assets/$1"
+    },
+    {
+      "source": "/vastu/?",
+      "destination": "/vastu/index.html"
     }
   ]
 }
