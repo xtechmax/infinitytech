@@ -25,6 +25,26 @@
       "destination": "/api/age-check.js"
     },
     {
+      "source": "/api/reading",
+      "destination": "/api/reading.js"
+    },
+    {
+      "source": "/api/reading/(.*)",
+      "destination": "/api/reading.js"
+    },
+    {
+      "source": "/api/readings/(.*)",
+      "destination": "/api/reading.js"
+    },
+    {
+      "source": "/api/places",
+      "destination": "/api/places.js"
+    },
+    {
+      "source": "/api/lead",
+      "destination": "/api/capture-lead.js"
+    },
+    {
       "source": "/astroyogi/assets/(.*)",
       "destination": "/astroyogi/assets/$1"
     },
