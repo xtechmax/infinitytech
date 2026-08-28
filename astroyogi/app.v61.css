@@ -265,6 +265,101 @@ body.has-checkout-dock .topbar {
   width: 100%;
 }
 
+/* Astrological Biometric Constellation Overlays for Palm & Face */
+.astrology-constellation-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 12;
+  overflow: hidden;
+}
+
+.astrology-constellation-overlay svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.astro-constellation-line {
+  stroke: rgba(214, 177, 106, 0.45);
+  stroke-width: 0.75;
+  stroke-dasharray: 2 1.5;
+  filter: drop-shadow(0 0 2px rgba(214, 177, 106, 0.6));
+  animation: astroLinePulse 3s ease-in-out infinite alternate;
+}
+
+.astro-constellation-line--major {
+  stroke: rgba(56, 189, 248, 0.65);
+  stroke-width: 1;
+  stroke-dasharray: none;
+  filter: drop-shadow(0 0 3px rgba(56, 189, 248, 0.85));
+}
+
+.astro-node {
+  transform-origin: center;
+  animation: astroNodePulse 2.4s ease-in-out infinite alternate;
+}
+
+.astro-node-ring {
+  fill: none;
+  stroke: rgba(214, 177, 106, 0.75);
+  stroke-width: 0.6;
+  animation: astroRingExpand 2s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+
+.astro-node-dot {
+  fill: #fdfaf6;
+  stroke: #d97706;
+  stroke-width: 0.8;
+  filter: drop-shadow(0 0 4px #fbbf24) drop-shadow(0 0 8px rgba(245, 158, 11, 0.6));
+}
+
+.astro-node-dot--cyan {
+  fill: #ffffff;
+  stroke: #0284c7;
+  filter: drop-shadow(0 0 4px #38bdf8) drop-shadow(0 0 8px rgba(56, 189, 248, 0.75));
+}
+
+.astro-node-dot--emerald {
+  fill: #ffffff;
+  stroke: #059669;
+  filter: drop-shadow(0 0 4px #34d399) drop-shadow(0 0 8px rgba(52, 211, 153, 0.75));
+}
+
+.astro-node-dot--ruby {
+  fill: #ffffff;
+  stroke: #e11d48;
+  filter: drop-shadow(0 0 4px #fb7185) drop-shadow(0 0 8px rgba(251, 113, 133, 0.75));
+}
+
+.astro-glyph-text {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 3.4px;
+  font-weight: 800;
+  fill: #fef08a;
+  text-shadow: 0 0 3px rgba(0,0,0,0.9), 0 0 6px rgba(234, 179, 8, 0.8);
+  letter-spacing: 0.05em;
+  user-select: none;
+}
+
+@keyframes astroNodePulse {
+  0% { transform: scale(0.92); opacity: 0.8; }
+  100% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 6px #f59e0b); }
+}
+
+@keyframes astroRingExpand {
+  0% { r: 1.2; opacity: 0.9; stroke-width: 0.8; }
+  100% { r: 3.6; opacity: 0; stroke-width: 0.2; }
+}
+
+@keyframes astroLinePulse {
+  0% { opacity: 0.35; stroke-width: 0.6; }
+  100% { opacity: 0.85; stroke-width: 1.1; }
+}
+
 /* On the home page the side buttons are hidden, so the brand can be a
    confident, centred wordmark instead of a small floating mark. */
 body.is-home-landing .brand {

@@ -8981,10 +8981,10 @@ function palmSmoothPath(points = []) {
 }
 
 function palmOverlaySvg(result = state.palmDetection) {
-  if (!result) return '';
+  if (!result) return palmAstrologyConstellationSvg();
   const size = state.palmImageSize || { width: 720, height: 960 };
-  const colors = { love: '#a45168', heart: '#a45168', head: '#b17c31', life: '#28796e', fate: '#6c6090' };
-  const labels = { love: 'Heart', heart: 'Heart', head: 'Head', life: 'Life', fate: 'Fate' };
+  const colors = { love: '#38bdf8', heart: '#38bdf8', head: '#34d399', life: '#f59e0b', fate: '#c084fc' };
+  const labels = { love: 'Heart Line', heart: 'Heart Line', head: 'Head Line', life: 'Life Line', fate: 'Fate Line' };
   const lines = palmOverlayLines(result);
   const paths = Object.entries(lines).map(([key, points], lineIndex) => {
     if (!Array.isArray(points) || points.length < 2) return '';
@@ -8992,8 +8992,8 @@ function palmOverlaySvg(result = state.palmDetection) {
     const path = palmSmoothPath(clean);
     if (!path) return '';
     const midpoint = clean[Math.floor(clean.length / 2)];
-    const color = colors[key] || '#9c6d2d';
-    const coreWidth = Math.max(3, size.width * 0.006);
+    const color = colors[key] || '#fbbf24';
+    const coreWidth = Math.max(3.5, size.width * 0.007);
     const labelSize = Math.max(24, Math.min(42, size.width * 0.028));
     const labelOffset = Math.max(20, size.width * 0.022);
     const labelOnLeft = midpoint.x > size.width * 0.72;
@@ -9004,11 +9004,24 @@ function palmOverlaySvg(result = state.palmDetection) {
       <path class="palm-path-halo" d="${path}" stroke="${color}" stroke-width="${coreWidth * 3.2}" />
       <path class="palm-path-glow" d="${path}" stroke="${color}" stroke-width="${coreWidth * 1.8}" />
       <path class="palm-polyline" d="${path}" stroke="${color}" stroke-width="${coreWidth}" />
-      <circle class="palm-path-anchor" cx="${midpoint.x}" cy="${midpoint.y}" r="${Math.max(3, size.width * 0.005)}" />
-      <text class="palm-path-label" x="${labelX}" y="${labelY}" text-anchor="${labelOnLeft ? 'end' : 'start'}" style="font-size:${labelSize}px">${labels[key] || escapeHtml(key)}</text>
+      <circle class="palm-path-anchor astro-node-dot" cx="${midpoint.x}" cy="${midpoint.y}" r="${Math.max(4.5, size.width * 0.008)}" />
+      <text class="palm-path-label" x="${labelX}" y="${labelY}" text-anchor="${labelOnLeft ? 'end' : 'start'}" style="font-size:${labelSize}px;fill:#fef08a;font-weight:700;">${labels[key] || escapeHtml(key)}</text>
     </g>`;
   }).join('');
-  return `<svg class="palm-overlay" viewBox="0 0 ${size.width} ${size.height}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">${paths}</svg>`;
+
+  const mountNodes = `
+    <g class="palm-mount-nodes" aria-hidden="true">
+      <g class="astro-node"><circle cx="${size.width * 0.34}" cy="${size.height * 0.36}" r="${size.width * 0.01}" class="astro-node-dot astro-node-dot--cyan" /><text x="${size.width * 0.31}" y="${size.height * 0.32}" style="font-size:${size.width * 0.03}px;fill:#fef08a;font-weight:800;">♃ ♈</text></g>
+      <g class="astro-node"><circle cx="${size.width * 0.48}" cy="${size.height * 0.32}" r="${size.width * 0.012}" class="astro-node-dot" /><text x="${size.width * 0.46}" y="${size.height * 0.28}" style="font-size:${size.width * 0.03}px;fill:#fef08a;font-weight:800;">♄ ♑</text></g>
+      <g class="astro-node"><circle cx="${size.width * 0.64}" cy="${size.height * 0.33}" r="${size.width * 0.01}" class="astro-node-dot astro-node-dot--cyan" /><text x="${size.width * 0.62}" y="${size.height * 0.29}" style="font-size:${size.width * 0.03}px;fill:#fef08a;font-weight:800;">☉ ♌</text></g>
+      <g class="astro-node"><circle cx="${size.width * 0.78}" cy="${size.height * 0.39}" r="${size.width * 0.009}" class="astro-node-dot astro-node-dot--emerald" /><text x="${size.width * 0.76}" y="${size.height * 0.35}" style="font-size:${size.width * 0.03}px;fill:#fef08a;font-weight:800;">☿ ♊</text></g>
+      <g class="astro-node"><circle cx="${size.width * 0.34}" cy="${size.height * 0.72}" r="${size.width * 0.012}" class="astro-node-dot astro-node-dot--ruby" /><text x="${size.width * 0.28}" y="${size.height * 0.70}" style="font-size:${size.width * 0.03}px;fill:#fef08a;font-weight:800;">♀ ♉</text></g>
+      <g class="astro-node"><circle cx="${size.width * 0.74}" cy="${size.height * 0.74}" r="${size.width * 0.012}" class="astro-node-dot astro-node-dot--cyan" /><text x="${size.width * 0.75}" y="${size.height * 0.72}" style="font-size:${size.width * 0.03}px;fill:#fef08a;font-weight:800;">☽ ♋</text></g>
+      <g class="astro-node"><circle cx="${size.width * 0.52}" cy="${size.height * 0.56}" r="${size.width * 0.014}" class="astro-node-dot" /><text x="${size.width * 0.49}" y="${size.height * 0.52}" style="font-size:${size.width * 0.032}px;fill:#fef08a;font-weight:800;">✨ 🔯</text></g>
+    </g>
+  `;
+
+  return `<svg class="palm-overlay" viewBox="0 0 ${size.width} ${size.height}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">${paths}${mountNodes}</svg>`;
 }
 
 async function detectPalm(retriedAfterFlowRefresh = false, retriedAfterAgeCheck = false) {
@@ -10377,6 +10390,7 @@ function renderFaceScan() {
     <div class="face-scan__viewport is-scanning">
       <img class="face-scan__photo" src="${escapeHtml(state.facePreviewUrl)}" alt="Your selected face photo" />
       <i class="face-scan__vignette" aria-hidden="true"></i>
+      ${faceAstrologyConstellationSvg()}
       <img class="face-scan__geometry-overlay face-scan__geometry-overlay--base" id="faceScanGeometryOverlay" alt="" hidden />
       <div class="face-scan__signal-layers" id="faceScanSignalLayers" aria-hidden="true"></div>
       ${faceScannerHudMarkup({ id: 'faceScanHud' })}
@@ -11066,8 +11080,161 @@ function retirePalmStageNode(node, duration = 300) {
   setTimeout(() => node.remove(), duration);
 }
 
+
+function palmAstrologyConstellationSvg() {
+  return `<div class="astrology-constellation-overlay" id="palmAstrologyOverlay" aria-hidden="true">
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+      <defs>
+        <radialGradient id="astroGlowGold" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.95"/>
+          <stop offset="100%" stop-color="#d97706" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="astroGlowCyan" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.95"/>
+          <stop offset="100%" stop-color="#0284c7" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+
+      <!-- Constellation Connective Chords -->
+      <g class="astro-lines-group">
+        <polyline points="28,38 42,32 58,31 74,34 84,42" class="astro-constellation-line astro-constellation-line--major" />
+        <polygon points="42,32 74,34 52,62" class="astro-constellation-line" />
+        <polygon points="28,38 52,62 34,74" class="astro-constellation-line" />
+        <polygon points="74,34 52,62 76,72" class="astro-constellation-line" />
+        <polyline points="34,74 52,86 76,72" class="astro-constellation-line" />
+        <path d="M84,42 Q58,46 36,44" class="astro-constellation-line astro-constellation-line--major" />
+        <path d="M28,52 Q50,56 78,64" class="astro-constellation-line" />
+        <path d="M30,48 Q40,66 48,84" class="astro-constellation-line astro-constellation-line--major" />
+        <path d="M52,86 L52,36" class="astro-constellation-line" />
+      </g>
+
+      <!-- Astrological Zodiac & Planetary Nodes -->
+      <g class="astro-node" style="animation-delay: 0s;">
+        <circle cx="34" cy="36" class="astro-node-ring" />
+        <circle cx="34" cy="36" r="1.8" class="astro-node-dot astro-node-dot--cyan" />
+        <text x="31" y="32" class="astro-glyph-text">♃ ♈</text>
+      </g>
+      <g class="astro-node" style="animation-delay: 0.3s;">
+        <circle cx="48" cy="32" class="astro-node-ring" />
+        <circle cx="48" cy="32" r="2.0" class="astro-node-dot" />
+        <text x="46" y="28" class="astro-glyph-text">♄ ♑</text>
+      </g>
+      <g class="astro-node" style="animation-delay: 0.6s;">
+        <circle cx="64" cy="33" class="astro-node-ring" />
+        <circle cx="64" cy="33" r="1.8" class="astro-node-dot astro-node-dot--cyan" />
+        <text x="62" y="29" class="astro-glyph-text">☉ ♌</text>
+      </g>
+      <g class="astro-node" style="animation-delay: 0.9s;">
+        <circle cx="78" cy="39" class="astro-node-ring" />
+        <circle cx="78" cy="39" r="1.6" class="astro-node-dot astro-node-dot--emerald" />
+        <text x="76" y="35" class="astro-glyph-text">☿ ♊</text>
+      </g>
+      <g class="astro-node" style="animation-delay: 0.4s;">
+        <circle cx="28" cy="48" class="astro-node-ring" />
+        <circle cx="28" cy="48" r="1.5" class="astro-node-dot astro-node-dot--ruby" />
+        <text x="22" y="46" class="astro-glyph-text">♂ ♏</text>
+      </g>
+      <g class="astro-node" style="animation-delay: 0.7s;">
+        <circle cx="52" cy="56" class="astro-node-ring" style="animation-duration: 1.6s;" />
+        <circle cx="52" cy="56" r="2.4" class="astro-node-dot" />
+        <text x="49" y="52" class="astro-glyph-text">✨ 🔯</text>
+      </g>
+      <g class="astro-node" style="animation-delay: 1.1s;">
+        <circle cx="78" cy="56" class="astro-node-ring" />
+        <circle cx="78" cy="56" r="1.5" class="astro-node-dot astro-node-dot--ruby" />
+        <text x="79" y="54" class="astro-glyph-text">♂</text>
+      </g>
+      <g class="astro-node" style="animation-delay: 0.5s;">
+        <circle cx="34" cy="72" class="astro-node-ring" />
+        <circle cx="34" cy="72" r="2.2" class="astro-node-dot astro-node-dot--ruby" />
+        <text x="28" y="70" class="astro-glyph-text">♀ ♉</text>
+      </g>
+      <g class="astro-node" style="animation-delay: 0.8s;">
+        <circle cx="74" cy="74" class="astro-node-ring" />
+        <circle cx="74" cy="74" r="2.1" class="astro-node-dot astro-node-dot--cyan" />
+        <text x="75" y="72" class="astro-glyph-text">☽ ♋</text>
+      </g>
+      <g class="astro-node" style="animation-delay: 1.2s;">
+        <circle cx="52" cy="88" class="astro-node-ring" />
+        <circle cx="52" cy="88" r="1.9" class="astro-node-dot" />
+        <text x="49" y="93" class="astro-glyph-text">☊ ♐</text>
+      </g>
+    </svg>
+  </div>`;
+}
+
+function faceAstrologyConstellationSvg() {
+  return `<div class="astrology-constellation-overlay face-astrology-overlay" id="faceAstrologyOverlay" aria-hidden="true">
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+      <!-- Facial Constellation Geometry -->
+      <g class="astro-lines-group">
+        <line x1="50" y1="16" x2="50" y2="35" class="astro-constellation-line astro-constellation-line--major" />
+        <polygon points="50,35 34,34 30,42 40,42" class="astro-constellation-line" />
+        <polygon points="50,35 66,34 70,42 60,42" class="astro-constellation-line" />
+        <line x1="34" y1="34" x2="66" y2="34" class="astro-constellation-line astro-constellation-line--major" />
+        <polygon points="50,35 38,54 50,56 62,54" class="astro-constellation-line" />
+        <line x1="50" y1="35" x2="50" y2="56" class="astro-constellation-line astro-constellation-line--major" />
+        <polyline points="24,52 32,64 42,74 50,84 58,74 68,64 76,52" class="astro-constellation-line astro-constellation-line--major" />
+        <polygon points="50,56 42,74 58,74" class="astro-constellation-line" />
+        <line x1="50" y1="56" x2="50" y2="84" class="astro-constellation-line astro-constellation-line--major" />
+      </g>
+
+      <!-- Celestial Biometric Face Nodes -->
+      <g class="astro-node" style="animation-delay: 0.1s;">
+        <circle cx="50" cy="16" class="astro-node-ring" />
+        <circle cx="50" cy="16" r="1.8" class="astro-node-dot" />
+        <text x="47" y="12" class="astro-glyph-text">♈ ☉</text>
+      </g>
+      <g class="astro-node" style="animation-delay: 0.3s;">
+        <circle cx="50" cy="35" class="astro-node-ring" style="animation-duration: 1.5s;" />
+        <circle cx="50" cy="35" r="2.4" class="astro-node-dot astro-node-dot--cyan" />
+        <text x="46" y="31" class="astro-glyph-text">✨ 🔯</text>
+      </g>
+      <g class="astro-node" style="animation-delay: 0.4s;">
+        <circle cx="34" cy="34" class="astro-node-ring" />
+        <circle cx="34" cy="34" r="1.6" class="astro-node-dot astro-node-dot--emerald" />
+        <text x="27" y="32" class="astro-glyph-text">♃ ♐</text>
+      </g>
+      <g class="astro-node" style="animation-delay: 0.4s;">
+        <circle cx="66" cy="34" class="astro-node-ring" />
+        <circle cx="66" cy="34" r="1.6" class="astro-node-dot astro-node-dot--emerald" />
+        <text x="67" y="32" class="astro-glyph-text">☿ ♊</text>
+      </g>
+      <g class="astro-node" style="animation-delay: 0.6s;">
+        <circle cx="30" cy="42" class="astro-node-ring" />
+        <circle cx="30" cy="42" r="1.4" class="astro-node-dot astro-node-dot--cyan" />
+      </g>
+      <g class="astro-node" style="animation-delay: 0.6s;">
+        <circle cx="70" cy="42" class="astro-node-ring" />
+        <circle cx="70" cy="42" r="1.4" class="astro-node-dot astro-node-dot--cyan" />
+      </g>
+      <g class="astro-node" style="animation-delay: 0.7s;">
+        <circle cx="50" cy="56" class="astro-node-ring" />
+        <circle cx="50" cy="56" r="2.0" class="astro-node-dot" />
+        <text x="52" y="55" class="astro-glyph-text">☉ ♌</text>
+      </g>
+      <g class="astro-node" style="animation-delay: 0.8s;">
+        <circle cx="32" cy="62" class="astro-node-ring" />
+        <circle cx="32" cy="62" r="1.8" class="astro-node-dot astro-node-dot--ruby" />
+        <text x="24" y="61" class="astro-glyph-text">♀ ♎</text>
+      </g>
+      <g class="astro-node" style="animation-delay: 0.8s;">
+        <circle cx="68" cy="62" class="astro-node-ring" />
+        <circle cx="68" cy="62" r="1.8" class="astro-node-dot astro-node-dot--cyan" />
+        <text x="69" y="61" class="astro-glyph-text">☽ ♋</text>
+      </g>
+      <g class="astro-node" style="animation-delay: 1.0s;">
+        <circle cx="50" cy="84" class="astro-node-ring" />
+        <circle cx="50" cy="84" r="2.1" class="astro-node-dot" />
+        <text x="47" y="90" class="astro-glyph-text">♄ ♑</text>
+      </g>
+    </svg>
+  </div>`;
+}
+
 function palmStageFrameMarkup({ alt = 'Your uploaded left-palm photo', scanLine = false, badge = '', badgeLocked = false, overlay = '' } = {}) {
-  return `<div class="palm-frame palm-frame--scan" id="palmStageFrame"><img id="scanPalmImage" src="${escapeHtml(state.palmPreviewUrl)}" alt="${escapeHtml(alt)}" />${scanLine ? '<span class="scan-line" id="palmScanLine"></span>' : ''}<div id="livePalmOverlay">${overlay}</div><div class="scan-geometry-badge${badgeLocked ? ' is-locked' : ''}" id="scanGeometryBadge"><i></i><span>${badge || 'Checking your photo'}</span></div></div>`;
+  const constellationHtml = palmAstrologyConstellationSvg();
+  return `<div class="palm-frame palm-frame--scan" id="palmStageFrame"><img id="scanPalmImage" src="${escapeHtml(state.palmPreviewUrl)}" alt="${escapeHtml(alt)}" />${scanLine ? '<span class="scan-line" id="palmScanLine"></span>' : ''}${constellationHtml}<div id="livePalmOverlay">${overlay}</div><div class="scan-geometry-badge${badgeLocked ? ' is-locked' : ''}" id="scanGeometryBadge"><i></i><span>${badge || 'Checking your photo'}</span></div></div>`;
 }
 
 function palmStageMarkup({ kicker, title, frame, body }) {
