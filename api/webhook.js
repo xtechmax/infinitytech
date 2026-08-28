@@ -83,12 +83,12 @@ export default async function handler(req, res) {
                     Thank you for your order! Your payment was verified successfully. We have attached your <strong>Complete Life Timeline Report PDF</strong> to this email.
                 </p>
                 <div style="text-align: center; margin: 28px 0;">
-                    <a href="https://infinitytech-six.vercel.app/astroyogi/palm-answers" style="background: linear-gradient(135deg, #cfa867, #a47d3d); color: #1a140e; padding: 13px 28px; text-decoration: none; border-radius: 9999px; font-weight: 800; font-size: 14px; display: inline-block;">
+                    <a href="https://palmq.shop/astroyogi/palm-answers" style="background: linear-gradient(135deg, #cfa867, #a47d3d); color: #1a140e; padding: 13px 28px; text-decoration: none; border-radius: 9999px; font-weight: 800; font-size: 14px; display: inline-block;">
                         Open My Interactive Report Online →
                     </a>
                 </div>
                 <div style="text-align: center; margin: 15px 0 25px;">
-                    <a href="https://infinitytech-six.vercel.app/vastu/assets/Vastu_Bundle_Overview_1.pdf" style="color: #e2c084; font-size: 13px; text-decoration: underline; font-weight: 600;">
+                    <a href="https://palmq.shop/vastu/assets/Vastu_Bundle_Overview_1.pdf" style="color: #e2c084; font-size: 13px; text-decoration: underline; font-weight: 600;">
                         📥 Download PDF Guide
                     </a>
                 </div>
@@ -104,7 +104,7 @@ export default async function handler(req, res) {
                 <p>Thank you for purchasing the <strong>Practical Vastu Shastra 4-in-1 Master Bundle</strong>! Your payment was verified successfully.</p>
                 <p>We have attached the <strong>Vastu Bundle Overview PDF</strong> directly to this email for your convenience.</p>
                 <div style="text-align: center; margin: 30px 0;">
-                    <a href="https://infinitytech-six.vercel.app/vastu/assets/Vastu_Bundle_Overview_1.pdf" style="background-color: #d97706; color: #ffffff; padding: 14px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">Download Vastu Bundle PDF</a>
+                    <a href="https://palmq.shop/vastu/assets/Vastu_Bundle_Overview_1.pdf" style="background-color: #d97706; color: #ffffff; padding: 14px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">Download Vastu Bundle PDF</a>
                 </div>
                 <p style="font-size: 12px; color: #6b7280; margin-top: 40px; text-align: center; border-top: 1px solid #e5e7eb; padding-top: 20px;">
                     Proprietor: Sania Khatun (Operating as Infinity Tech) | West Bengal, India

@@ -62,8 +62,8 @@ export default async function handler(req, res) {
 
         // Return URL based on funnel
         const returnUrl = (readingId || lane)
-            ? `https://infinitytech-six.vercel.app/astroyogi/palm-answers?readingId=${readingId || ''}&payment=completed`
-            : `https://infinitytech-six.vercel.app/vastucheckout/success?order_id={order_id}`;
+            ? `https://palmq.shop/astroyogi/palm-answers?readingId=${readingId || ''}&payment=completed`
+            : `https://palmq.shop/vastucheckout/success?order_id={order_id}`;
 
         // Call Cashfree Orders API
         const cashfreeResponse = await fetch('https://api.cashfree.com/pg/orders', {

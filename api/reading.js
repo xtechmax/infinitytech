@@ -145,7 +145,7 @@ Format strictly as JSON:
             ok: true,
             readingId: readingId,
             paid: true,
-            pdfUrl: 'https://infinitytech-six.vercel.app/vastu/assets/Vastu_Bundle_Overview_1.pdf',
+            pdfUrl: 'https://palmq.shop/vastu/assets/Vastu_Bundle_Overview_1.pdf',
             product: {
                 key: lane,
                 title: lane === 'palm_answers' ? 'Complete Palm Life Timeline' : 'Personal Astrological Report'

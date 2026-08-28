@@ -39,8 +39,8 @@ export default async function handler(req, res) {
             }
 
             const seekerName = name || 'Valued Seeker';
-            const readingUrl = `https://infinitytech-six.vercel.app/astroyogi/palm-answers?readingId=${encodeURIComponent(readingId || '')}&payment=completed`;
-            const pdfDownloadUrl = 'https://infinitytech-six.vercel.app/vastu/assets/Vastu_Bundle_Overview_1.pdf';
+            const readingUrl = `https://palmq.shop/astroyogi/palm-answers?readingId=${encodeURIComponent(readingId || '')}&payment=completed`;
+            const pdfDownloadUrl = 'https://palmq.shop/vastu/assets/Vastu_Bundle_Overview_1.pdf';
 
             // Read the guide PDF to attach
             let base64Attachment = '';
@@ -84,7 +84,7 @@ export default async function handler(req, res) {
 
                     <p style="font-size: 11px; color: #8a7c6c; text-align: center; line-height: 1.5; margin: 0;">
                         🔒 Secure Digital Delivery · Operating as Infinity Tech<br/>
-                        For customer assistance, contact: support@infinitytech-six.vercel.app
+                        For customer assistance, contact: support@palmq.shop
                     </p>
                 </div>
             `;
@@ -170,7 +170,7 @@ export default async function handler(req, res) {
                 </table>
 
                 <div style="margin-top: 20px; text-align: center;">
-                    <a href="https://wa.me/91${cleanPhone}?text=${encodeURIComponent('Hello, we noticed you were interested in our Practical Vastu Bundle. Do you have any questions? To  complete purchase of your vastu bundle visit now :  https://infinitytech-six.vercel.app/vastucheckout Rs.199 only ')}" 
+                    <a href="https://wa.me/91${cleanPhone}?text=${encodeURIComponent('Hello, we noticed you were interested in our Practical Vastu Bundle. Do you have any questions? To  complete purchase of your vastu bundle visit now :  https://palmq.shop/vastucheckout Rs.199 only ')}" 
                        style="background-color: #25d366; color: #ffffff; padding: 10px 18px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 13px; display: inline-block;">
                         💬 Chat on WhatsApp (+91 ${cleanPhone})
                     </a>
