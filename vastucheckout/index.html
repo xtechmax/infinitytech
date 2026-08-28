@@ -444,8 +444,12 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
                 sum = 1;
             }
 
-            totalPrice.textContent = '₹' + sum;
+            if (totalPrice) totalPrice.textContent = '₹' + sum;
             
+            const btnPriceDisplay = document.getElementById('btnPriceDisplay');
+            if (btnPriceDisplay) {
+                btnPriceDisplay.textContent = '₹' + sum;
+            }
 
             if (e && e.currentTarget) {
                 const checkbox = e.currentTarget;
@@ -484,6 +488,11 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
 
         addon1.addEventListener('change', updateSum);
         addon2.addEventListener('change', updateSum);
+        addon1.addEventListener('input', updateSum);
+        addon2.addEventListener('input', updateSum);
+
+        // Initial sync on script load
+        updateSum();
 
         // Automated Lead Capture (even if user does not click Buy Now)
         let leadCaptureTimer = null;
@@ -601,8 +610,7 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
             } catch (err) {
                 alert('Checkout Error: ' + err.message);
                 submitBtn.disabled = false;
-                btnText.textContent = '🔒 Pay Now & Access Instantly';
-                
+                btnText.innerHTML = '🔒 Pay Now &amp; Access Instantly (<span id="btnPriceDisplay">' + (totalPrice?.textContent || '₹347') + '</span>)';
             }
         });
     </script>
