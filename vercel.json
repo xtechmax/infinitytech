@@ -9,6 +9,10 @@
   ],
   "rewrites": [
     {
+      "source": "/face-landmarker.worker.v2.js",
+      "destination": "/face-landmarker.worker.v2.js"
+    },
+    {
       "source": "/api/palm/detect",
       "destination": "/api/palm/detect.js"
     },
