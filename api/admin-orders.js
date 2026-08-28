@@ -99,16 +99,17 @@ export default async function handler(req, res) {
         const emails = resendData.data || [];
         const leads = [];
         const deliveries = [];
+        const seenLeadKeys = new Set();
 
         emails.forEach(email => {
             const subject = email.subject || '';
             const recipient = Array.isArray(email.to) ? email.to.join(', ') : email.to;
 
-            if (subject.includes('[VASTU LEAD]') || subject.includes('[LEAD]')) {
-                // Parse phone and email from subject: "[VASTU LEAD] +919876543210 | test@gmail.com"
+            // 1. Strict filter for Vastu Leads only
+            if (subject.includes('[VASTU LEAD]')) {
                 let phone = '';
                 let customerEmail = '';
-                const parts = subject.replace(/\[VASTU LEAD\]|\[LEAD\]/gi, '').split('|');
+                const parts = subject.replace(/\[VASTU LEAD\]/gi, '').split('|');
                 if (parts.length >= 2) {
                     phone = parts[0].trim();
                     customerEmail = parts[1].trim();
@@ -116,15 +117,24 @@ export default async function handler(req, res) {
                     phone = parts[0]?.trim() || '';
                 }
 
-                leads.push({
-                    id: email.id,
-                    phone: phone,
-                    email: customerEmail,
-                    raw_subject: subject,
-                    status: 'Captured (Pre-Payment)',
-                    created_at: email.created_at
-                });
-            } else {
+                const dedupeKey = `${phone}_${customerEmail.toLowerCase()}`;
+                if (!seenLeadKeys.has(dedupeKey)) {
+                    seenLeadKeys.add(dedupeKey);
+                    leads.push({
+                        id: email.id,
+                        phone: phone,
+                        email: customerEmail,
+                        raw_subject: subject,
+                        status: 'Captured (Pre-Payment)',
+                        created_at: email.created_at
+                    });
+                }
+            } 
+            // 2. Strict filter for Vastu Paid Deliveries only (exclude other products like Construction Estimation)
+            else if (
+                !subject.toLowerCase().includes('construction') &&
+                (subject.includes('Practical Vastu Shastra') || subject.includes('Vastu 4-in-1') || subject.includes('Vastu Shastra 4-in-1'))
+            ) {
                 deliveries.push({
                     id: email.id,
                     to: recipient,
