@@ -161,9 +161,9 @@
                             <th class="px-5 py-3.5 font-bold">#</th>
                             <th class="px-5 py-3.5 font-bold">WhatsApp Phone</th>
                             <th class="px-5 py-3.5 font-bold">Customer Email</th>
-                            <th class="px-5 py-3.5 font-bold">Status</th>
-                            <th class="px-5 py-3.5 font-bold">Captured Date (IST)</th>
+                            <th class="px-5 py-3.5 font-bold">Followup Status</th>
                             <th class="px-5 py-3.5 font-bold text-center">Quick Action</th>
+                            <th class="px-5 py-3.5 font-bold">Captured Date (IST)</th>
                         </tr>
                     </thead>
                     <tbody id="leadsTableBody" class="divide-y divide-gray-800">
@@ -197,6 +197,29 @@
         let currentTab = 'leads';
         let allLeads = [];
         let allDeliveries = [];
+
+        const STATUS_STYLES = {
+            not_connected: 'bg-gray-800/90 text-gray-300 border-gray-700/80',
+            interested: 'bg-blue-950/90 text-blue-300 border-blue-500/50 shadow-xs shadow-blue-500/20',
+            not_interested: 'bg-rose-950/90 text-rose-300 border-rose-500/50 shadow-xs shadow-rose-500/20',
+            converted: 'bg-emerald-950/90 text-emerald-300 border-emerald-500/50 shadow-xs shadow-emerald-500/20'
+        };
+
+        function getLeadKey(lead) {
+            const phone = (lead.phone || '').replace(/\D/g, '');
+            const email = (lead.email || '').toLowerCase().trim();
+            return phone ? `vastu_lead_status_${phone}` : `vastu_lead_status_${email}`;
+        }
+
+        function getLeadStatus(lead) {
+            const key = getLeadKey(lead);
+            return localStorage.getItem(key) || 'not_connected';
+        }
+
+        function updateLeadStatus(leadKey, status) {
+            localStorage.setItem(leadKey, status);
+            renderActiveTab();
+        }
 
         window.addEventListener('DOMContentLoaded', () => {
             const savedSession = localStorage.getItem(AUTH_STORAGE_KEY);
@@ -366,6 +389,8 @@
                         ? new Date(lead.created_at).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }) 
                         : '—';
                     const cleanPhoneOnly = (lead.phone || '').replace(/\D/g, '');
+                    const leadKey = getLeadKey(lead);
+                    const savedStatus = getLeadStatus(lead);
 
                     const tr = document.createElement('tr');
                     tr.className = 'hover:bg-gray-800/40 transition';
@@ -374,21 +399,24 @@
                         <td class="px-5 py-3.5 font-bold text-amber-300 font-mono text-sm">${lead.phone || '—'}</td>
                         <td class="px-5 py-3.5 text-gray-300 font-semibold">${lead.email || '—'}</td>
                         <td class="px-5 py-3.5">
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-amber-500/10 text-amber-400 border border-amber-500/20">
-                                <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                                Abandoned / Live Lead
-                            </span>
+                            <select onchange="updateLeadStatus('${leadKey}', this.value)" 
+                                    class="text-[11px] font-bold py-1.5 px-3 rounded-lg border focus:outline-none transition cursor-pointer ${STATUS_STYLES[savedStatus] || STATUS_STYLES.not_connected}">
+                                <option value="not_connected" class="bg-gray-900 text-gray-200" ${savedStatus === 'not_connected' ? 'selected' : ''}>⏳ Not Connected</option>
+                                <option value="interested" class="bg-gray-900 text-blue-300" ${savedStatus === 'interested' ? 'selected' : ''}>🔥 Interested</option>
+                                <option value="not_interested" class="bg-gray-900 text-rose-300" ${savedStatus === 'not_interested' ? 'selected' : ''}>❌ Not Interested</option>
+                                <option value="converted" class="bg-gray-900 text-emerald-300" ${savedStatus === 'converted' ? 'selected' : ''}>✅ Converted</option>
+                            </select>
                         </td>
-                        <td class="px-5 py-3.5 text-gray-400 text-[11px]">${dateStr}</td>
                         <td class="px-5 py-3.5 text-center">
                             ${cleanPhoneOnly ? `
                                 <a href="https://wa.me/${cleanPhoneOnly.startsWith('91') ? cleanPhoneOnly : '91' + cleanPhoneOnly}?text=${encodeURIComponent('Hello, we noticed you were interested in our Practical Vastu Bundle. Do you have any questions? To  complete purchase of your vastu bundle visit now :  https://infinitytech-six.vercel.app/vastucheckout Rs.199 only ')}" 
                                    target="_blank" 
-                                   class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] px-3 py-1.5 rounded-lg transition shadow-sm">
+                                   class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] px-3.5 py-1.5 rounded-lg transition shadow-sm hover:scale-[1.02] active:scale-[0.98]">
                                     <span>💬</span> WhatsApp
                                 </a>
                             ` : '—'}
                         </td>
+                        <td class="px-5 py-3.5 text-gray-400 text-[11px]">${dateStr}</td>
                     `;
                     tbody.appendChild(tr);
                 });
