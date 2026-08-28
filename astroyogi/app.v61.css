@@ -201,6 +201,68 @@ body.has-checkout-dock .topbar {
 .brand img {
   width: 28px;
   height: 28px;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.brand-flag-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3.5px;
+  background: rgba(22, 18, 14, 0.85);
+  border: 1px solid rgba(214, 177, 106, 0.45);
+  padding: 1.5px 5.5px 1.5px 4.5px;
+  border-radius: 4px;
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  vertical-align: middle;
+  margin-left: 3px;
+  color: #e5c388;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+.brand-flag-badge .flag-stripes {
+  display: inline-flex;
+  flex-direction: column;
+  width: 12px;
+  height: 8.5px;
+  border-radius: 1.5px;
+  overflow: hidden;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.6);
+  flex-shrink: 0;
+}
+
+.brand-flag-badge .flag-stripes span:nth-child(1) {
+  background: #FF9933;
+  height: 2.8px;
+  width: 100%;
+}
+
+.brand-flag-badge .flag-stripes span:nth-child(2) {
+  background: #FFFFFF;
+  height: 2.9px;
+  width: 100%;
+  position: relative;
+}
+
+.brand-flag-badge .flag-stripes span:nth-child(2)::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 2.2px;
+  height: 2.2px;
+  border-radius: 50%;
+  background: #000080;
+}
+
+.brand-flag-badge .flag-stripes span:nth-child(3) {
+  background: #138808;
+  height: 2.8px;
+  width: 100%;
 }
 
 /* On the home page the side buttons are hidden, so the brand can be a

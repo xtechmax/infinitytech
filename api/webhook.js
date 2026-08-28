@@ -75,7 +75,7 @@ export default async function handler(req, res) {
         const emailHtml = isAstroYogi ? `
             <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 28px 20px; border: 1px solid rgba(214, 177, 106, 0.4); border-radius: 16px; background: #1c1815; color: #fdfaf6;">
                 <div style="text-align: center; margin-bottom: 24px;">
-                    <h1 style="color: #e2c084; font-size: 24px; font-weight: 700; margin: 0;">✨ Astro Yogi · Complete Life Timeline</h1>
+                    <h1 style="color: #e2c084; font-size: 24px; font-weight: 700; margin: 0;">✨ PalmQ IND · Complete Life Timeline</h1>
                     <p style="color: #cbb89d; font-size: 13px; margin-top: 6px;">Personal Palmistry, Vedic Birth Chart & Numerology Analysis</p>
                 </div>
                 <p style="font-size: 15px; color: #f2e9dc;">Hello,</p>
@@ -113,10 +113,10 @@ export default async function handler(req, res) {
         `;
 
         const resendPayload = {
-            from: isAstroYogi ? 'Astro Yogi <delivery@xtechmax.shop>' : 'Infinity Tech <delivery@xtechmax.shop>',
+            from: isAstroYogi ? 'PalmQ IND <delivery@xtechmax.shop>' : 'Infinity Tech <delivery@xtechmax.shop>',
             to: [customerEmail],
             subject: isAstroYogi 
-                ? '✨ Your Personal Astro Yogi Life Timeline Report 🌟' 
+                ? '✨ Your Personal PalmQ IND Life Timeline Report 🌟' 
                 : 'Your Practical Vastu Shastra 4-in-1 Master Bundle is Here! 🏡',
             html: emailHtml
         };
@@ -124,7 +124,7 @@ export default async function handler(req, res) {
         if (base64Attachment) {
             resendPayload.attachments = [
                 {
-                    filename: isAstroYogi ? 'Astro_Yogi_Life_Timeline_Report.pdf' : 'Vastu_Bundle_Overview.pdf',
+                    filename: isAstroYogi ? 'PalmQ_IND_Life_Timeline_Report.pdf' : 'Vastu_Bundle_Overview.pdf',
                     content: base64Attachment
                 }
             ];

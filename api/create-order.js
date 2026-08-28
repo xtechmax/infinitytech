@@ -78,7 +78,7 @@ export default async function handler(req, res) {
                 order_amount: amount,
                 order_currency: 'INR',
                 order_id: orderId,
-                order_note: (readingId || lane || tier) ? 'Astro Yogi Life Timeline Report' : 'Practical Vastu Shastra 4-in-1 Master Bundle',
+                order_note: (readingId || lane || tier) ? 'PalmQ IND Life Timeline Report' : 'Practical Vastu Shastra 4-in-1 Master Bundle',
                 order_tags: {
                     funnel: (readingId || lane || tier) ? 'astroyogi' : 'vastu',
                     readingId: readingId || ''

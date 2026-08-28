@@ -1,6 +1,19 @@
-<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="64" height="64" rx="14" fill="#17130F"/>
-  <path d="M44.5 12.5a23 23 0 1 0 0 39 18.5 18.5 0 0 1 0-39Z" fill="none" stroke="#C2A35E" stroke-width="2.8" stroke-linejoin="round"/>
-  <path d="M40 23.5c.7 4.2 1.9 5.4 6.1 6.1-4.2.7-5.4 1.9-6.1 6.1-.7-4.2-1.9-5.4-6.1-6.1 4.2-.7 5.4-1.9 6.1-6.1Z" fill="#D8BE84"/>
-  <circle cx="31.5" cy="40.5" r="1.8" fill="#C2A35E"/>
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="PalmQ IND mark">
+  <!-- Rounded Base Card -->
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+  
+  <!-- Stylized Sculpted 3D Palm Silhouette -->
+  <g transform="translate(4, 4) scale(0.88)">
+    <!-- Palm Body & Fingers -->
+    <path d="M15 36 C13 28 13 21 15 16 C16 13 20 13 21 16 C23 21 23 26 23 31 C23 23 24 14 26 8 C27 5 31 5 32 8 C34 14 34 22 34 29 C34 19 36 10 38 4 C39 2 43 2 44 4 C46 12 46 21 46 29 C46 22 48 16 50 12 C51 9 55 9 56 12 C57 20 57 28 56 35 C56 40 59 42 61 44 C64 47 63 51 60 54 C56 59 50 62 43 64 C35 66 25 66 18 62 C13 56 12 48 15 36 Z" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5" stroke-linejoin="round"/>
+    
+    <!-- Heart Line (Vibrant Blue) -->
+    <path d="M16 40 Q32 32 50 25" stroke="#2563EB" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+    
+    <!-- Head Line (Lush Green) -->
+    <path d="M19 46 Q33 38 47 30" stroke="#16A34A" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+    
+    <!-- Life Line (Golden Saffron) -->
+    <path d="M30 61 Q27 46 42 32" stroke="#EA580C" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+  </g>
 </svg>

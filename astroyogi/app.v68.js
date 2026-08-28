@@ -2739,7 +2739,7 @@ function openFreshDialog() {
     paid: state.paid ? 'yes' : 'no',
     had_reading: state.readingId ? 'yes' : 'no'
   });
-  const product = LANES[state.lane]?.product || 'Astro Yogi report';
+  const product = LANES[state.lane]?.product || 'PalmQ IND report';
   if (freshDialogTitle) freshDialogTitle.textContent = state.paid ? 'Start another report?' : 'Start over?';
   if (freshDialogCopy) freshDialogCopy.textContent = state.paid
     ? `You can reopen this report on this device. The new ${product} will start with blank answers.`
@@ -4618,7 +4618,7 @@ function lockedReportPreviewMarkup(config) {
 
 function referralArrivalMarkup() {
   if (!REFERRAL_CODE) return '';
-  return '<div class="referral-arrival" data-testid="referral-arrival">Someone shared an Astro Yogi result with you. Their details remain private. Start your own reading below.</div>';
+  return '<div class="referral-arrival" data-testid="referral-arrival">Someone shared a PalmQ IND result with you. Their details remain private. Start your own reading below.</div>';
 }
 
 function screenMeta() {
@@ -5099,7 +5099,7 @@ function trackScreenView() {
   try {
     if (!IS_GLOBAL_STOREFRONT && !CROSS_SELL_QA_ACTIVE && window.gtag) {
       window.gtag('event', 'page_view', {
-        page_title: `Astro Yogi - ${state.lane} - ${state.screen}`,
+        page_title: `PalmQ IND - ${state.lane} - ${state.screen}`,
         page_location: `${location.origin}${location.pathname}#${state.screen}`,
         page_path: `${location.pathname}#${state.screen}`,
         ...thirdPartyAnalyticsData(screenMeta())
@@ -5573,7 +5573,7 @@ async function refreshFlowSession() {
   flowRefreshPromise = fetch('/api/flow/refresh', { credentials: 'same-origin' })
     .then(async (response) => {
       const body = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(body.message || body.error || 'Please reopen Astro Yogi and try again.');
+      if (!response.ok) throw new Error(body.message || body.error || 'Please reopen PalmQ IND and try again.');
       return body;
     })
     .finally(() => { flowRefreshPromise = null; });
@@ -6886,7 +6886,7 @@ function renderLanding() {
       : `<button class="primary-button" type="button" data-action="start-lane" data-testid="landing-cta">${escapeHtml(config.landingCta)}</button>`}
     ${state.lane === 'best_city' ? '<div class="landing-speed-line">About 60 seconds · Start free</div>' : ''}
     ${state.lane === 'palm_answers' ? '' : landingPriceMarkup()}
-    <div class="privacy-line">${state.lane === 'palm_answers' ? 'Only the photo you choose is sent securely for line detection. Astro Yogi keeps the detected line points, not the photo.' : state.lane === 'market_profile' ? 'Personal reflection only · No stock tips or return promises' : 'Your details stay private · Pay once if you choose the full report'}</div>
+    <div class="privacy-line">${state.lane === 'palm_answers' ? 'Only the photo you choose is sent securely for line detection. PalmQ IND keeps the detected line points, not the photo.' : state.lane === 'market_profile' ? 'Personal reflection only · No stock tips or return promises' : 'Your details stay private · Pay once if you choose the full report'}</div>
   </div>`);
 }
 
@@ -7830,7 +7830,7 @@ function renderPalmUpload() {
       <button class="secondary-button" type="button" data-action="choose-palm" data-input="palmInput">Choose from gallery</button>
     </div>
     ${marketPalm ? '<button class="text-button market-palm-skip" type="button" data-action="skip-market-palm">Skip palm — continue with chart and numbers</button>' : ''}
-    <div class="privacy-line">Your chosen photo is sent securely for line detection. Astro Yogi keeps the detected line points, not the photo.${marketPalm ? ' The palm is optional and never blocks your core report.' : ''}</div>`);
+    <div class="privacy-line">Your chosen photo is sent securely for line detection. PalmQ IND keeps the detected line points, not the photo.${marketPalm ? ' The palm is optional and never blocks your core report.' : ''}</div>`);
 }
 
 function renderPalmOffer() {
@@ -13859,7 +13859,7 @@ function normalizeServerPurchaseTracking(value = {}) {
     provider: String(value?.provider || 'payment_gateway').trim().slice(0, 40),
     value: amount,
     currency,
-    product: String(value?.product || laneConfig()?.product || 'Astro Yogi report').trim().slice(0, 120),
+    product: String(value?.product || laneConfig()?.product || 'PalmQ IND report').trim().slice(0, 120),
     crossSell
   };
 }
@@ -14262,8 +14262,8 @@ async function startCheckout(ctaPlacement = '', { retryTrigger = '' } = {}) {
       key: checkout.key || body.key,
       amount: body.amount || checkout.amount,
       currency: body.currency || checkout.currency || 'INR',
-      name: 'Astro Yogi',
-      image: 'https://astro.tarotbyvela.com/assets/logomark.png',
+      name: 'PalmQ IND',
+      image: '/astroyogi/assets/palmq-logo.png',
       description: checkout.description || laneConfig()?.product || 'Personal report',
       order_id: body.order_id || checkout.orderId,
       prefill: { name: formatName(state.answers.name), email: '', contact: '' },
@@ -15469,7 +15469,7 @@ function shareCardContent(full = state.full) {
           ? 'Face · Astrology · Numerology'
           : 'Portrait reflection · no photo shared'
         : reveal ? config.shareRevealNote : config.shareMysteryPrompt,
-    prompt: legacyPalmReport && reveal ? 'What would yours show?' : (reveal ? config.shareRevealPrompt : 'Try the same reading at Astro Yogi')
+    prompt: legacyPalmReport && reveal ? 'What would yours show?' : (reveal ? config.shareRevealPrompt : 'Try the same reading at PalmQ IND')
   };
 }
 
@@ -15544,7 +15544,7 @@ function shareDraftText(full = state.full, platform = 'share_menu') {
 function sharePreviewMarkup(full = state.full) {
   const card = shareCardContent(full);
   return `<div class="story-card-preview ${card.reveal ? 'is-reveal' : ''}" data-testid="share-card-preview">
-    <div class="story-card-preview__brand"><span>☾ Astro Yogi</span><small>Story mode</small></div>
+    <div class="story-card-preview__brand"><span>✋ PalmQ IND</span><small>Story mode</small></div>
     <div class="story-card-preview__star" aria-hidden="true">✦</div>
     <b>${escapeHtml(card.title)}</b>
     <strong>${escapeHtml(card.main)}</strong>
@@ -15693,7 +15693,7 @@ async function shareFromMenu(button) {
     const text = shareDraftText(state.full, 'share_menu').replace(link, '').trim();
     const blob = shareCardBlob();
     const file = typeof File === 'function' ? new File([blob], 'astro-vela-story.png', { type: 'image/png' }) : null;
-    const payload = { title: 'Astro Yogi Story card', text, url: link };
+    const payload = { title: 'PalmQ IND Story card', text, url: link };
     const canShareFile = Boolean(file && navigator.canShare?.({ files: [file] }));
     if (canShareFile) payload.files = [file];
     else {
@@ -16549,7 +16549,7 @@ function postPurchaseEmail() {
 }
 
 function newReadingActionsMarkup() {
-  const product = laneConfig()?.product || 'Astro Yogi report';
+  const product = laneConfig()?.product || 'PalmQ IND report';
   if (IS_GLOBAL_STOREFRONT) {
     return `<section class="new-reading-panel" data-testid="new-reading-panel">
       <small>Another Palm reading</small>
