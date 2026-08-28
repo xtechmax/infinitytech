@@ -68,8 +68,36 @@ export default async function handler(req, res) {
             console.error('Failed to read PDF attachment:', fileErr);
         }
 
-        // 4. Send Email via Resend
-        const emailHtml = `
+        const isAstroYogi = orderData.order_tags?.funnel === 'astroyogi' || 
+                            (orderData.order_note && orderData.order_note.toLowerCase().includes('astro')) ||
+                            (orderData.order_note && orderData.order_note.toLowerCase().includes('palm'));
+
+        const emailHtml = isAstroYogi ? `
+            <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 28px 20px; border: 1px solid rgba(214, 177, 106, 0.4); border-radius: 16px; background: #1c1815; color: #fdfaf6;">
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <h1 style="color: #e2c084; font-size: 24px; font-weight: 700; margin: 0;">✨ Astro Yogi · Complete Life Timeline</h1>
+                    <p style="color: #cbb89d; font-size: 13px; margin-top: 6px;">Personal Palmistry, Vedic Birth Chart & Numerology Analysis</p>
+                </div>
+                <p style="font-size: 15px; color: #f2e9dc;">Hello,</p>
+                <p style="font-size: 14px; color: #d8cdbf; line-height: 1.6;">
+                    Thank you for your order! Your payment was verified successfully. We have attached your <strong>Complete Life Timeline Report PDF</strong> to this email.
+                </p>
+                <div style="text-align: center; margin: 28px 0;">
+                    <a href="https://infinitytech-six.vercel.app/astroyogi/palm-answers" style="background: linear-gradient(135deg, #cfa867, #a47d3d); color: #1a140e; padding: 13px 28px; text-decoration: none; border-radius: 9999px; font-weight: 800; font-size: 14px; display: inline-block;">
+                        Open My Interactive Report Online →
+                    </a>
+                </div>
+                <div style="text-align: center; margin: 15px 0 25px;">
+                    <a href="https://infinitytech-six.vercel.app/vastu/assets/Vastu_Bundle_Overview_1.pdf" style="color: #e2c084; font-size: 13px; text-decoration: underline; font-weight: 600;">
+                        📥 Download PDF Guide
+                    </a>
+                </div>
+                <hr style="border: none; border-top: 1px solid rgba(214, 177, 106, 0.2); margin: 24px 0;" />
+                <p style="font-size: 11px; color: #8a7c6c; text-align: center; margin: 0;">
+                    Proprietor: Sania Khatun (Operating as Infinity Tech) | West Bengal, India
+                </p>
+            </div>
+        ` : `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e5e7eb; border-radius: 12px; background-color: #fafafa;">
                 <h1 style="color: #d97706; text-align: center;">Practical Vastu Shastra Bundle</h1>
                 <p>Hello,</p>
@@ -85,16 +113,18 @@ export default async function handler(req, res) {
         `;
 
         const resendPayload = {
-            from: 'Infinity Tech <delivery@xtechmax.shop>',
+            from: isAstroYogi ? 'Astro Yogi <delivery@xtechmax.shop>' : 'Infinity Tech <delivery@xtechmax.shop>',
             to: [customerEmail],
-            subject: 'Your Practical Vastu Shastra 4-in-1 Master Bundle is Here! 🏡',
+            subject: isAstroYogi 
+                ? '✨ Your Personal Astro Yogi Life Timeline Report 🌟' 
+                : 'Your Practical Vastu Shastra 4-in-1 Master Bundle is Here! 🏡',
             html: emailHtml
         };
 
         if (base64Attachment) {
             resendPayload.attachments = [
                 {
-                    filename: 'Vastu_Bundle_Overview.pdf',
+                    filename: isAstroYogi ? 'Astro_Yogi_Life_Timeline_Report.pdf' : 'Vastu_Bundle_Overview.pdf',
                     content: base64Attachment
                 }
             ];
