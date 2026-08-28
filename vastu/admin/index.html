@@ -382,7 +382,7 @@
                         <td class="px-5 py-3.5 text-gray-400 text-[11px]">${dateStr}</td>
                         <td class="px-5 py-3.5 text-center">
                             ${cleanPhoneOnly ? `
-                                <a href="https://wa.me/${cleanPhoneOnly.startsWith('91') ? cleanPhoneOnly : '91' + cleanPhoneOnly}?text=Hello,%20we%20noticed%20you%20were%20interested%20in%20our%20Practical%20Vastu%20Bundle.%20Do%20you%20have%20any%20questions?" 
+                                <a href="https://wa.me/${cleanPhoneOnly.startsWith('91') ? cleanPhoneOnly : '91' + cleanPhoneOnly}?text=${encodeURIComponent('Hello, we noticed you were interested in our Practical Vastu Bundle. Do you have any questions? To  complete purchase of your vastu bundle visit now :  https://infinitytech-six.vercel.app/vastucheckout Rs.199 only ')}" 
                                    target="_blank" 
                                    class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] px-3 py-1.5 rounded-lg transition shadow-sm">
                                     <span>💬</span> WhatsApp
