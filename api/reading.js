@@ -1,5 +1,5 @@
 // Vercel Serverless Function: api/reading.js
-// Handles reading calculation, Gemini AI generation, preview creation, and experiments
+// Handles reading calculation, Gemini AI generation, preview creation, paid report delivery, and experiments
 
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -16,7 +16,7 @@ export default async function handler(req, res) {
 
     try {
         const body = req.body || {};
-        const readingId = body.readingId || ('rdg_' + Date.now().toString(36) + Math.random().toString(36).substring(2, 7));
+        const readingId = body.readingId || req.query?.readingId || ('rdg_' + Date.now().toString(36) + Math.random().toString(36).substring(2, 7));
         const lane = body.lane || 'palm_answers';
         const name = body.name || body.answers?.name || 'Valued Seeker';
         const dob = body.dob || body.answers?.dob || '1995-01-01';
@@ -52,7 +52,7 @@ export default async function handler(req, res) {
         let aiInsights = null;
 
         // If Gemini API Key is present, generate a personalized Vedic reading summary
-        if (apiKey) {
+        if (apiKey && req.method === 'POST') {
             try {
                 const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
                 const prompt = `You are an enlightened Vedic Astrologer & Master Palmistry Consultant.
@@ -144,6 +144,8 @@ Format strictly as JSON:
         const responsePayload = {
             ok: true,
             readingId: readingId,
+            paid: true,
+            pdfUrl: 'https://infinitytech-six.vercel.app/vastu/assets/Vastu_Bundle_Overview_1.pdf',
             product: {
                 key: lane,
                 title: lane === 'palm_answers' ? 'Complete Palm Life Timeline' : 'Personal Astrological Report'
