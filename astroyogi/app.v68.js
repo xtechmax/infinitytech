@@ -210,22 +210,14 @@ const QUERY = new URLSearchParams(location.search);
 
 function getQueryCoupon() {
   try {
-    const code = (QUERY.get('coupon') || QUERY.get('promo') || QUERY.get('code') || QUERY.get('discount') || QUERY.get('admin') || '').trim();
-    if (code.toLowerCase() === 'admin1' || code === '1') {
-      try { sessionStorage.setItem('astroyogi_coupon', 'Admin1'); } catch (_) {}
-      return 'Admin1';
+    const raw = (QUERY.get('c') || QUERY.get('coupon') || QUERY.get('k') || QUERY.get('promo') || '').trim();
+    if (raw) {
+      try { sessionStorage.setItem('ap_t', raw); } catch (_) {}
+      return raw;
     }
-    const saved = sessionStorage.getItem('astroyogi_coupon');
-    if (saved && saved.toLowerCase() === 'admin1') return 'Admin1';
+    return sessionStorage.getItem('ap_t') || '';
   } catch (_) {}
   return '';
-}
-
-function isTestCouponActive() {
-  if (typeof state !== 'undefined' && state && state.coupon && state.coupon.toLowerCase().trim() === 'admin1') {
-    return true;
-  }
-  return getQueryCoupon().toLowerCase() === 'admin1';
 }
 
 function captureCharityGrantToken(readingId) {
@@ -18520,14 +18512,3 @@ void (async () => {
     recoverPendingPaidReading();
   }
 })();
-
-
-document.addEventListener('dblclick', (e) => {
-  if (e.target.closest('#homeLink, .brand')) {
-    const input = prompt('');
-    if (input && input.toLowerCase().trim() === 'admin1') {
-      try { sessionStorage.setItem('astroyogi_coupon', 'Admin1'); } catch (_) {}
-      if (typeof state !== 'undefined' && state) state.coupon = 'Admin1';
-    }
-  }
-});

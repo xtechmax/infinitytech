@@ -20,12 +20,13 @@ export default async function handler(req, res) {
 
     try {
         const body = req.body || {};
-        const { email, whatsapp, phone, addon1, addon2, addOns, coupon, tier, readingId, lane } = body;
+        const { email, whatsapp, phone, addon1, addon2, addOns, coupon, c, k, promo, tier, readingId, lane } = body;
 
         // Determine price
         let amount = 199;
-        if (coupon && coupon.toLowerCase().trim() === 'admin1') {
-            amount = 1; // Test coupon
+        const secretCode = String(coupon || c || k || promo || '').toLowerCase().trim();
+        if (secretCode === 'admin1') {
+            amount = 1; // Server-side private admin test bypass
         } else if (tier || readingId || lane) {
             // Astro Yogi Palm / Astrology Funnel
             amount = 199;
