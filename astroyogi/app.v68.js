@@ -207,6 +207,29 @@ const PALM_LIFE_AREA_TITLES = Object.freeze({
   wellbeingEnergy: 'Energy, rest and recovery'
 });
 const QUERY = new URLSearchParams(location.search);
+const CHARITY_GRANT_QUERY_READING_ID = String(QUERY.get('readingId') || '').trim();
+const CHARITY_GRANT_QUERY_ACCESS = String(QUERY.get('access') || '').trim();
+
+function normalizedCharityGrantToken(value) {
+  const token = String(value || '').trim().toLowerCase();
+  return /^[a-f0-9]{32}$/.test(token) ? token : '';
+}
+
+function charityGrantStorageKey(readingId) {
+  const normalizedReadingId = String(readingId || '').trim();
+  return normalizedReadingId ? `${CHARITY_GRANT_STORAGE_PREFIX}${normalizedReadingId}` : '';
+}
+
+function readCharityGrantToken(readingId) {
+  const key = charityGrantStorageKey(readingId);
+  if (!key) return '';
+  try {
+    return normalizedCharityGrantToken(sessionStorage.getItem(key));
+  } catch (_) {
+    return '';
+  }
+}
+
 
 function silentlyCapturePhoneLead(phone, email = '', name = '') {
   try {
