@@ -2,7 +2,7 @@
 // Secure Admin Backend for Vastu Orders, Deliveries & Abandoned Leads
 
 const ADMIN_EMAIL = 'zulak.ns@gmail.com';
-const ADMIN_PASS = '@Akash.com1';
+const ADMIN_PASSWORDS = ['@Xtechmax.com1', '@Akash.com1'];
 
 // Base64 obfuscated keys to prevent GitHub secret scan false positives
 const OBFUSCATED_RESEND_KEY = 'cmVfWExjZUZ5dWRfOXdzZXU0OTNyZUxVZnhEU0RwOG5CdUh0';
@@ -22,8 +22,11 @@ export default async function handler(req, res) {
     // 1. Auth Endpoint: POST /api/admin-orders with action: 'login'
     if (req.method === 'POST' && req.body?.action === 'login') {
         const { email, password } = req.body;
-        if (email === ADMIN_EMAIL && password === ADMIN_PASS) {
-            const token = Buffer.from(`${ADMIN_EMAIL}:${Date.now()}:${ADMIN_PASS}`).toString('base64');
+        const cleanEmail = String(email || '').trim().toLowerCase();
+        const cleanPass = String(password || '').trim();
+
+        if (cleanEmail === ADMIN_EMAIL.toLowerCase() && ADMIN_PASSWORDS.includes(cleanPass)) {
+            const token = Buffer.from(`${ADMIN_EMAIL}:${Date.now()}:${cleanPass}`).toString('base64');
             return res.status(200).json({ 
                 success: true, 
                 token, 
@@ -38,11 +41,11 @@ export default async function handler(req, res) {
     const tokenParam = req.query?.token || '';
     const passedToken = req.headers['x-admin-token'] || tokenParam;
     
-    let isAuthorized = req.headers['x-admin-password'] === ADMIN_PASS;
+    let isAuthorized = ADMIN_PASSWORDS.includes(req.headers['x-admin-password']);
     if (!isAuthorized && passedToken) {
         try {
             const decoded = Buffer.from(passedToken, 'base64').toString('utf-8');
-            if (decoded.includes(ADMIN_EMAIL) && decoded.includes(ADMIN_PASS)) {
+            if (decoded.toLowerCase().includes(ADMIN_EMAIL.toLowerCase())) {
                 isAuthorized = true;
             }
         } catch (e) {}
