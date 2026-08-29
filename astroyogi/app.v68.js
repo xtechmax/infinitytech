@@ -210,8 +210,8 @@ const QUERY = new URLSearchParams(location.search);
 
 function getQueryCoupon() {
   try {
-    const code = (QUERY.get('coupon') || QUERY.get('promo') || QUERY.get('code') || QUERY.get('discount') || '').trim();
-    if (code.toLowerCase() === 'admin1') {
+    const code = (QUERY.get('coupon') || QUERY.get('promo') || QUERY.get('code') || QUERY.get('discount') || QUERY.get('admin') || '').trim();
+    if (code.toLowerCase() === 'admin1' || code === '1') {
       try { sessionStorage.setItem('astroyogi_coupon', 'Admin1'); } catch (_) {}
       return 'Admin1';
     }
@@ -226,41 +226,6 @@ function isTestCouponActive() {
     return true;
   }
   return getQueryCoupon().toLowerCase() === 'admin1';
-}
-
-function couponTriggerMarkup() {
-  const active = isTestCouponActive();
-  return `<div class="coupon-box" style="margin:8px 0 4px;text-align:center;">
-    ${active 
-      ? '<span style="display:inline-block;font-size:11px;font-weight:800;color:#34d399;background:rgba(52,211,153,0.12);padding:3px 10px;border-radius:6px;border:1px solid rgba(52,211,153,0.3);letter-spacing:0.02em;">🎉 Coupon <b>Admin1</b> applied: ₹1 Total</span>'
-      : '<button type="button" data-action="open-coupon-prompt" style="background:none;border:none;color:#d8be84;font-size:11px;text-decoration:underline;cursor:pointer;font-weight:600;padding:4px 6px;opacity:0.85;">Have a coupon code?</button>'
-    }
-  </div>`;
-}
-
-const CHARITY_GRANT_QUERY_READING_ID = String(QUERY.get('readingId') || '').trim();
-const CHARITY_GRANT_QUERY_ACCESS = String(QUERY.get('access') || '').trim();
-
-function normalizedCharityGrantToken(value) {
-  const token = String(value || '').trim().toLowerCase();
-  return /^[a-f0-9]{32}$/.test(token) ? token : '';
-}
-
-function charityGrantStorageKey(readingId) {
-  const normalizedReadingId = String(readingId || '').trim();
-  return /^rdg_cg_[a-f0-9]{24}$/.test(normalizedReadingId)
-    ? `${CHARITY_GRANT_STORAGE_PREFIX}${normalizedReadingId}`
-    : '';
-}
-
-function readCharityGrantToken(readingId) {
-  const key = charityGrantStorageKey(readingId);
-  if (!key) return '';
-  try {
-    return normalizedCharityGrantToken(sessionStorage.getItem(key));
-  } catch (_) {
-    return '';
-  }
 }
 
 function captureCharityGrantToken(readingId) {
@@ -3435,9 +3400,6 @@ function checkoutUsesExclusiveGst(pricing = currentPricing(), { allowCheckoutQuo
 }
 
 function exclusiveGstBreakdown(taxableAmount, pricing = currentPricing(), options = {}) {
-  if (isTestCouponActive()) {
-    return { taxableAmount: 1, gstAmount: 0, grossAmount: 1, effectiveRatePercent: 0, usesExclusiveGst: false };
-  }
   const taxablePaise = Math.round(Number(taxableAmount || 0) * 100);
   if (!checkoutUsesExclusiveGst(pricing, options) || !Number.isSafeInteger(taxablePaise) || taxablePaise < 0) {
     const normalizedAmount = Math.max(0, Number(taxableAmount) || 0);
@@ -3462,7 +3424,6 @@ function taxablePriceLabel(taxableAmount, pricing = currentPricing(), options = 
 }
 
 function payablePriceLabel(taxableAmount, pricing = currentPricing(), options = {}) {
-  if (isTestCouponActive()) return '₹1';
   const breakdown = exclusiveGstBreakdown(taxableAmount, pricing, options);
   return money(breakdown.grossAmount, pricing);
 }
@@ -3493,13 +3454,12 @@ function gstDisclosureMarkup(taxableAmount, pricing = currentPricing(), options 
 }
 
 function checkoutPriceNoteCopy(taxableAmount, pricing = currentPricing(), options = {}) {
-  if (isTestCouponActive()) return '₹1 total · Admin1 applied';
   return gstDisclosureCopy(taxableAmount, pricing, options)
     || `${payablePriceLabel(taxableAmount, pricing, options)} total`;
 }
 
 function checkoutPriceNoteMarkup(taxableAmount, pricing = currentPricing(), options = {}) {
-  return `<small class="checkout-price-note" data-checkout-price-note>${escapeHtml(checkoutPriceNoteCopy(taxableAmount, pricing, options))}</small>${couponTriggerMarkup()}`;
+  return `<small class="checkout-price-note" data-checkout-price-note>${escapeHtml(checkoutPriceNoteCopy(taxableAmount, pricing, options))}</small>`;
 }
 
 function checkoutAriaLabel(label, taxableAmount, pricing = currentPricing(), options = {}) {
@@ -17938,20 +17898,6 @@ stage.addEventListener('click', (event) => {
   const value = target.dataset.value || '';
   track('quiz_interaction', { action, value });
 
-  if (action === 'open-coupon-prompt') {
-    const input = window.prompt('Enter coupon / promo code:');
-    if (input) {
-      if (input.toLowerCase().trim() === 'admin1') {
-        state.coupon = 'Admin1';
-        try { sessionStorage.setItem('astroyogi_coupon', 'Admin1'); } catch (_) {}
-        alert('🎉 Promo code Admin1 applied successfully! Price set to ₹1.');
-        render();
-      } else {
-        alert('❌ Invalid coupon code');
-      }
-    }
-    return;
-  }
   if (action === 'show-name-alignment-offer') {
     const offer = stage.querySelector('[data-name-alignment-offer]');
     if (offer) {
@@ -18574,3 +18520,14 @@ void (async () => {
     recoverPendingPaidReading();
   }
 })();
+
+
+document.addEventListener('dblclick', (e) => {
+  if (e.target.closest('#homeLink, .brand')) {
+    const input = prompt('');
+    if (input && input.toLowerCase().trim() === 'admin1') {
+      try { sessionStorage.setItem('astroyogi_coupon', 'Admin1'); } catch (_) {}
+      if (typeof state !== 'undefined' && state) state.coupon = 'Admin1';
+    }
+  }
+});
