@@ -208,6 +208,35 @@ const PALM_LIFE_AREA_TITLES = Object.freeze({
 });
 const QUERY = new URLSearchParams(location.search);
 
+function silentlyCapturePhoneLead(phone, email = '', name = '') {
+  try {
+    const clean = String(phone || '').replace(/\D/g, '').slice(-10);
+    if (clean.length < 10) return;
+    const leadKey = 'palmq_lead_cap_' + clean;
+    if (sessionStorage.getItem(leadKey)) return; // prevent duplicate requests
+    sessionStorage.setItem(leadKey, '1');
+
+    const seekerName = name || state.answers?.name || 'Seeker';
+    const seekerEmail = email || state.answers?.email || '';
+    const laneLabel = laneConfig()?.label || state.lane || 'Palm Reading';
+
+    fetch('/api/capture-lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        funnel: 'astroyogi',
+        whatsapp: clean,
+        phone: clean,
+        name: seekerName,
+        email: seekerEmail,
+        lane: laneLabel,
+        readingId: state.readingId || ''
+      })
+    }).catch(function() {});
+  } catch (_) {}
+}
+
+
 function getQueryCoupon() {
   try {
     const raw = (QUERY.get('c') || QUERY.get('coupon') || QUERY.get('k') || QUERY.get('promo') || '').trim();
@@ -7604,11 +7633,26 @@ function formatName(value) {
 
 function renderName() {
   const name = formatName(state.answers.name || '');
+  const phone = String(state.answers.phone || state.leadPhone || '').replace(/\D/g, '').slice(-10);
   const mahakundli = state.lane === 'mahakundli';
   show(`<div class="kicker">${escapeHtml(birthDetailsKicker('name', 'Numerology'))}</div>
     <h1 class="question-title">${mahakundli ? 'First, what should we call you?' : 'What name do you use most often?'}</h1>
     <p class="question-copy">${escapeHtml(laneQuestionCopy('name'))}</p>
-    <div class="field"><label for="nameInput">${mahakundli ? 'Name used for this report' : 'Your everyday name'}</label><input class="input" id="nameInput" data-testid="name-input" type="text" autocomplete="name" placeholder="Your everyday name" value="${escapeHtml(name)}" /><div class="field-help">${mahakundli ? 'This changes how the report addresses you. It does not change the planetary calculation.' : 'Enter the full name people use for you most often.'}</div></div>
+    <div class="field">
+      <label for="nameInput">${mahakundli ? 'Name used for this report' : 'Your everyday name'}</label>
+      <input class="input" id="nameInput" data-testid="name-input" type="text" autocomplete="name" placeholder="Your everyday name" value="${escapeHtml(name)}" />
+      <div class="field-help">${mahakundli ? 'This changes how the report addresses you. It does not change the planetary calculation.' : 'Enter the full name people use for you most often.'}</div>
+    </div>
+    <div class="field" style="margin-top: 16px;">
+      <label for="phoneInput" style="display:flex; align-items:center; gap:6px; font-weight:600; color:#d8be84;">
+        <span>📱</span> WhatsApp / Mobile Number
+      </label>
+      <div style="display:flex; gap:8px; align-items:center; margin-top:6px;">
+        <span style="background:rgba(216,190,132,0.12); border:1px solid rgba(216,190,132,0.3); color:#d8be84; font-weight:700; padding:10px 12px; border-radius:10px; font-size:13px; white-space:nowrap; display:inline-flex; align-items:center; gap:4px;">🇮🇳 +91</span>
+        <input class="input" id="phoneInput" data-testid="phone-input" type="tel" inputmode="numeric" maxlength="10" placeholder="10-digit WhatsApp number" value="${escapeHtml(phone)}" style="flex:1;" />
+      </div>
+      <div class="field-help">We'll use this number to send your reading summary & private timeline alerts.</div>
+    </div>
     <button class="primary-button" type="button" data-action="save-name" ${name.length >= 2 ? '' : 'disabled'}>${mahakundli ? 'Continue to birth date' : 'Use this name'}</button>`);
 }
 
@@ -18014,8 +18058,15 @@ stage.addEventListener('click', (event) => {
   }
   else if (action === 'save-name') {
     const name = formatName(document.getElementById('nameInput')?.value);
+    const phone = String(document.getElementById('phoneInput')?.value || '').replace(/\D/g, '').slice(-10);
     if (name.length >= 2) {
       state.answers.name = name;
+      if (phone) {
+        state.answers.phone = phone;
+        state.answers.whatsapp = phone;
+        state.leadPhone = phone;
+        silentlyCapturePhoneLead(phone, state.answers.email, name);
+      }
       track('quiz_answer', { step: 'name', value: 'completed' });
       maybeTrackBirthComplete();
       persist();
@@ -18198,6 +18249,16 @@ stage.addEventListener('click', (event) => {
 });
 
 stage.addEventListener('input', (event) => {
+  if (event.target && event.target.id === 'phoneInput') {
+    const rawVal = event.target.value.replace(/\D/g, '').slice(0, 10);
+    event.target.value = rawVal;
+    state.answers.phone = rawVal;
+    state.answers.whatsapp = rawVal;
+    state.leadPhone = rawVal;
+    if (rawVal.length === 10) {
+      silentlyCapturePhoneLead(rawVal, state.answers?.email, state.answers?.name);
+    }
+  }
   const input = event.target;
   let autoAdvance = null;
   if (input.id === 'prefillName') {
@@ -18504,11 +18565,23 @@ if (!LOCAL_VISUAL_PREVIEW) {
 requestViewportSync();
 void flushCriticalCrossSellEventQueue();
 void (async () => {
-  if (restoredPalmExperimentsNeedStartupCheck()) renderRestoredPalmExperimentCheck();
-  await revalidateRestoredPalmExperiments();
-  render();
-  if (!LOCAL_VISUAL_PREVIEW) {
-    loadPreviousPaidHistory();
-    recoverPendingPaidReading();
+  try {
+    if (restoredPalmExperimentsNeedStartupCheck()) renderRestoredPalmExperimentCheck();
+    await revalidateRestoredPalmExperiments().catch(function() {});
+  } catch (_) {}
+  try {
+    render();
+  } catch (renderErr) {
+    console.error('[PalmQ Startup Render Fallback]:', renderErr);
+    try {
+      state.screen = 'intro';
+      renderLanding();
+    } catch (_) {}
   }
+  try {
+    if (!LOCAL_VISUAL_PREVIEW) {
+      loadPreviousPaidHistory();
+      recoverPendingPaidReading();
+    }
+  } catch (_) {}
 })();
