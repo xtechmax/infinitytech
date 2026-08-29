@@ -96,6 +96,7 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: resendData.message || 'Failed to fetch delivery logs' });
         }
 
+        const funnelFilter = String(req.query?.funnel || req.headers['x-funnel'] || '').toLowerCase().trim();
         const emails = resendData.data || [];
         const leads = [];
         const deliveries = [];
@@ -105,49 +106,71 @@ export default async function handler(req, res) {
             const subject = email.subject || '';
             const recipient = Array.isArray(email.to) ? email.to.join(', ') : email.to;
 
-            // 1. Strict filter for Vastu Leads only
-            if (subject.includes('[VASTU LEAD]')) {
-                let phone = '';
-                let customerEmail = '';
-                const parts = subject.replace(/\[VASTU LEAD\]/gi, '').split('|');
-                if (parts.length >= 2) {
-                    phone = parts[0].trim();
-                    customerEmail = parts[1].trim();
-                } else {
-                    phone = parts[0]?.trim() || '';
-                }
+            const isVastuLead = subject.includes('[VASTU LEAD]');
+            const isAstroLead = subject.includes('[PALMQ LEAD]') || subject.includes('[ASTROYOGI LEAD]') || subject.includes('[ASTRO LEAD]');
+            const isVastuDelivery = !subject.toLowerCase().includes('construction') &&
+                (subject.includes('Practical Vastu Shastra') || subject.includes('Vastu 4-in-1') || subject.includes('Vastu Shastra 4-in-1'));
+            const isAstroDelivery = subject.includes('PalmQ IND') || subject.includes('Astro Yogi') || 
+                subject.includes('Life Timeline Report') || subject.includes('Mahakundli') || subject.includes('Face Reading');
 
-                const dedupeKey = `${phone}_${customerEmail.toLowerCase()}`;
-                if (!seenLeadKeys.has(dedupeKey)) {
-                    seenLeadKeys.add(dedupeKey);
-                    leads.push({
+            // Handle Leads
+            if (isVastuLead || isAstroLead) {
+                const isForCurrentFunnel = funnelFilter === 'astroyogi' ? isAstroLead : (funnelFilter === 'vastu' ? isVastuLead : true);
+                if (isForCurrentFunnel) {
+                    let phone = '';
+                    let customerEmail = '';
+                    let seekerName = '';
+                    const cleanSubj = subject.replace(/\[(VASTU|PALMQ|ASTROYOGI|ASTRO)\s*LEAD\]/gi, '');
+                    const parts = cleanSubj.split('|');
+                    if (parts.length >= 3) {
+                        phone = parts[0].trim();
+                        customerEmail = parts[1].trim();
+                        seekerName = parts[2].trim();
+                    } else if (parts.length >= 2) {
+                        phone = parts[0].trim();
+                        customerEmail = parts[1].trim();
+                    } else {
+                        phone = parts[0]?.trim() || '';
+                    }
+
+                    const dedupeKey = `${phone}_${customerEmail.toLowerCase()}`;
+                    if (!seenLeadKeys.has(dedupeKey)) {
+                        seenLeadKeys.add(dedupeKey);
+                        leads.push({
+                            id: email.id,
+                            name: seekerName || 'Seeker',
+                            phone: phone,
+                            email: customerEmail,
+                            funnel: isAstroLead ? 'astroyogi' : 'vastu',
+                            product: isAstroLead ? 'PalmQ IND Astrological Report' : 'Practical Vastu Shastra Bundle',
+                            raw_subject: subject,
+                            status: 'Captured (Pre-Payment)',
+                            created_at: email.created_at
+                        });
+                    }
+                }
+            } 
+            // Handle Paid Deliveries
+            else if (isVastuDelivery || isAstroDelivery) {
+                const isForCurrentFunnel = funnelFilter === 'astroyogi' ? isAstroDelivery : (funnelFilter === 'vastu' ? isVastuDelivery : true);
+                if (isForCurrentFunnel) {
+                    deliveries.push({
                         id: email.id,
-                        phone: phone,
-                        email: customerEmail,
-                        raw_subject: subject,
-                        status: 'Captured (Pre-Payment)',
+                        to: recipient,
+                        from: email.from,
+                        subject: subject,
+                        funnel: isAstroDelivery ? 'astroyogi' : 'vastu',
+                        product: isAstroDelivery ? 'PalmQ IND Life Timeline Report' : 'Practical Vastu Shastra Bundle',
+                        status: email.last_event || 'delivered',
                         created_at: email.created_at
                     });
                 }
-            } 
-            // 2. Strict filter for Vastu Paid Deliveries only (exclude other products like Construction Estimation)
-            else if (
-                !subject.toLowerCase().includes('construction') &&
-                (subject.includes('Practical Vastu Shastra') || subject.includes('Vastu 4-in-1') || subject.includes('Vastu Shastra 4-in-1'))
-            ) {
-                deliveries.push({
-                    id: email.id,
-                    to: recipient,
-                    from: email.from,
-                    subject: subject,
-                    status: email.last_event || 'delivered',
-                    created_at: email.created_at
-                });
             }
         });
 
         return res.status(200).json({
             success: true,
+            funnel: funnelFilter || 'all',
             total_leads: leads.length,
             total_deliveries: deliveries.length,
             leads,

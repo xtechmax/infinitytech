@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PalmQ IND — Admin Portal | Orders & Leads</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="/astroyogi/favicon.svg" />
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+        .font-cormorant { font-family: 'Cormorant Garamond', Georgia, serif; }
+        .brand-flag-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 3.5px;
+            background: rgba(22, 18, 14, 0.85);
+            border: 1px solid rgba(214, 177, 106, 0.45);
+            padding: 1.5px 5.5px 1.5px 4.5px;
+            border-radius: 4px;
+            font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            vertical-align: middle;
+            color: #e5c388;
+        }
+        .brand-flag-badge .flag-stripes {
+            display: inline-flex;
+            flex-direction: column;
+            width: 12px;
+            height: 8.5px;
+            border-radius: 1.5px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .brand-flag-badge .flag-stripes span:nth-child(1) { background: #FF9933; height: 2.8px; width: 100%; }
+        .brand-flag-badge .flag-stripes span:nth-child(2) { background: #FFFFFF; height: 2.9px; width: 100%; position: relative; }
+        .brand-flag-badge .flag-stripes span:nth-child(2)::after {
+            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 2.2px; height: 2.2px; border-radius: 50%; background: #000080;
+        }
+        .brand-flag-badge .flag-stripes span:nth-child(3) { background: #138808; height: 2.8px; width: 100%; }
+    </style>
+</head>
+<body class="bg-[#0f0c0a] text-gray-100 min-h-screen">
+
+    <!-- LOGIN SCREEN -->
+    <div id="loginScreen" class="min-h-screen flex items-center justify-center px-4">
+        <div class="w-full max-w-md bg-[#181410] border border-[#d8be84]/25 rounded-3xl p-8 shadow-2xl space-y-6">
+            <div class="text-center space-y-3">
+                <div class="flex items-center justify-center gap-2">
+                    <img src="/astroyogi/assets/palmq-logo.png" alt="PalmQ IND" class="w-10 h-10 rounded-lg shadow-md border border-[#d8be84]/30" />
+                    <span class="text-2xl font-bold font-cormorant text-[#d8be84] tracking-wide flex items-center gap-1.5">
+                        PalmQ <span class="brand-flag-badge"><span class="flag-stripes"><span></span><span></span><span></span></span>IND</span>
+                    </span>
+                </div>
+                <h1 class="text-lg font-bold tracking-tight text-white">Admin Management Portal</h1>
+                <p class="text-xs text-gray-400">Sign in to view live astrology leads, deliveries & Cashfree payments</p>
+            </div>
+
+            <form id="loginForm" class="space-y-4" onsubmit="handleLogin(event)">
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 mb-1 uppercase tracking-wider">Email Address</label>
+                    <input type="email" id="loginEmail" required placeholder="admin@example.com" 
+                        class="w-full bg-[#241e18] border border-[#d8be84]/20 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-[#d8be84] transition">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 mb-1 uppercase tracking-wider">Password</label>
+                    <input type="password" id="loginPassword" required placeholder="••••••••••••" 
+                        class="w-full bg-[#241e18] border border-[#d8be84]/20 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-[#d8be84] transition">
+                </div>
+
+                <div id="loginError" class="hidden bg-rose-500/10 border border-rose-500/30 rounded-xl p-3 text-xs text-rose-400 text-center font-semibold">
+                    Invalid email or password.
+                </div>
+
+                <button type="submit" id="loginBtn"
+                    class="w-full bg-gradient-to-r from-[#d8be84] to-[#a47d3d] hover:brightness-110 text-[#1a140e] font-extrabold py-3.5 rounded-xl text-sm transition shadow-lg shadow-[#d8be84]/20">
+                    Sign In to PalmQ Admin
+                </button>
+            </form>
+            <div class="flex justify-between items-center text-[11px] text-gray-500 pt-2 border-t border-[#d8be84]/15">
+                <span>🔒 Secure Admin Session</span>
+                <a href="/vastu/admin" class="text-[#d8be84] hover:underline">Go to Vastu Admin &rarr;</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- DASHBOARD SCREEN -->
+    <div id="dashboardScreen" class="hidden min-h-screen p-4 sm:p-8 space-y-8 max-w-7xl mx-auto">
+        
+        <!-- Top Navbar -->
+        <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-[#181410] border border-[#d8be84]/25 rounded-2xl p-5 shadow-lg">
+            <div class="flex items-center gap-3.5">
+                <img src="/astroyogi/assets/palmq-logo.png" alt="PalmQ" class="w-11 h-11 rounded-xl shadow-md border border-[#d8be84]/30" />
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-lg font-bold text-white font-cormorant tracking-wide">PalmQ IND</h1>
+                        <span class="brand-flag-badge"><span class="flag-stripes"><span></span><span></span><span></span></span>IND</span>
+                        <span class="text-[10px] bg-amber-500/15 border border-amber-500/30 text-amber-300 font-bold px-2 py-0.5 rounded-md">ASTROLOGY ADMIN</span>
+                    </div>
+                    <p id="adminUserTag" class="text-xs text-gray-400 mt-0.5">Logged in as Administrator</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-2.5 flex-wrap self-end sm:self-center">
+                <a href="/vastu/admin" 
+                    class="flex items-center gap-1.5 bg-[#241e18] hover:bg-[#2e261f] text-xs font-semibold px-3.5 py-2.5 rounded-xl border border-[#d8be84]/30 text-[#d8be84] transition">
+                    <span>🏡</span> Switch to Vastu Admin
+                </a>
+                <button onclick="fetchData()" 
+                    class="flex items-center gap-1.5 bg-[#241e18] hover:bg-[#2e261f] text-xs font-semibold px-3.5 py-2.5 rounded-xl border border-gray-700 text-gray-300 transition">
+                    <span>🔄</span> Refresh
+                </button>
+                <button onclick="handleLogout()" 
+                    class="flex items-center gap-1.5 bg-rose-600/10 hover:bg-rose-600/20 text-rose-400 text-xs font-bold px-3.5 py-2.5 rounded-xl border border-rose-500/30 transition">
+                    <span>🚪</span> Logout
+                </button>
+            </div>
+        </header>
+
+        <!-- Stats Overview -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="bg-[#181410] border border-[#d8be84]/20 rounded-2xl p-5 shadow-lg">
+                <div class="flex justify-between items-center text-gray-400 text-xs uppercase font-bold tracking-wider mb-2">
+                    <span>PalmQ Captured Leads</span>
+                    <span class="text-amber-400">✋</span>
+                </div>
+                <p id="totalLeadsStat" class="text-3xl font-black text-amber-400">—</p>
+                <p class="text-[11px] text-gray-500 mt-1">Seekers who submitted phone / birth details</p>
+            </div>
+
+            <div class="bg-[#181410] border border-[#d8be84]/20 rounded-2xl p-5 shadow-lg">
+                <div class="flex justify-between items-center text-gray-400 text-xs uppercase font-bold tracking-wider mb-2">
+                    <span>Paid Reports Delivered</span>
+                    <span class="text-emerald-400">📜</span>
+                </div>
+                <p id="totalDeliveriesStat" class="text-3xl font-black text-emerald-400">—</p>
+                <p class="text-[11px] text-gray-500 mt-1">Full astrological reading PDF dispatches</p>
+            </div>
+
+            <div class="bg-[#181410] border border-[#d8be84]/20 rounded-2xl p-5 shadow-lg">
+                <div class="flex justify-between items-center text-gray-400 text-xs uppercase font-bold tracking-wider mb-2">
+                    <span>Live Storefront</span>
+                    <span class="text-sky-400">🌐</span>
+                </div>
+                <a href="/astroyogi" target="_blank" class="text-sm font-bold text-sky-400 hover:underline flex items-center gap-1">
+                    palmq.shop/astroyogi &rarr;
+                </a>
+                <p class="text-[11px] text-gray-500 mt-1">Palm, Face, & Kundli funnels active</p>
+            </div>
+        </div>
+
+        <!-- Cashfree Live Order Lookup Inspector -->
+        <div class="bg-[#181410] border border-[#d8be84]/20 rounded-2xl p-5 shadow-lg space-y-4">
+            <div>
+                <h2 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                    <span>🔎</span> Cashfree Order Inspector
+                </h2>
+                <p class="text-xs text-gray-400">Enter a Cashfree Order ID (e.g. order_...) to inspect payment status & customer details</p>
+            </div>
+            <form onsubmit="handleOrderLookup(event)" class="flex flex-col sm:flex-row gap-3">
+                <input type="text" id="lookupOrderId" required placeholder="Enter Cashfree Order ID (e.g. order_1787...)"
+                    class="flex-1 bg-[#241e18] border border-[#d8be84]/20 rounded-xl px-4 py-2.5 text-xs text-white outline-none focus:border-[#d8be84] transition">
+                <button type="submit" id="lookupBtn" class="bg-gradient-to-r from-[#d8be84] to-[#a47d3d] text-[#1a140e] font-extrabold text-xs px-5 py-2.5 rounded-xl transition hover:brightness-110">
+                    Inspect Order
+                </button>
+            </form>
+
+            <div id="lookupResult" class="hidden bg-[#241e18] border border-[#d8be84]/20 rounded-xl p-4 text-xs space-y-2"></div>
+        </div>
+
+        <!-- Section 1: PalmQ Paid Deliveries Table -->
+        <div class="bg-[#181410] border border-[#d8be84]/20 rounded-2xl p-5 shadow-lg space-y-4">
+            <div class="flex justify-between items-center flex-wrap gap-2">
+                <div>
+                    <h2 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                        <span>📦</span> Paid Astrological Deliveries (PDF Access Sent)
+                    </h2>
+                    <p class="text-xs text-gray-400">Real-time record of verified paid customers and dispatched PDF guides</p>
+                </div>
+                <span id="deliveriesCountBadge" class="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-bold text-xs px-3 py-1 rounded-full">
+                    0 Orders
+                </span>
+            </div>
+
+            <div id="deliveriesLoading" class="text-center py-8 text-xs text-gray-400">
+                <span class="inline-block animate-spin text-lg mb-2">⏳</span>
+                <p>Loading delivery records from Resend & Cashfree...</p>
+            </div>
+
+            <div id="deliveriesContainer" class="hidden overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="border-b border-[#d8be84]/15 text-gray-400 font-bold uppercase text-[10px] tracking-wider">
+                            <th class="px-5 py-3">Customer (To)</th>
+                            <th class="px-5 py-3">Product / Report</th>
+                            <th class="px-5 py-3">Delivery Status</th>
+                            <th class="px-5 py-3">Dispatched Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="deliveriesTableBody" class="divide-y divide-[#d8be84]/10">
+                        <!-- Rows dynamically populated -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="deliveriesEmpty" class="hidden text-center py-8 text-xs text-gray-500">
+                No paid report delivery records found.
+            </div>
+        </div>
+
+        <!-- Section 2: PalmQ Captured Leads / Abandoned Recovery Table -->
+        <div class="bg-[#181410] border border-[#d8be84]/20 rounded-2xl p-5 shadow-lg space-y-4">
+            <div class="flex justify-between items-center flex-wrap gap-2">
+                <div>
+                    <h2 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                        <span>🎯</span> Captured Leads & WhatsApp Recovery
+                    </h2>
+                    <p class="text-xs text-gray-400">Follow up with seekers who started their Palm / Face reading</p>
+                </div>
+                <span id="leadsCountBadge" class="bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold text-xs px-3 py-1 rounded-full">
+                    0 Leads
+                </span>
+            </div>
+
+            <div id="leadsLoading" class="text-center py-8 text-xs text-gray-400">
+                <span class="inline-block animate-spin text-lg mb-2">⏳</span>
+                <p>Loading captured leads...</p>
+            </div>
+
+            <div id="leadsContainer" class="hidden overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="border-b border-[#d8be84]/15 text-gray-400 font-bold uppercase text-[10px] tracking-wider">
+                            <th class="px-5 py-3">Seeker Name / Phone</th>
+                            <th class="px-5 py-3">Email Address</th>
+                            <th class="px-5 py-3">Status Tag</th>
+                            <th class="px-5 py-3 text-center">1-Click WhatsApp</th>
+                            <th class="px-5 py-3">Captured At</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leadsTableBody" class="divide-y divide-[#d8be84]/10">
+                        <!-- Rows dynamically populated -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="leadsEmpty" class="hidden text-center py-8 text-xs text-gray-500">
+                No captured lead records found.
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const AUTH_STORAGE_KEY = 'palmq_admin_token';
+        const STATUS_STORAGE_PREFIX = 'palmq_lead_status_';
+
+        // Check active session on boot
+        window.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem(AUTH_STORAGE_KEY);
+            if (token) {
+                showDashboard();
+                fetchData();
+            } else {
+                showLogin();
+            }
+        });
+
+        function showLogin() {
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('dashboardScreen').classList.add('hidden');
+        }
+
+        function showDashboard() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('dashboardScreen').classList.remove('hidden');
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            const errorDiv = document.getElementById('loginError');
+            const submitBtn = document.getElementById('loginBtn');
+
+            errorDiv.classList.add('hidden');
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Verifying...';
+
+            try {
+                const res = await fetch('/api/admin-orders', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'login', email, password })
+                });
+
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Login failed');
+
+                localStorage.setItem(AUTH_STORAGE_KEY, data.token);
+                showDashboard();
+                fetchData();
+            } catch (err) {
+                errorDiv.innerText = err.message;
+                errorDiv.classList.remove('hidden');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Sign In to PalmQ Admin';
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem(AUTH_STORAGE_KEY);
+            showLogin();
+        }
+
+        async function handleOrderLookup(e) {
+            e.preventDefault();
+            const token = localStorage.getItem(AUTH_STORAGE_KEY);
+            const orderId = document.getElementById('lookupOrderId').value.trim();
+            const resultBox = document.getElementById('lookupResult');
+            const btn = document.getElementById('lookupBtn');
+
+            if (!orderId) return;
+
+            btn.disabled = true;
+            btn.innerText = 'Checking...';
+            resultBox.classList.remove('hidden');
+            resultBox.innerHTML = '<span class="text-gray-400">Querying Cashfree API...</span>';
+
+            try {
+                const res = await fetch('/api/admin-orders', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'x-admin-token': token 
+                    },
+                    body: JSON.stringify({ action: 'lookup', order_id: orderId })
+                });
+
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Failed to lookup order');
+
+                const ord = data.order;
+                const isPaid = ord.order_status === 'PAID';
+                const statusBadge = isPaid 
+                    ? '<span class="bg-emerald-500/20 text-emerald-300 font-bold px-2 py-0.5 rounded border border-emerald-500/30">✅ PAID / SUCCESS</span>'
+                    : `<span class="bg-amber-500/20 text-amber-300 font-bold px-2 py-0.5 rounded border border-amber-500/30">⏳ ${ord.order_status || 'ACTIVE'}</span>`;
+
+                resultBox.innerHTML = `
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div>
+                            <span class="text-gray-500">Order ID:</span> <b class="text-white">${ord.order_id}</b><br>
+                            <span class="text-gray-500">Amount:</span> <b class="text-emerald-400">₹${ord.order_amount} ${ord.order_currency}</b><br>
+                            <span class="text-gray-500">Status:</span> ${statusBadge}
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Customer Phone:</span> <b class="text-white">${ord.customer_details?.customer_phone || '—'}</b><br>
+                            <span class="text-gray-500">Customer Email:</span> <b class="text-white">${ord.customer_details?.customer_email || '—'}</b><br>
+                            <span class="text-gray-500">Created:</span> <span class="text-gray-400">${new Date(ord.created_at).toLocaleString('en-IN')}</span>
+                        </div>
+                    </div>
+                `;
+            } catch (err) {
+                resultBox.innerHTML = `<span class="text-rose-400 font-semibold">❌ ${err.message}</span>`;
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'Inspect Order';
+            }
+        }
+
+        async function fetchData() {
+            const token = localStorage.getItem(AUTH_STORAGE_KEY);
+            if (!token) return handleLogout();
+
+            const leadsLoading = document.getElementById('leadsLoading');
+            const leadsContainer = document.getElementById('leadsContainer');
+            const leadsEmpty = document.getElementById('leadsEmpty');
+
+            const delivLoading = document.getElementById('deliveriesLoading');
+            const delivContainer = document.getElementById('deliveriesContainer');
+            const delivEmpty = document.getElementById('deliveriesEmpty');
+
+            leadsLoading.classList.remove('hidden');
+            leadsContainer.classList.add('hidden');
+            leadsEmpty.classList.add('hidden');
+
+            delivLoading.classList.remove('hidden');
+            delivContainer.classList.add('hidden');
+            delivEmpty.classList.add('hidden');
+
+            try {
+                const res = await fetch('/api/admin-orders?funnel=astroyogi', {
+                    headers: { 'x-admin-token': token }
+                });
+
+                if (res.status === 401) return handleLogout();
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Failed to fetch');
+
+                // Update Stats
+                document.getElementById('totalLeadsStat').innerText = data.total_leads ?? 0;
+                document.getElementById('totalDeliveriesStat').innerText = data.total_deliveries ?? 0;
+                document.getElementById('leadsCountBadge').innerText = `${data.total_leads ?? 0} Leads`;
+                document.getElementById('deliveriesCountBadge').innerText = `${data.total_deliveries ?? 0} Orders`;
+
+                // Render Deliveries
+                delivLoading.classList.add('hidden');
+                if (data.deliveries && data.deliveries.length > 0) {
+                    delivContainer.classList.remove('hidden');
+                    const tbody = document.getElementById('deliveriesTableBody');
+                    tbody.innerHTML = '';
+
+                    data.deliveries.forEach(del => {
+                        const tr = document.createElement('tr');
+                        tr.className = 'hover:bg-[#241e18]/40 transition';
+                        const dateStr = del.created_at ? new Date(del.created_at).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : '—';
+                        
+                        tr.innerHTML = `
+                            <td class="px-5 py-3.5 font-semibold text-white">${escapeHtml(del.to || '—')}</td>
+                            <td class="px-5 py-3.5 text-gray-300 font-medium">${escapeHtml(del.subject || del.product || 'PalmQ Reading')}</td>
+                            <td class="px-5 py-3.5">
+                                <span class="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-bold px-2 py-0.5 rounded text-[11px]">
+                                    ✓ ${escapeHtml(del.status || 'delivered')}
+                                </span>
+                            </td>
+                            <td class="px-5 py-3.5 text-gray-400 text-[11px]">${dateStr}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                } else {
+                    delivEmpty.classList.remove('hidden');
+                }
+
+                // Render Leads
+                leadsLoading.classList.add('hidden');
+                if (data.leads && data.leads.length > 0) {
+                    leadsContainer.classList.remove('hidden');
+                    const tbody = document.getElementById('leadsTableBody');
+                    tbody.innerHTML = '';
+
+                    data.leads.forEach(lead => {
+                        const tr = document.createElement('tr');
+                        tr.className = 'hover:bg-[#241e18]/40 transition';
+                        const dateStr = lead.created_at ? new Date(lead.created_at).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : '—';
+                        const cleanPhoneOnly = String(lead.phone || '').replace(/\D/g, '');
+                        const leadKey = `${lead.id || cleanPhoneOnly}`;
+                        const savedStatus = localStorage.getItem(STATUS_STORAGE_PREFIX + leadKey) || 'new';
+
+                        tr.innerHTML = `
+                            <td class="px-5 py-3.5 font-semibold text-white">
+                                <div>${escapeHtml(lead.name || 'Seeker')}</div>
+                                <div class="text-amber-400 font-mono text-[11px]">${cleanPhoneOnly ? '+91 ' + cleanPhoneOnly : '—'}</div>
+                            </td>
+                            <td class="px-5 py-3.5 text-gray-300">${escapeHtml(lead.email || '—')}</td>
+                            <td class="px-5 py-3.5">
+                                <select onchange="saveLeadStatus('${leadKey}', this.value)" 
+                                    class="bg-[#241e18] border border-[#d8be84]/25 text-xs rounded-lg px-2.5 py-1 text-gray-200 outline-none focus:border-[#d8be84]">
+                                    <option value="new" ${savedStatus === 'new' ? 'selected' : ''}>⏳ New Lead</option>
+                                    <option value="interested" class="text-blue-300" ${savedStatus === 'interested' ? 'selected' : ''}>🔥 Interested</option>
+                                    <option value="not_interested" class="text-rose-300" ${savedStatus === 'not_interested' ? 'selected' : ''}>❌ Not Interested</option>
+                                    <option value="converted" class="text-emerald-300" ${savedStatus === 'converted' ? 'selected' : ''}>✅ Converted</option>
+                                </select>
+                            </td>
+                            <td class="px-5 py-3.5 text-center">
+                                ${cleanPhoneOnly ? `
+                                    <a href="https://wa.me/${cleanPhoneOnly.startsWith('91') ? cleanPhoneOnly : '91' + cleanPhoneOnly}?text=${encodeURIComponent('Hello ' + (lead.name || '') + ', your PalmQ IND Astrological Life Timeline report is prepared and ready! You can complete and access your reading now at: https://palmq.shop/astroyogi')}" 
+                                       target="_blank" 
+                                       class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] px-3.5 py-1.5 rounded-lg transition shadow-sm hover:scale-[1.02] active:scale-[0.98]">
+                                        <span>💬</span> WhatsApp
+                                    </a>
+                                ` : '—'}
+                            </td>
+                            <td class="px-5 py-3.5 text-gray-400 text-[11px]">${dateStr}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                } else {
+                    leadsEmpty.classList.remove('hidden');
+                }
+
+            } catch (err) {
+                console.error(err);
+                leadsLoading.innerHTML = `<span class="text-rose-400 font-semibold">Error: ${err.message}</span>`;
+                delivLoading.innerHTML = `<span class="text-rose-400 font-semibold">Error: ${err.message}</span>`;
+            }
+        }
+
+        function saveLeadStatus(key, status) {
+            try {
+                localStorage.setItem(STATUS_STORAGE_PREFIX + key, status);
+            } catch (e) {}
+        }
+
+        function escapeHtml(str) {
+            return String(str || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+    </script>
+</body>
+</html>
