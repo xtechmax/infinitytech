@@ -5098,8 +5098,36 @@ function track(name, properties = {}, options = {}) {
     try { console.warn('[Astro Yogi] Meta analytics unavailable', error); } catch (_) {}
   }
   try {
-    if (!CROSS_SELL_QA_ACTIVE && name === 'purchase' && window.twq) {
-      window.twq('event', 'tw-re98j-re98l', {});
+    if (!CROSS_SELL_QA_ACTIVE && window.twq) {
+      if (name === 'purchase') {
+        window.twq('event', 'tw-reryo-purchase', {
+          value: thirdPartyData?.value || 0,
+          currency: thirdPartyData?.currency || 'INR',
+          conversion_id: eventId
+        });
+        // Server-side X Conversions API (for attribution matching on server)
+        try {
+          fetch('/api/x-capi', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              event_name: 'Purchase',
+              conversion_id: eventId,
+              value: thirdPartyData?.value || 0,
+              currency: 'INR',
+              email: state?.answers?.email || state?.email || '',
+              phone: state?.answers?.whatsapp || state?.answers?.phone || '',
+              event_source_url: location.href,
+            })
+          }).catch(() => {});
+        } catch (_) {}
+      } else if (name === 'begin_checkout') {
+        window.twq('event', 'tw-reryo-initiatecheckout', {
+          value: thirdPartyData?.value || 0,
+          currency: thirdPartyData?.currency || 'INR',
+          conversion_id: eventId
+        });
+      }
     }
   } catch (error) {
     try { console.warn('[Astro Yogi] X analytics unavailable', error); } catch (_) {}

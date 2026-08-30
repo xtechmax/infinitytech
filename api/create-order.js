@@ -104,8 +104,31 @@ export default async function handler(req, res) {
 
         const paymentSessionId = responseData.payment_session_id;
 
+        // Fire X Conversions API Purchase event (server-side, async, non-blocking)
+        try {
+            const xCapiPayload = {
+                event_name: 'Purchase',
+                conversion_id: orderId,
+                value: amount,
+                currency: 'INR',
+                email: customerEmail,
+                phone: customerPhone,
+                event_source_url: (readingId || lane)
+                    ? 'https://palmq.shop/astroyogi'
+                    : 'https://palmq.shop/vastucheckout',
+                ip_address: (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || undefined,
+                user_agent: req.headers['user-agent'] || undefined,
+            };
+            fetch(`${(req.headers['x-forwarded-proto'] || 'https')}://${req.headers['host']}/api/x-capi`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(xCapiPayload),
+            }).catch((e) => console.warn('[X CAPI trigger failed]', e.message));
+        } catch (_) {}
+
         // Unified response object supporting both Vastu checkout & Astro Yogi palm checkout
         return res.status(200).json({
+
             ok: true,
             order_id: responseData.order_id,
             payment_session_id: paymentSessionId,
