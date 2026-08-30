@@ -418,5 +418,50 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
       </div>
     </dialog>
   
+
+  <!-- WhatsApp Floating Button -->
+  <a
+    id="wa-float-btn"
+    href="https://wa.me/918910803089?text=Hi%20I%20would%20like%20to%20know%20more%20about%20PalmQ%20astroyogi"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Chat with us on WhatsApp"
+    title="Chat on WhatsApp"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="30" height="30" fill="white" aria-hidden="true">
+      <path d="M16 0C7.163 0 0 7.163 0 16c0 2.824.738 5.476 2.031 7.775L0 32l8.469-2.008A15.93 15.93 0 0 0 16 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm0 29.333a13.27 13.27 0 0 1-6.771-1.852l-.485-.29-5.028 1.192 1.215-4.899-.317-.503A13.253 13.253 0 0 1 2.667 16C2.667 8.636 8.636 2.667 16 2.667S29.333 8.636 29.333 16 23.364 29.333 16 29.333zm7.27-9.847c-.398-.199-2.355-1.162-2.72-1.294-.366-.133-.632-.199-.898.199-.266.397-1.031 1.294-1.264 1.56-.232.266-.465.299-.863.1-.398-.199-1.68-.62-3.2-1.975-1.183-1.056-1.982-2.36-2.213-2.757-.232-.398-.025-.612.174-.81.179-.178.398-.465.597-.697.199-.232.266-.398.398-.664.133-.266.067-.498-.033-.697-.1-.199-.898-2.165-1.23-2.963-.325-.779-.656-.673-.898-.686l-.764-.013c-.266 0-.698.1-.1064.498-.366.398-1.397 1.364-1.397 3.328 0 1.963 1.43 3.86 1.629 4.126.199.266 2.815 4.298 6.82 6.028.953.412 1.696.658 2.277.842.957.305 1.828.262 2.516.159.767-.115 2.355-.963 2.688-1.893.333-.93.333-1.728.232-1.893-.099-.166-.365-.265-.763-.464z"/>
+    </svg>
+  </a>
+  <style>
+    #wa-float-btn {
+      position: fixed;
+      bottom: 22px;
+      right: 18px;
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      background: #25D366;
+      border-radius: 50%;
+      box-shadow: 0 4px 16px rgba(37,211,102,0.45), 0 2px 6px rgba(0,0,0,0.22);
+      text-decoration: none;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      animation: wa-pulse 2.4s ease-in-out infinite;
+    }
+    #wa-float-btn:hover,
+    #wa-float-btn:focus {
+      transform: scale(1.12);
+      box-shadow: 0 6px 24px rgba(37,211,102,0.6), 0 2px 8px rgba(0,0,0,0.26);
+      animation: none;
+      outline: none;
+    }
+    @keyframes wa-pulse {
+      0%, 100% { box-shadow: 0 4px 16px rgba(37,211,102,0.45), 0 2px 6px rgba(0,0,0,0.22); }
+      50%       { box-shadow: 0 4px 28px rgba(37,211,102,0.75), 0 2px 10px rgba(0,0,0,0.28); }
+    }
+  </style>
+
 </body>
 </html>
