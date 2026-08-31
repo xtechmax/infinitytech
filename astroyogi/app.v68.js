@@ -7704,7 +7704,16 @@ function renderName() {
       </div>
       <div class="field-help">We'll use this number to send your reading summary & private timeline alerts.</div>
     </div>
-    <button class="primary-button" type="button" data-action="save-name" ${name.length >= 2 ? '' : 'disabled'}>${mahakundli ? 'Continue to birth date' : 'Use this name'}</button>`);
+    <div class="field" style="margin-top: 16px;">
+      <label for="emailInput" style="display:flex; align-items:center; gap:6px; font-weight:600; color:#d8be84;">
+        <span>📧</span> Email Address (Required)
+      </label>
+      <div style="display:flex; gap:8px; align-items:center; margin-top:6px;">
+        <input class="input" id="emailInput" data-testid="email-input" type="email" placeholder="Where should we send your PDF?" value="${escapeHtml(state.answers.email || '')}" style="flex:1;" />
+      </div>
+      <div class="field-help">We'll automatically deliver your 15+ page PDF report here.</div>
+    </div>
+    <button class="primary-button" type="button" data-action="save-name" ${name.length >= 2 && phone.length === 10 && (state.answers.email || '').includes('@') ? '' : 'disabled'}>${mahakundli ? 'Continue to birth date' : 'Continue'}</button>`);
 }
 
 function maybeTrackBirthComplete() {
@@ -14436,7 +14445,7 @@ async function startCheckout(ctaPlacement = '', { retryTrigger = '' } = {}) {
       tier: 'full',
       addOns: requestedAddOns,
       coupon: (state.coupon || getQueryCoupon() || '').trim(),
-      email: IS_GLOBAL_STOREFRONT ? normalizeCheckoutEmail(state.answers.paymentEmail) : '',
+      email: IS_GLOBAL_STOREFRONT ? normalizeCheckoutEmail(state.answers.paymentEmail) : (state.answers.email || ''),
       phone: '',
       ...(IS_GLOBAL_STOREFRONT ? { residence: globalResidenceDraft() } : {}),
       angle: state.resolvedAngle,
@@ -18110,18 +18119,23 @@ stage.addEventListener('click', (event) => {
   else if (action === 'save-name') {
     const name = formatName(document.getElementById('nameInput')?.value);
     const phone = String(document.getElementById('phoneInput')?.value || '').replace(/\D/g, '').slice(-10);
-    if (name.length >= 2) {
+    const email = String(document.getElementById('emailInput')?.value || '').trim().toLowerCase();
+    
+    if (name.length >= 2 && phone.length === 10 && email.includes('@')) {
       state.answers.name = name;
-      if (phone) {
-        state.answers.phone = phone;
-        state.answers.whatsapp = phone;
-        state.leadPhone = phone;
-        silentlyCapturePhoneLead(phone, state.answers.email, name);
-      }
+      state.answers.email = email;
+      state.answers.phone = phone;
+      state.answers.whatsapp = phone;
+      state.leadPhone = phone;
+      
+      silentlyCapturePhoneLead(phone, email, name);
+      
       track('quiz_answer', { step: 'name', value: 'completed' });
       maybeTrackBirthComplete();
       persist();
       next();
+    } else {
+      alert('Please provide your name, a 10-digit WhatsApp number, and a valid email address to continue.');
     }
   } else if (action === 'choose-palm') {
     if (IS_GLOBAL_STOREFRONT && !usableGlobalAgeCheck()) {
@@ -18308,6 +18322,16 @@ stage.addEventListener('input', (event) => {
     state.leadPhone = rawVal;
     if (rawVal.length === 10) {
       silentlyCapturePhoneLead(rawVal, state.answers?.email, state.answers?.name);
+    }
+  }
+  
+  if (['nameInput', 'phoneInput', 'emailInput'].includes(event.target.id)) {
+    const btn = document.querySelector('[data-action="save-name"]');
+    if (btn) {
+      const n = document.getElementById('nameInput')?.value || '';
+      const p = (document.getElementById('phoneInput')?.value || '').replace(/\D/g, '').slice(0, 10);
+      const e = document.getElementById('emailInput')?.value || '';
+      btn.disabled = n.length < 2 || p.length < 10 || !e.includes('@');
     }
   }
   const input = event.target;
