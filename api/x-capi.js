@@ -5,7 +5,7 @@
 import crypto from 'crypto';
 
 const X_PIXEL_ID = 'reryo';
-const X_CAPI_TOKEN = '8AAjID7Ikn2OelZX0ISJAncPrj4NhvwOD1cYdMhFwAGUxcKdw0GkO7ZXf3yORJZhd6bCfgSpkzP1fBVI8gBPeNs';
+const X_CAPI_TOKEN = 'FTjMpLnV00uqjSPXbHkxDKpcs7HGjT-IBqfr8lYiRcJwEOWgz9zJrBNvekvlW8zpe1I1heTmxbvWJu3uxJ5vzzM';
 const X_CAPI_ENDPOINT = `https://ads-api.x.com/12/measurement/conversions/${X_PIXEL_ID}`;
 
 /**
