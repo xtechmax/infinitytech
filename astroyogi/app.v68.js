@@ -2311,8 +2311,8 @@ function persist() {
 }
 
 function lanePath(lane = state.lane) {
-  if (IS_GLOBAL_STOREFRONT && lane === 'palm_answers') return '/';
-  return { mahakundli: '/mahakundli', best_city: '/best-city', partner_name: '/partner-name', palm_answers: '/palm-answers', face_answers: '/face-reading', name_numerology: '/name-numerology', market_profile: '/market-profile' }[lane] || '/';
+  if (IS_GLOBAL_STOREFRONT && lane === 'palm_answers') return '/astroyogi';
+  return { mahakundli: '/astroyogi/mahakundli', best_city: '/astroyogi/best-city', partner_name: '/astroyogi/partner-name', palm_answers: '/astroyogi/palm-answers', face_answers: '/astroyogi/face-reading', name_numerology: '/astroyogi/name-numerology', market_profile: '/astroyogi/market-profile' }[lane] || '/astroyogi';
 }
 
 function nextReadingDestination(lane) {
@@ -2987,7 +2987,7 @@ async function goHome() {
   }
   rememberPaidReading();
   clearActiveReading();
-  location.assign('/');
+  location.assign('/astroyogi');
 }
 
 function updateRecoveryUrl({ paid = false } = {}) {
@@ -6858,7 +6858,7 @@ function renderLanding() {
         ${HOME_GRID.map((item) => `<button class="home-tile${item.eyebrow ? ' home-tile--new' : ''}" type="button" data-action="choose-lane" data-value="${item.lane}" data-testid="lane-${item.lane.replaceAll('_', '-')}">${item.eyebrow ? `<span class="home-tile__eyebrow">${escapeHtml(item.eyebrow)}</span>` : ''}${homeEmblem(item.lane)}<b>${escapeHtml(item.title)}</b><small>${escapeHtml(item.blurb)}</small></button>`).join('')}
       </div>
       <div class="home-assurance">Every reading begins free · Pay only if you choose the full report</div>
-      <a class="home-about" href="/about-us">About the practice</a>
+      <a class="home-about" href="/astroyogi/about-us">About the practice</a>
       <div class="privacy-line">Your details stay private · Personal guidance, not certainty</div>
     </div>`);
     return;
@@ -15726,8 +15726,8 @@ function shareCardContent(full = state.full) {
 
 function shareReferralLink(platform = 'share_menu') {
   const route = IS_GLOBAL_STOREFRONT
-    ? '/'
-    : { best_city: '/best-city', partner_name: '/partner-name', palm_answers: '/palm-answers', face_answers: '/face-reading', name_numerology: '/name-numerology', market_profile: '/market-profile' }[state.lane] || '/';
+    ? '/astroyogi'
+    : { best_city: '/astroyogi/best-city', partner_name: '/astroyogi/partner-name', palm_answers: '/astroyogi/palm-answers', face_answers: '/astroyogi/face-reading', name_numerology: '/astroyogi/name-numerology', market_profile: '/astroyogi/market-profile' }[state.lane] || '/astroyogi';
   const base = sharePublicBaseUrl();
   base.pathname = route;
   base.search = '';
