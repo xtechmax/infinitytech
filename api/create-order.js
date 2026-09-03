@@ -27,6 +27,14 @@ export default async function handler(req, res) {
         const secretCode = String(coupon || c || k || promo || '').toLowerCase().trim();
         if (secretCode === 'admin1') {
             amount = 1; // Server-side private admin test bypass
+        } else if (body.funnel === 'nepal') {
+            // Nepal Donation Funnel
+            const donationAmount = parseInt(body.donationAmount, 10);
+            if (donationAmount >= 99 && donationAmount <= 10000) {
+                amount = donationAmount;
+            } else {
+                amount = 500; // fallback
+            }
         } else if (tier || readingId || lane) {
             // Astro Yogi Palm / Astrology Funnel
             amount = 199;
@@ -62,7 +70,9 @@ export default async function handler(req, res) {
         const customerEmail = (email && email.includes('@')) ? email.trim() : 'customer@infinitytech.com';
 
         // Return URL based on funnel
-        const returnUrl = (readingId || lane)
+        const returnUrl = body.funnel === 'nepal'
+            ? `https://palmq.shop/Nepal?payment=success&order_id={order_id}`
+            : (readingId || lane)
             ? `https://palmq.shop/astroyogi/palm-answers?readingId=${readingId || ''}&payment=completed`
             : `https://palmq.shop/vastucheckout/success?order_id={order_id}`;
 
@@ -79,9 +89,9 @@ export default async function handler(req, res) {
                 order_amount: amount,
                 order_currency: 'INR',
                 order_id: orderId,
-                order_note: (readingId || lane || tier) ? 'PalmQ IND Life Timeline Report' : 'Practical Vastu Shastra 4-in-1 Master Bundle',
+                order_note: body.funnel === 'nepal' ? 'Nepal Flood Relief Donation' : (readingId || lane || tier) ? 'PalmQ IND Life Timeline Report' : 'Practical Vastu Shastra 4-in-1 Master Bundle',
                 order_tags: {
-                    funnel: (readingId || lane || tier) ? 'astroyogi' : 'vastu',
+                    funnel: body.funnel === 'nepal' ? 'nepal' : (readingId || lane || tier) ? 'astroyogi' : 'vastu',
                     readingId: readingId || ''
                 },
                 customer_details: {
