@@ -68,11 +68,22 @@ export default async function handler(req, res) {
             console.error('Failed to read PDF attachment:', fileErr);
         }
 
+        const isNepal = orderData.order_tags?.funnel === 'nepal';
         const isAstroYogi = orderData.order_tags?.funnel === 'astroyogi' || 
                             (orderData.order_note && orderData.order_note.toLowerCase().includes('astro')) ||
                             (orderData.order_note && orderData.order_note.toLowerCase().includes('palm'));
 
-        const emailHtml = isAstroYogi ? `
+        const emailHtml = isNepal ? `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border-radius: 12px; background-color: #fafafa;">
+                <h1 style="color: #d92d20; text-align: center;">Nepal Flood Relief Fund</h1>
+                <p>Hello,</p>
+                <p>Thank you for your generous donation of <strong>₹${orderData.order_amount}</strong>! Your payment was verified successfully.</p>
+                <p>100% of your contribution will go directly towards emergency relief, shelter, and rebuilding efforts for families affected by the devastating floods in Nepal.</p>
+                <p style="font-size: 12px; color: #6b7280; margin-top: 40px; text-align: center; border-top: 1px solid #e5e7eb; padding-top: 20px;">
+                    Verified Campaign by Nidhi Foundation Trust & Infinity Tech | For the sake of humanity
+                </p>
+            </div>
+        ` : isAstroYogi ? `
             <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 28px 20px; border: 1px solid rgba(214, 177, 106, 0.4); border-radius: 16px; background: #1c1815; color: #fdfaf6;">
                 <div style="text-align: center; margin-bottom: 24px;">
                     <h1 style="color: #e2c084; font-size: 24px; font-weight: 700; margin: 0;">✨ PalmQ IND · Complete Life Timeline</h1>
@@ -113,15 +124,15 @@ export default async function handler(req, res) {
         `;
 
         const resendPayload = {
-            from: isAstroYogi ? 'PalmQ IND <delivery@xtechmax.shop>' : 'Infinity Tech <delivery@xtechmax.shop>',
+            from: isNepal ? 'Nidhi Foundation <delivery@xtechmax.shop>' : isAstroYogi ? 'PalmQ IND <delivery@xtechmax.shop>' : 'Infinity Tech <delivery@xtechmax.shop>',
             to: [customerEmail],
-            subject: isAstroYogi 
+            subject: isNepal ? 'Thank you for your donation to Nepal Flood Relief ❤️' : isAstroYogi 
                 ? '✨ Your Personal PalmQ IND Life Timeline Report 🌟' 
                 : 'Your Practical Vastu Shastra 4-in-1 Master Bundle is Here! 🏡',
             html: emailHtml
         };
 
-        if (base64Attachment) {
+        if (base64Attachment && !isNepal) {
             resendPayload.attachments = [
                 {
                     filename: isAstroYogi ? 'PalmQ_IND_Life_Timeline_Report.pdf' : 'Vastu_Bundle_Overview.pdf',
@@ -147,6 +158,28 @@ export default async function handler(req, res) {
         }
 
         console.log(`Successfully dispatched delivery email for order ${orderId} via webhook.`);
+        
+        // --- Trigger Meta CAPI if Nepal ---
+        if (isNepal) {
+            try {
+                const proto = req.headers['x-forwarded-proto'] || 'https';
+                const host = req.headers['host'];
+                await fetch(`${proto}://${host}/api/meta-capi`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        event_name: 'Purchase',
+                        value: orderData.order_amount,
+                        currency: 'INR',
+                        email: customerEmail,
+                        phone: orderData.customer_details.customer_phone,
+                    })
+                });
+            } catch (err) {
+                console.warn('[Meta CAPI Trigger Error]', err.message);
+            }
+        }
+
         return res.status(200).json({ status: 'delivered', email_id: resendData.id });
 
     } catch (error) {
