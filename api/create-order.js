@@ -30,10 +30,10 @@ export default async function handler(req, res) {
         } else if (body.funnel === 'nepal') {
             // Nepal Donation Funnel
             const donationAmount = parseInt(body.donationAmount, 10);
-            if (donationAmount >= 99 && donationAmount <= 10000) {
+            if (donationAmount >= 1) {
                 amount = donationAmount;
             } else {
-                amount = 500; // fallback
+                amount = 1000; // fallback
             }
         } else if (tier || readingId || lane) {
             // Astro Yogi Palm / Astrology Funnel
