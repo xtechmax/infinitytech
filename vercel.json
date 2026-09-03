@@ -154,6 +154,14 @@
     {
       "source": "/vastu/",
       "destination": "/vastu/index.html"
+    },
+    {
+      "source": "/Nepal",
+      "destination": "/Nepal/index.html"
+    },
+    {
+      "source": "/nepal",
+      "destination": "/Nepal/index.html"
     }
   ]
 }
