@@ -162,19 +162,36 @@ export default async function handler(req, res) {
         // --- Trigger Meta CAPI if Nepal ---
         if (isNepal) {
             try {
-                const proto = req.headers['x-forwarded-proto'] || 'https';
-                const host = req.headers['host'];
-                await fetch(`${proto}://${host}/api/meta-capi`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        event_name: 'Purchase',
-                        value: orderData.order_amount,
-                        currency: 'INR',
-                        email: customerEmail,
-                        phone: orderData.customer_details.customer_phone,
-                    })
-                });
+                const META_CAPI_TOKEN = process.env.META_CAPI_TOKEN;
+                if (META_CAPI_TOKEN) {
+                    const crypto = require('crypto');
+                    const sha256 = (val) => val ? crypto.createHash('sha256').update(String(val).toLowerCase().trim()).digest('hex') : null;
+                    
+                    const payload = {
+                        data: [{
+                            event_name: 'Purchase',
+                            event_time: Math.floor(Date.now() / 1000),
+                            action_source: 'website',
+                            event_source_url: 'http://palmq.shop/Nepal',
+                            user_data: {
+                                client_ip_address: req.headers['x-forwarded-for']?.split(',')[0].trim() || '127.0.0.1',
+                                client_user_agent: req.headers['user-agent'] || 'Vercel Webhook Server',
+                                em: customerEmail ? [sha256(customerEmail)] : undefined,
+                                ph: orderData.customer_details.customer_phone ? [sha256(orderData.customer_details.customer_phone)] : undefined
+                            },
+                            custom_data: {
+                                currency: 'INR',
+                                value: parseFloat(orderData.order_amount) || 0
+                            }
+                        }]
+                    };
+                    
+                    await fetch(`https://graph.facebook.com/v19.0/28712657155007563/events?access_token=${META_CAPI_TOKEN}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                }
             } catch (err) {
                 console.warn('[Meta CAPI Trigger Error]', err.message);
             }
