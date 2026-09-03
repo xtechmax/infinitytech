@@ -274,6 +274,13 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
                 </div>
             </div>
 
+            <div class="form-group">
+                <label for="emailInput">Email Address (for receipt)</label>
+                <div style="display:flex; gap:8px;">
+                    <input type="email" id="emailInput" placeholder="your.email@example.com" style="width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; outline: none;">
+                </div>
+            </div>
+
             <button class="btn" id="donateBtn">Proceed to Donate ₹1,000</button>
         </div>
     </main>
@@ -287,6 +294,7 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
         const amountDisplay = document.getElementById('amountValue');
         const donateBtn = document.getElementById('donateBtn');
         const phoneInput = document.getElementById('phoneInput');
+        const emailInput = document.getElementById('emailInput');
 
         // Parse query params to show success message
         const params = new URLSearchParams(window.location.search);
@@ -319,6 +327,13 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
                 phoneInput.focus();
                 return;
             }
+            
+            const email = emailInput.value.trim();
+            if (!email.includes('@')) {
+                alert('Please enter a valid email address to receive your donation receipt.');
+                emailInput.focus();
+                return;
+            }
 
             const amount = parseInt(slider.value, 10);
             donateBtn.disabled = true;
@@ -339,7 +354,7 @@ src="https://www.facebook.com/tr?id=28712657155007563&ev=PageView&noscript=1"
                         funnel: 'nepal',
                         donationAmount: amount,
                         whatsapp: phone,
-                        email: 'donation@palmq.shop'
+                        email: email
                     })
                 });
 
