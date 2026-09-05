@@ -9101,19 +9101,9 @@ function palmOverlaySvg(result = state.palmDetection) {
     </g>`;
   }).join('');
 
-  const mountNodes = `
-    <g class="palm-mount-nodes" aria-hidden="true">
-      <g class="astro-node"><circle cx="${size.width * 0.34}" cy="${size.height * 0.36}" r="${size.width * 0.01}" class="astro-node-dot astro-node-dot--cyan" /><text x="${size.width * 0.31}" y="${size.height * 0.32}" style="font-size:${size.width * 0.03}px;fill:#fef08a;font-weight:800;">♃ ♈</text></g>
-      <g class="astro-node"><circle cx="${size.width * 0.48}" cy="${size.height * 0.32}" r="${size.width * 0.012}" class="astro-node-dot" /><text x="${size.width * 0.46}" y="${size.height * 0.28}" style="font-size:${size.width * 0.03}px;fill:#fef08a;font-weight:800;">♄ ♑</text></g>
-      <g class="astro-node"><circle cx="${size.width * 0.64}" cy="${size.height * 0.33}" r="${size.width * 0.01}" class="astro-node-dot astro-node-dot--cyan" /><text x="${size.width * 0.62}" y="${size.height * 0.29}" style="font-size:${size.width * 0.03}px;fill:#fef08a;font-weight:800;">☉ ♌</text></g>
-      <g class="astro-node"><circle cx="${size.width * 0.78}" cy="${size.height * 0.39}" r="${size.width * 0.009}" class="astro-node-dot astro-node-dot--emerald" /><text x="${size.width * 0.76}" y="${size.height * 0.35}" style="font-size:${size.width * 0.03}px;fill:#fef08a;font-weight:800;">☿ ♊</text></g>
-      <g class="astro-node"><circle cx="${size.width * 0.34}" cy="${size.height * 0.72}" r="${size.width * 0.012}" class="astro-node-dot astro-node-dot--ruby" /><text x="${size.width * 0.28}" y="${size.height * 0.70}" style="font-size:${size.width * 0.03}px;fill:#fef08a;font-weight:800;">♀ ♉</text></g>
-      <g class="astro-node"><circle cx="${size.width * 0.74}" cy="${size.height * 0.74}" r="${size.width * 0.012}" class="astro-node-dot astro-node-dot--cyan" /><text x="${size.width * 0.75}" y="${size.height * 0.72}" style="font-size:${size.width * 0.03}px;fill:#fef08a;font-weight:800;">☽ ♋</text></g>
-      <g class="astro-node"><circle cx="${size.width * 0.52}" cy="${size.height * 0.56}" r="${size.width * 0.014}" class="astro-node-dot" /><text x="${size.width * 0.49}" y="${size.height * 0.52}" style="font-size:${size.width * 0.032}px;fill:#fef08a;font-weight:800;">✨ 🔯</text></g>
-    </g>
-  `;
-
-  return `<svg class="palm-overlay" viewBox="0 0 ${size.width} ${size.height}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">${paths}${mountNodes}</svg>`;
+  return palmLandmarkOverlaySvg(result, { animate: true }) +
+         palmMountOverlaySvg(result, { animate: true }) +
+         `<svg class="palm-lines-overlay" viewBox="0 0 ${size.width} ${size.height}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">${paths}</svg>`;
 }
 
 async function detectPalm(retriedAfterFlowRefresh = false, retriedAfterAgeCheck = false) {
